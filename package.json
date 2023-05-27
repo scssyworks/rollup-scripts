@@ -1,0 +1,27 @@
+{
+  "name": "rollup-scripts",
+  "version": "0.0.1",
+  "description": "A utility to simplify rollup configuration",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scssyworks/rollup-scripts.git"
+  },
+  "keywords": [
+    "rollup",
+    "scripts",
+    "builder",
+    "tooling",
+    "lint",
+    "test"
+  ],
+  "author": "scssyworks",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/scssyworks/rollup-scripts/issues"
+  },
+  "homepage": "https://github.com/scssyworks/rollup-scripts#readme"
+}
