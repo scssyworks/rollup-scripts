@@ -6,11 +6,11 @@ const defaultConfig = {
     input: path.join(cwd, 'src/index.mjs'),
     output: [
         {
-            file: path.join(cwd, 'dist/output.mjs'),
+            file: path.join(cwd, 'dist/esm/output.mjs'),
             format: 'es'
         },
         {
-            file: path.join(cwd, 'dist/output.js'),
+            file: path.join(cwd, 'dist/umd/output.js'),
             format: 'umd'
         }
     ]
@@ -19,7 +19,7 @@ const defaultConfig = {
 module.exports = async () => {
     let configFn;
     try {
-        configFn = require(`${process.cwd}/rs.config.js`); // @TODO: Name has to be made configurable
+        configFn = require(`${cwd}/rs.config.js`); // @TODO: Name has to be made configurable
     } catch (e) { }
 
     if (typeof configFn === 'function') {
