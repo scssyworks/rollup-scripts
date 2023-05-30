@@ -7,12 +7,10 @@ module.exports = {
         ...(typescript ? ['@babel/preset-typescript'] : []),
     ],
     plugins: [
-        '@babel/plugin-transform-runtime',
         '@babel/plugin-proposal-class-properties',
         '@babel/plugin-syntax-optional-chaining',
-        '@babel/plugin-proposal-decorators',
+        ['@babel/plugin-proposal-decorators', { "version": "2023-05" }],
         '@babel/plugin-proposal-private-methods',
-        '@babel/plugin-transform-regenerator',
-        '@babel/plugin-transform-async-to-generator'
+        ['@babel/plugin-transform-runtime', { regenerator: true }]
     ]
 };

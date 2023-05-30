@@ -34,7 +34,7 @@ const defaultConfig = defineConfig({
     plugins: [
         nodeResolve(),
         commonjs(),
-        babel(bConf)
+        babel(bConf),
     ]
 });
 
