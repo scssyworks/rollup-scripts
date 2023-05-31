@@ -1,5 +1,6 @@
 const { defineConfig } = require('rollup');
 const path = require('node:path');
+const json = require('@rollup/plugin-json');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
 const { babel } = require('@rollup/plugin-babel');
@@ -10,13 +11,6 @@ const { configFile, fromPackage } = require('../../utils');
 function resolvePath(p) {
     return path.join(ROOT, p);
 }
-
-const bConf = {
-    babelrc: false,
-    exclude: 'node_modules/**',
-    babelHelpers: 'runtime',
-    ...babelConfig
-};
 
 // Read configuration from current workspace. Default config file: rs.config.js
 const defaultConfig = defineConfig({
@@ -32,9 +26,16 @@ const defaultConfig = defineConfig({
         }
     ],
     plugins: [
+        json(),
         nodeResolve(),
         commonjs(),
-        babel(bConf),
+        babel({
+            babelrc: false,
+            exclude: 'node_modules/**',
+            extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.es6', '.es'],
+            babelHelpers: 'runtime',
+            ...babelConfig
+        }),
     ],
     external: Object.keys(fromPackage('dependencies') ?? {})
 });
