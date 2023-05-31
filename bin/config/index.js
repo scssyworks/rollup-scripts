@@ -5,7 +5,7 @@ const commonjs = require('@rollup/plugin-commonjs');
 const { babel } = require('@rollup/plugin-babel');
 const babelConfig = require('./babelConfig');
 const { ROOT } = require('../../constants');
-const { configFile } = require('../../utils');
+const { configFile, fromPackage } = require('../../utils');
 
 function resolvePath(p) {
     return path.join(ROOT, p);
@@ -35,7 +35,8 @@ const defaultConfig = defineConfig({
         nodeResolve(),
         commonjs(),
         babel(bConf),
-    ]
+    ],
+    external: Object.keys(fromPackage('dependencies') ?? {})
 });
 
 module.exports = async () => {
