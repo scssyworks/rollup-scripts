@@ -12,17 +12,22 @@ function resolvePath(p) {
     return path.join(ROOT, p);
 }
 
+const commonOutputConfig = {
+    name: getName(),
+    exports: 'named'
+};
+
 // Read configuration from current workspace. Default config file: rs.config.js
 const defaultConfig = defineConfig({
     input: resolvePath('src/index.mjs'),
     output: [
         {
-            name: getName(),
+            ...commonOutputConfig,
             file: resolvePath(fromPackage('module') ?? 'dist/esm/output.mjs'),
             format: 'es'
         },
         {
-            name: getName(),
+            ...commonOutputConfig,
             file: resolvePath(fromPackage('main') ?? 'dist/umd/output.js'),
             format: 'umd'
         }
