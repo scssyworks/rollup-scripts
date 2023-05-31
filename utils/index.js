@@ -1,4 +1,5 @@
 module.exports = {
     ...require('./argv'),
-    ...require('./getPackage')
+    ...require('./getPackage'),
+    ...require('./name')
 };
