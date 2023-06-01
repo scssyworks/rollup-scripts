@@ -4,7 +4,7 @@ const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
 const { babel } = require('@rollup/plugin-babel');
 const terser = require('@rollup/plugin-terser');
-const esmShim = require('@rollup/plugin-esm-shim');
+const replace = require('@rollup/plugin-replace');
 const babelConfig = require('./babelConfig');
 const {
   configFile,
@@ -12,6 +12,7 @@ const {
   getName,
   resolvePath,
   getOutputFileName,
+  env,
 } = require('../../utils');
 const { output } = require('../../constants');
 
@@ -57,8 +58,8 @@ const defaultConfig = defineConfig({
     },
   ],
   plugins: [
+    replace(env()),
     json(),
-    esmShim(),
     nodeResolve(),
     commonjs({
       include: 'node_modules/**',

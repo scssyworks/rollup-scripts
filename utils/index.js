@@ -5,4 +5,5 @@ module.exports = {
   ...require('./resolvePath'),
   ...require('./opts'),
   ...require('./colors'),
+  ...require('./env'),
 };
