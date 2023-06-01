@@ -4,7 +4,7 @@ const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
 const { babel } = require('@rollup/plugin-babel');
 const babelConfig = require('./babelConfig');
-const { configFile, fromPackage, getName, resolvePath } = require('../../utils');
+const { configFile, fromPackage, getName, resolvePath, opts, enableBabel } = require('../../utils');
 
 const commonOutputConfig = {
     name: getName(),
@@ -29,14 +29,17 @@ const defaultConfig = defineConfig({
     plugins: [
         json(),
         nodeResolve(),
-        commonjs(),
-        babel({
+        commonjs({
+            include: 'node_modules/**',
+            extensions: ['.js', '.ts']
+        }),
+        ...opts(enableBabel, [babel({
             babelrc: false,
             exclude: 'node_modules/**',
             extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.es6', '.es'],
             babelHelpers: 'runtime',
             ...babelConfig
-        })
+        })]),
     ],
     external: Object.keys(fromPackage('dependencies') ?? {})
 });
