@@ -1,13 +1,12 @@
-const { typescript, react } = require("../../utils");
+const { typescript, react, opts } = require("../../utils");
 
 module.exports = {
     presets: [
         '@babel/preset-env',
-        ...(react ? ['@babel/preset-react'] : []),
-        ...(typescript ? ['@babel/preset-typescript'] : []),
+        ...opts(react, ['@babel/preset-react']),
+        ...opts(typescript, ['@babel/preset-typescript']),
     ],
     plugins: [
-        '@babel/plugin-proposal-class-properties',
         '@babel/plugin-syntax-optional-chaining',
         ['@babel/plugin-proposal-decorators', { "version": "2023-05" }],
         '@babel/plugin-proposal-private-methods',

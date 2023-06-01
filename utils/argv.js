@@ -1,8 +1,10 @@
+const { CONFIG_FILE } = require('../constants');
 const argv = require('yargs').argv;
 
 module.exports = {
-    cmd: argv._[0],
-    configFile: argv.configFile ?? 'rs.config.js',
+    cmd: argv._.find(c => ['init', 'build', 'test', 'lint'].includes(c)),
+    configFile: argv.configFile ?? CONFIG_FILE,
     typescript: argv.typescript,
-    react: argv.react
+    react: argv.react,
+    enableBabel: argv.babel
 };
