@@ -58,7 +58,11 @@ const defaultConfig = defineConfig({
     },
   ],
   plugins: [
-    replace(env()),
+    replace({
+      values: env(),
+      preventAssignment: true,
+      objectGuards: true,
+    }),
     json(),
     nodeResolve(),
     commonjs({
