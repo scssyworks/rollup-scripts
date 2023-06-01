@@ -1,6 +1,6 @@
 {
 	"name": "rollup-scripts",
-	"version": "0.0.13",
+	"version": "0.0.14",
 	"description": "A utility to simplify rollup configuration",
 	"main": "src/index.js",
 	"bin": {
@@ -15,7 +15,14 @@
 		"type": "git",
 		"url": "git+https://github.com/scssyworks/rollup-scripts.git"
 	},
-	"keywords": ["rollup", "scripts", "builder", "tooling", "lint", "test"],
+	"keywords": [
+		"rollup",
+		"scripts",
+		"builder",
+		"tooling",
+		"lint",
+		"test"
+	],
 	"author": "scssyworks",
 	"license": "MIT",
 	"bugs": {
