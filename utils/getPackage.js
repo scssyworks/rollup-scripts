@@ -1,6 +1,11 @@
 const path = require('node:path');
 const { ROOT } = require('../constants');
 
+/**
+ * Returns package.json configuration
+ * @typedef {import('./getPackage.ts').PackageJson} PackageJson
+ * @returns {PackageJson}
+ */
 function getPackage() {
     try {
         return require(path.join(ROOT, 'package.json'));
@@ -9,6 +14,11 @@ function getPackage() {
     }
 }
 
+/**
+ * Returns package.json field value
+ * @param {keyof PackageJson} field Field name
+ * @returns {any}
+ */
 function fromPackage(field) {
     const pkg = getPackage();
     return (pkg && pkg[field]) ?? null;
