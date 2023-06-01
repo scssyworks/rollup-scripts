@@ -1,16 +1,10 @@
 const { defineConfig } = require('rollup');
-const path = require('node:path');
 const json = require('@rollup/plugin-json');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
 const { babel } = require('@rollup/plugin-babel');
 const babelConfig = require('./babelConfig');
-const { ROOT } = require('../../constants');
-const { configFile, fromPackage, getName } = require('../../utils');
-
-function resolvePath(p) {
-    return path.join(ROOT, p);
-}
+const { configFile, fromPackage, getName, resolvePath } = require('../../utils');
 
 const commonOutputConfig = {
     name: getName(),
@@ -55,11 +49,7 @@ module.exports = async () => {
     } catch (e) { }
 
     if (typeof configFn === 'function') {
-        finalConfig = await Promise.resolve(configFn(defaultConfig, {
-            ROOT,
-            resolvePath,
-            defineConfig
-        }));
+        finalConfig = await Promise.resolve(configFn(defaultConfig));
     }
     return finalConfig;
 }
