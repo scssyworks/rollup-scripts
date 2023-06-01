@@ -11,8 +11,8 @@ const { resolvePath } = require('rollup-scripts');
  * @returns Rollup configuration
  */
 module.exports = function config(baseConfig) {
-	return defineConfig({
-		...baseConfig,
-		input: resolvePath('src/index.mjs'),
-	});
+  return defineConfig({
+    ...baseConfig,
+    input: resolvePath('src/index.mjs'),
+  });
 };

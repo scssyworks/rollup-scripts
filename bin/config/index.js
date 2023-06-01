@@ -6,82 +6,82 @@ const { babel } = require('@rollup/plugin-babel');
 const terser = require('@rollup/plugin-terser');
 const babelConfig = require('./babelConfig');
 const {
-    configFile,
-    fromPackage,
-    getName,
-    resolvePath,
-    getOutputFileName,
+  configFile,
+  fromPackage,
+  getName,
+  resolvePath,
+  getOutputFileName,
 } = require('../../utils');
 const { output } = require('../../constants');
 
 const commonOutputConfig = {
-    name: getName(),
-    exports: 'named',
-    sourcemap: true,
+  name: getName(),
+  exports: 'named',
+  sourcemap: true,
 };
 
 // Read configuration from current workspace. Default config file: rs.config.js
 const defaultConfig = defineConfig({
-    input: resolvePath('src/index.mjs'),
-    output: [
-        {
-            ...commonOutputConfig,
-            file: getOutputFileName(
-                resolvePath(fromPackage('module') ?? output.es),
-                true
-            ),
-            format: 'es',
-        },
-        {
-            ...commonOutputConfig,
-            file: getOutputFileName(
-                resolvePath(fromPackage('main') ?? output.umd),
-                true
-            ),
-            format: 'umd',
-        },
-        {
-            ...commonOutputConfig,
-            file: getOutputFileName(resolvePath(fromPackage('module') ?? output.es)),
-            format: 'es',
-            sourcemap: false,
-            plugins: [terser()]
-        },
-        {
-            ...commonOutputConfig,
-            file: getOutputFileName(resolvePath(fromPackage('main') ?? output.umd)),
-            format: 'umd',
-            sourcemap: false,
-            plugins: [terser()]
-        },
-    ],
-    plugins: [
-        json(),
-        nodeResolve(),
-        commonjs({
-            include: 'node_modules/**',
-            extensions: ['.js', '.ts'],
-        }),
-        babel({
-            babelrc: false,
-            exclude: 'node_modules/**',
-            extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.es6', '.es'],
-            babelHelpers: 'runtime',
-            ...babelConfig,
-        }),
-    ],
-    external: Object.keys(fromPackage('dependencies') ?? {}),
+  input: resolvePath('src/index.mjs'),
+  output: [
+    {
+      ...commonOutputConfig,
+      file: getOutputFileName(
+        resolvePath(fromPackage('module') ?? output.es),
+        true
+      ),
+      format: 'es',
+    },
+    {
+      ...commonOutputConfig,
+      file: getOutputFileName(
+        resolvePath(fromPackage('main') ?? output.umd),
+        true
+      ),
+      format: 'umd',
+    },
+    {
+      ...commonOutputConfig,
+      file: getOutputFileName(resolvePath(fromPackage('module') ?? output.es)),
+      format: 'es',
+      sourcemap: false,
+      plugins: [terser()],
+    },
+    {
+      ...commonOutputConfig,
+      file: getOutputFileName(resolvePath(fromPackage('main') ?? output.umd)),
+      format: 'umd',
+      sourcemap: false,
+      plugins: [terser()],
+    },
+  ],
+  plugins: [
+    json(),
+    nodeResolve(),
+    commonjs({
+      include: 'node_modules/**',
+      extensions: ['.js', '.ts'],
+    }),
+    babel({
+      babelrc: false,
+      exclude: 'node_modules/**',
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.es6', '.es'],
+      babelHelpers: 'runtime',
+      ...babelConfig,
+    }),
+  ],
+  external: Object.keys(fromPackage('dependencies') ?? {}),
 });
 
 module.exports = async () => {
-    let configFn;
-    let finalConfig = defaultConfig;
-    try {
-        configFn = require(resolvePath(configFile));
-    } catch (e) { }
+  let configFn;
+  let finalConfig = defaultConfig;
+  try {
+    configFn = require(resolvePath(configFile));
+  } catch (e) {}
 
-    if (typeof configFn === 'function') {
-        finalConfig = await Promise.resolve(configFn(defaultConfig));
-    }
-    return finalConfig;
+  if (typeof configFn === 'function') {
+    finalConfig = await Promise.resolve(configFn(defaultConfig));
+  }
+  return finalConfig;
 };

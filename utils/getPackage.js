@@ -7,11 +7,11 @@ const { ROOT } = require('../constants');
  * @returns {PackageJson}
  */
 function getPackage() {
-	try {
-		return require(path.join(ROOT, 'package.json'));
-	} catch (e) {
-		return null;
-	}
+  try {
+    return require(path.join(ROOT, 'package.json'));
+  } catch (e) {
+    return null;
+  }
 }
 
 /**
@@ -20,11 +20,11 @@ function getPackage() {
  * @returns {any}
  */
 function fromPackage(field) {
-	const pkg = getPackage();
-	return pkg?.[field] ?? null;
+  const pkg = getPackage();
+  return pkg?.[field] ?? null;
 }
 
 module.exports = {
-	getPackage,
-	fromPackage,
+  getPackage,
+  fromPackage,
 };
