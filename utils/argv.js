@@ -5,6 +5,5 @@ module.exports = {
     cmd: argv._.find(c => ['init', 'build', 'test', 'lint'].includes(c)),
     configFile: argv.configFile ?? CONFIG_FILE,
     typescript: argv.typescript,
-    react: argv.react,
-    enableBabel: argv.babel
+    react: argv.react
 };
