@@ -1,48 +1,47 @@
 {
-  "name": "rollup-scripts",
-  "version": "0.0.13",
-  "description": "A utility to simplify rollup configuration",
-  "main": "src/index.js",
-  "bin": {
-    "rollup-scripts": "./bin/index.js"
-  },
-  "scripts": {
-    "exec": "node ./bin/index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/scssyworks/rollup-scripts.git"
-  },
-  "keywords": [
-    "rollup",
-    "scripts",
-    "builder",
-    "tooling",
-    "lint",
-    "test"
-  ],
-  "author": "scssyworks",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/scssyworks/rollup-scripts/issues"
-  },
-  "homepage": "https://github.com/scssyworks/rollup-scripts#readme",
-  "dependencies": {
-    "@babel/core": "7.22.1",
-    "@babel/plugin-proposal-decorators": "7.22.3",
-    "@babel/plugin-proposal-private-methods": "7.18.6",
-    "@babel/plugin-syntax-optional-chaining": "7.8.3",
-    "@babel/plugin-transform-runtime": "7.22.4",
-    "@babel/preset-env": "7.22.4",
-    "@babel/preset-react": "7.22.3",
-    "@babel/preset-typescript": "7.21.5",
-    "@babel/runtime": "7.22.3",
-    "@rollup/plugin-babel": "6.0.3",
-    "@rollup/plugin-commonjs": "25.0.0",
-    "@rollup/plugin-json": "6.0.0",
-    "@rollup/plugin-node-resolve": "15.0.2",
-    "chalk": "4.1.2",
-    "rollup": "3.23.0",
-    "yargs": "17.7.2"
-  }
+	"name": "rollup-scripts",
+	"version": "0.0.13",
+	"description": "A utility to simplify rollup configuration",
+	"main": "src/index.js",
+	"bin": {
+		"rollup-scripts": "./bin/index.js"
+	},
+	"scripts": {
+		"exec": "node ./bin/index.js",
+		"lint": "rome check ./",
+		"format": "rome format ./ --write"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/scssyworks/rollup-scripts.git"
+	},
+	"keywords": ["rollup", "scripts", "builder", "tooling", "lint", "test"],
+	"author": "scssyworks",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/scssyworks/rollup-scripts/issues"
+	},
+	"homepage": "https://github.com/scssyworks/rollup-scripts#readme",
+	"dependencies": {
+		"@babel/core": "7.22.1",
+		"@babel/plugin-proposal-decorators": "7.22.3",
+		"@babel/plugin-proposal-private-methods": "7.18.6",
+		"@babel/plugin-syntax-optional-chaining": "7.8.3",
+		"@babel/plugin-transform-runtime": "7.22.4",
+		"@babel/preset-env": "7.22.4",
+		"@babel/preset-react": "7.22.3",
+		"@babel/preset-typescript": "7.21.5",
+		"@babel/runtime": "7.22.3",
+		"@rollup/plugin-babel": "6.0.3",
+		"@rollup/plugin-commonjs": "25.0.0",
+		"@rollup/plugin-json": "6.0.0",
+		"@rollup/plugin-node-resolve": "15.0.2",
+		"@rollup/plugin-terser": "0.4.3",
+		"chalk": "4.1.2",
+		"rollup": "3.23.0",
+		"yargs": "17.7.2"
+	},
+	"devDependencies": {
+		"rome": "12.1.3"
+	}
 }

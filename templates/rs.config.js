@@ -1,6 +1,6 @@
 // Use "defineConfig" function for proper typescript intellisense while defining configuration
 const { defineConfig } = require('rollup');
-// Use "resolvePath" function to resolve local paths correctly. 
+// Use "resolvePath" function to resolve local paths correctly.
 const { resolvePath } = require('rollup-scripts');
 
 /**
@@ -11,8 +11,8 @@ const { resolvePath } = require('rollup-scripts');
  * @returns Rollup configuration
  */
 module.exports = function config(baseConfig) {
-    return defineConfig({
-        ...baseConfig,
-        input: resolvePath('src/index.mjs')
-    });
-}
+	return defineConfig({
+		...baseConfig,
+		input: resolvePath('src/index.mjs'),
+	});
+};

@@ -3,12 +3,21 @@ const json = require('@rollup/plugin-json');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
 const { babel } = require('@rollup/plugin-babel');
+const terser = require('@rollup/plugin-terser');
 const babelConfig = require('./babelConfig');
-const { configFile, fromPackage, getName, resolvePath } = require('../../utils');
+const {
+    configFile,
+    fromPackage,
+    getName,
+    resolvePath,
+    getOutputFileName,
+} = require('../../utils');
+const { output } = require('../../constants');
 
 const commonOutputConfig = {
     name: getName(),
-    exports: 'named'
+    exports: 'named',
+    sourcemap: true,
 };
 
 // Read configuration from current workspace. Default config file: rs.config.js
@@ -17,31 +26,51 @@ const defaultConfig = defineConfig({
     output: [
         {
             ...commonOutputConfig,
-            file: resolvePath(fromPackage('module') ?? 'dist/esm/output.mjs'),
-            format: 'es'
+            file: getOutputFileName(
+                resolvePath(fromPackage('module') ?? output.es),
+                true
+            ),
+            format: 'es',
         },
         {
             ...commonOutputConfig,
-            file: resolvePath(fromPackage('main') ?? 'dist/umd/output.js'),
-            format: 'umd'
-        }
+            file: getOutputFileName(
+                resolvePath(fromPackage('main') ?? output.umd),
+                true
+            ),
+            format: 'umd',
+        },
+        {
+            ...commonOutputConfig,
+            file: getOutputFileName(resolvePath(fromPackage('module') ?? output.es)),
+            format: 'es',
+            sourcemap: false,
+            plugins: [terser()]
+        },
+        {
+            ...commonOutputConfig,
+            file: getOutputFileName(resolvePath(fromPackage('main') ?? output.umd)),
+            format: 'umd',
+            sourcemap: false,
+            plugins: [terser()]
+        },
     ],
     plugins: [
         json(),
         nodeResolve(),
         commonjs({
             include: 'node_modules/**',
-            extensions: ['.js', '.ts']
+            extensions: ['.js', '.ts'],
         }),
         babel({
             babelrc: false,
             exclude: 'node_modules/**',
             extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.es6', '.es'],
             babelHelpers: 'runtime',
-            ...babelConfig
-        })
+            ...babelConfig,
+        }),
     ],
-    external: Object.keys(fromPackage('dependencies') ?? {})
+    external: Object.keys(fromPackage('dependencies') ?? {}),
 });
 
 module.exports = async () => {
@@ -55,4 +84,4 @@ module.exports = async () => {
         finalConfig = await Promise.resolve(configFn(defaultConfig));
     }
     return finalConfig;
-}
+};

@@ -1,5 +1,5 @@
 module.exports = {
-    opts(condition, arr) {
-        return condition ? arr : [];
-    }
+	opts(condition, arr) {
+		return condition ? arr : [];
+	},
 };
