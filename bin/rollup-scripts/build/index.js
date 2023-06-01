@@ -1,5 +1,5 @@
 const { rollup } = require('rollup');
-const getConfig = require('../config');
+const getConfig = require('../../config');
 const { blue, green, red } = require('../../../utils');
 
 async function generateOutput(bundle, outputConfig) {
