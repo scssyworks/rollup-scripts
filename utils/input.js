@@ -1,5 +1,5 @@
 const fs = require('node:fs');
-const { react, typescript } = require('./argv');
+const { react, typescript, cmd } = require('./argv');
 const { yellow, gray } = require('./colors');
 const { resolvePath } = require('./resolvePath');
 
@@ -10,33 +10,41 @@ const jsxSrc = resolvePath('src/index.jsx');
 const tsSrc = resolvePath('src/index.ts');
 const tsxSrc = resolvePath('src/index.tsx');
 
+function isValidCommand() {
+  return ['build', 'test', 'lint'].includes(cmd);
+}
+
 function warnReact(isTsxFile) {
-  if (!react) {
-    console.log(
-      yellow(
-        `Warning: Entry file seems to be a "${
-          isTsxFile ? 'TypeScript ' : ''
-        }React" module. Pass --react${
-          isTsxFile ? ' and --typescript' : ''
-        } to enable React compilation.`
-      )
-    );
-    console.log(
-      gray(`rollup-scripts build --react${isTsxFile ? ' --typescript' : ''}`)
-    );
-  } else if (isTsxFile) {
-    warnTypescript(' --react');
+  if (isValidCommand()) {
+    if (!react) {
+      console.log(
+        yellow(
+          `Warning: Entry file seems to be a "${
+            isTsxFile ? 'TypeScript ' : ''
+          }React" module. Pass --react${
+            isTsxFile ? ' and --typescript' : ''
+          } to enable React compilation.`
+        )
+      );
+      console.log(
+        gray(`rollup-scripts build --react${isTsxFile ? ' --typescript' : ''}`)
+      );
+    } else if (isTsxFile) {
+      warnTypescript(' --react');
+    }
   }
 }
 
 function warnTypescript(ext) {
-  if (!typescript) {
-    console.log(
-      yellow(
-        'Warning: Entry file seems to be a "TypeScript" module. Pass --typescript to enable Typescript compilation.'
-      )
-    );
-    console.log(gray(`rollup-scripts build --typescript${ext ? ext : ''}`));
+  if (isValidCommand()) {
+    if (!typescript) {
+      console.log(
+        yellow(
+          'Warning: Entry file seems to be a "TypeScript" module. Pass --typescript to enable Typescript compilation.'
+        )
+      );
+      console.log(gray(`rollup-scripts build --typescript${ext ? ext : ''}`));
+    }
   }
 }
 
@@ -63,12 +71,14 @@ module.exports = {
       warnReact(true);
       return tsxSrc;
     }
-    console.log(
-      yellow(
-        'Warning: Entry file not detected automatically. Run the following command to configure entry file.'
-      )
-    );
-    console.log(gray('npx rollup-scripts init'));
+    if (isValidCommand()) {
+      console.log(
+        yellow(
+          'Warning: Entry file not detected automatically. Run the following command to configure entry file.'
+        )
+      );
+      console.log(gray('npx rollup-scripts init'));
+    }
     return mjsSrc;
   },
 };
