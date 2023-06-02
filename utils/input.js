@@ -1,6 +1,6 @@
 const fs = require('node:fs');
 const { react, typescript } = require('./argv');
-const { yellow, green } = require('./colors');
+const { yellow, gray } = require('./colors');
 const { resolvePath } = require('./resolvePath');
 
 const mjsSrc = resolvePath('src/index.mjs');
@@ -22,21 +22,21 @@ function warnReact(isTsxFile) {
       )
     );
     console.log(
-      green(`rollup-scripts build --react${isTsxFile ? ' --typescript' : ''}`)
+      gray(`rollup-scripts build --react${isTsxFile ? ' --typescript' : ''}`)
     );
   } else if (isTsxFile) {
-    warnTypescript();
+    warnTypescript(' --react');
   }
 }
 
-function warnTypescript() {
+function warnTypescript(ext) {
   if (!typescript) {
     console.log(
       yellow(
         'Warning: Entry file seems to be a "TypeScript" module. Pass --typescript to enable Typescript compilation.'
       )
     );
-    console.log(green('rollup-scripts build --typescript'));
+    console.log(gray(`rollup-scripts build --typescript${ext ? ext : ''}`));
   }
 }
 
@@ -68,7 +68,7 @@ module.exports = {
         'Warning: Entry file not detected automatically. Run the following command to configure entry file.'
       )
     );
-    console.log(green('npx rollup-scripts init'));
+    console.log(gray('npx rollup-scripts init'));
     return mjsSrc;
   },
 };

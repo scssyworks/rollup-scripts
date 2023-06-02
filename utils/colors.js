@@ -13,4 +13,7 @@ module.exports = {
   yellow(text) {
     return chalk.bold(chalk.yellow(text));
   },
+  gray(text) {
+    return chalk.bold(chalk.gray(text));
+  },
 };

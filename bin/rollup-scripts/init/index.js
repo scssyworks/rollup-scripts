@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { SCRIPT_ROOT, CONFIG_FILE } = require('../../../constants');
-const { resolvePath } = require('../../../utils');
+const { resolvePath, blue } = require('../../../utils');
 
 module.exports = function init() {
   const configFileContent = fs.readFileSync(
@@ -13,4 +13,5 @@ module.exports = function init() {
   fs.writeFileSync(resolvePath(CONFIG_FILE), configFileContent, {
     encoding: 'utf-8',
   });
+  console.log(blue(`Created "${CONFIG_FILE}" in project root.`));
 };
