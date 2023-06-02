@@ -1,3 +1,4 @@
+const { EXT_REGEX } = require('../constants');
 const { fromPackage } = require('./getPackage');
 
 function toCamelCase(name) {
@@ -30,7 +31,7 @@ module.exports = {
    */
   getOutputFileName(name, isDevelopment) {
     return name.replace(
-      /\.(j|mj|cj|t)sx?$/,
+      EXT_REGEX,
       (match) => `${isDevelopment ? '.development' : ''}${match}`
     );
   },

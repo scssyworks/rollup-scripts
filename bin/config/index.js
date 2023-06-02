@@ -14,8 +14,8 @@ const {
   getOutputFileName,
   env,
   resolveInput,
+  resolveOutputFields,
 } = require('../../utils');
-const { output } = require('../../constants');
 
 const commonOutputConfig = {
   name: getName(),
@@ -23,36 +23,32 @@ const commonOutputConfig = {
   sourcemap: true,
 };
 
+const { main: pjMain, module: pjModule } = resolveOutputFields();
+
 // Read configuration from current workspace. Default config file: rs.config.js
 const defaultConfig = defineConfig({
   input: resolveInput(),
   output: [
     {
       ...commonOutputConfig,
-      file: getOutputFileName(
-        resolvePath(fromPackage('module') ?? output.es),
-        true
-      ),
+      file: getOutputFileName(pjModule, true),
       format: 'es',
     },
     {
       ...commonOutputConfig,
-      file: getOutputFileName(
-        resolvePath(fromPackage('main') ?? output.umd),
-        true
-      ),
+      file: getOutputFileName(pjMain, true),
       format: 'umd',
     },
     {
       ...commonOutputConfig,
-      file: getOutputFileName(resolvePath(fromPackage('module') ?? output.es)),
+      file: getOutputFileName(pjModule),
       format: 'es',
       sourcemap: false,
       plugins: [terser()],
     },
     {
       ...commonOutputConfig,
-      file: getOutputFileName(resolvePath(fromPackage('main') ?? output.umd)),
+      file: getOutputFileName(pjMain),
       format: 'umd',
       sourcemap: false,
       plugins: [terser()],

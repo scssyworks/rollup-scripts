@@ -7,4 +7,5 @@ module.exports = {
   ...require('./colors'),
   ...require('./env'),
   ...require('./input'),
+  ...require('./output'),
 };
