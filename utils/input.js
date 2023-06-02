@@ -24,6 +24,8 @@ function warnReact(isTsxFile) {
     console.log(
       green(`rollup-scripts build --react${isTsxFile ? ' --typescript' : ''}`)
     );
+  } else if (isTsxFile) {
+    warnTypescript();
   }
 }
 
