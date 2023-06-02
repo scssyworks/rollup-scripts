@@ -1,5 +1,5 @@
 const { EXT_REGEX, OUT } = require('../constants');
-const { fromPackage } = require('../src');
+const { fromPackage } = require('./getPackage');
 const { resolvePath } = require('./resolvePath');
 
 module.exports = {
