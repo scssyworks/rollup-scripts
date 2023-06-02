@@ -13,6 +13,7 @@ const {
   resolvePath,
   getOutputFileName,
   env,
+  resolveInput,
 } = require('../../utils');
 const { output } = require('../../constants');
 
@@ -24,7 +25,7 @@ const commonOutputConfig = {
 
 // Read configuration from current workspace. Default config file: rs.config.js
 const defaultConfig = defineConfig({
-  input: resolvePath('src/index.mjs'),
+  input: resolveInput(),
   output: [
     {
       ...commonOutputConfig,

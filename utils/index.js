@@ -6,4 +6,5 @@ module.exports = {
   ...require('./opts'),
   ...require('./colors'),
   ...require('./env'),
+  ...require('./input'),
 };

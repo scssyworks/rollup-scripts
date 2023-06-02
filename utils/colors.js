@@ -10,4 +10,7 @@ module.exports = {
   green(text) {
     return chalk.bold(chalk.green(text));
   },
+  yellow(text) {
+    return chalk.bold(chalk.yellow(text));
+  },
 };
