@@ -1,7 +1,6 @@
 const path = require('node:path');
 const { ROOT } = require('../constants');
-const { calculateSize } = require('../utils/size');
-const { green } = require('../utils');
+const { green, calculateSize } = require('../utils');
 
 module.exports = {
   fileSize() {
