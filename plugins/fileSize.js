@@ -10,7 +10,7 @@ module.exports = {
       writeBundle: {
         async handler(opts, bundle) {
           if (opts && typeof opts.file === 'string' && bundle) {
-            const filePath = opts.file.substring(0, opts.file);
+            const filePath = opts.file.substring(0, opts.file.lastIndexOf('/'));
             const bundleNames = Object.keys(bundle);
             for (const name of bundleNames) {
               const actualPath = path.join(filePath, name);
