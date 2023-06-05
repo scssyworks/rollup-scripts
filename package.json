@@ -1,6 +1,6 @@
 {
   "name": "rollup-scripts",
-  "version": "0.0.25",
+  "version": "0.0.26",
   "description": "A utility to simplify rollup configuration",
   "main": "src/index.js",
   "bin": {
