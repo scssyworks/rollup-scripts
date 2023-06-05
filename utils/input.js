@@ -1,84 +1,74 @@
 const fs = require('node:fs');
-const { react, typescript, cmd } = require('./argv');
+const path = require('node:path');
+const { getCommand, EXEC_COMMANDS } = require('./argv');
 const { yellow, gray } = require('./colors');
 const { resolvePath } = require('./resolvePath');
+const {
+  INDEX_REGEX,
+  ERR_NOTFOUND,
+  ERR_ENTRYFILE,
+  EXT_REGEX,
+  ERR_ENTRYTYPESCRIPT,
+  ERR_REACT,
+} = require('../constants');
 
 const mjsSrc = resolvePath('src/index.mjs');
-const jsSrc = resolvePath('src/index.js');
-const cjsSrc = resolvePath('src/index.cjs');
-const jsxSrc = resolvePath('src/index.jsx');
-const tsSrc = resolvePath('src/index.ts');
-const tsxSrc = resolvePath('src/index.tsx');
 
-function isValidCommand() {
-  return ['build', 'test', 'lint'].includes(cmd);
+function isValidCommand(cmd) {
+  return EXEC_COMMANDS.includes(cmd);
 }
 
-function warnReact(isTsxFile) {
-  if (isValidCommand()) {
+function warnReact(isTsxFile, args) {
+  const cmd = getCommand(args);
+  const { react } = args;
+  if (isValidCommand(cmd)) {
     if (!react) {
-      console.log(
-        yellow(
-          `Warning: Entry file seems to be a "${
-            isTsxFile ? 'TypeScript ' : ''
-          }React" module. Pass --react${
-            isTsxFile ? ' and --typescript' : ''
-          } to enable React compilation.`
-        )
-      );
+      console.log(yellow(ERR_REACT(isTsxFile)));
       console.log(
         gray(`rollup-scripts build --react${isTsxFile ? ' --typescript' : ''}`)
       );
     } else if (isTsxFile) {
-      warnTypescript(' --react');
+      warnTypescript(' --react', args);
     }
   }
 }
 
-function warnTypescript(ext) {
-  if (isValidCommand()) {
+function warnTypescript(opt, args) {
+  const cmd = getCommand(args);
+  const { typescript } = args;
+  if (isValidCommand(cmd)) {
     if (!typescript) {
-      console.log(
-        yellow(
-          'Warning: Entry file seems to be a "TypeScript" module. Pass --typescript to enable Typescript compilation.'
-        )
-      );
-      console.log(gray(`rollup-scripts build --typescript${ext ? ext : ''}`));
+      console.log(yellow(ERR_ENTRYTYPESCRIPT));
+      console.log(gray(`rollup-scripts build --typescript${opt ? opt : ''}`));
     }
   }
 }
 
 module.exports = {
-  resolveInput() {
-    if (fs.existsSync(mjsSrc)) {
+  resolveInput(args) {
+    const cmd = getCommand(args);
+    try {
+      const srcFiles = fs.readdirSync(resolvePath('src'));
+      if (srcFiles.length) {
+        const entryFile = srcFiles.find((file) => INDEX_REGEX.test(file));
+        if (entryFile) {
+          const [ext] = entryFile.match(EXT_REGEX);
+          if (['.jsx', '.tsx'].includes(ext)) {
+            warnReact(ext === '.tsx', args);
+          }
+          if (ext === '.ts') {
+            warnTypescript(null, args);
+          }
+          return resolvePath(path.join('src', entryFile));
+        }
+      }
+      throw new Error(ERR_NOTFOUND);
+    } catch (e) {
+      if (isValidCommand(cmd)) {
+        console.log(yellow(ERR_ENTRYFILE));
+        console.log(gray('npx rollup-scripts init'));
+      }
       return mjsSrc;
     }
-    if (fs.existsSync(jsSrc)) {
-      return jsSrc;
-    }
-    if (fs.existsSync(cjsSrc)) {
-      return cjsSrc;
-    }
-    if (fs.existsSync(jsxSrc)) {
-      warnReact();
-      return jsxSrc;
-    }
-    if (fs.existsSync(tsSrc)) {
-      warnTypescript();
-      return tsSrc;
-    }
-    if (fs.existsSync(tsxSrc)) {
-      warnReact(true);
-      return tsxSrc;
-    }
-    if (isValidCommand()) {
-      console.log(
-        yellow(
-          'Warning: Entry file not detected automatically. Run the following command to configure entry file.'
-        )
-      );
-      console.log(gray('npx rollup-scripts init'));
-    }
-    return mjsSrc;
   },
 };

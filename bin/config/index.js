@@ -16,6 +16,7 @@ const {
   resolveInput,
   resolveOutputFields,
 } = require('../../utils');
+const { fileSize } = require('../../plugins');
 
 const commonOutputConfig = {
   name: getName(),
@@ -25,9 +26,7 @@ const commonOutputConfig = {
 
 const { main: pjMain, module: pjModule } = resolveOutputFields();
 
-// Read configuration from current workspace. Default config file: rs.config.js
 const defaultConfig = defineConfig({
-  input: resolveInput(),
   output: [
     {
       ...commonOutputConfig,
@@ -66,20 +65,25 @@ const defaultConfig = defineConfig({
       include: 'node_modules/**',
       extensions: ['.js', '.ts'],
     }),
+  ],
+  external: Object.keys(fromPackage('dependencies') ?? {}),
+});
+
+module.exports = async (args) => {
+  let configFn;
+  let finalConfig = Object.assign(defaultConfig, {
+    input: resolveInput(args),
+  });
+  finalConfig.plugins.push(
     babel({
       babelrc: false,
       exclude: 'node_modules/**',
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.es6', '.es'],
       babelHelpers: 'runtime',
-      ...babelConfig,
+      ...babelConfig(args),
     }),
-  ],
-  external: Object.keys(fromPackage('dependencies') ?? {}),
-});
-
-module.exports = async () => {
-  let configFn;
-  let finalConfig = defaultConfig;
+    fileSize()
+  );
   try {
     configFn = require(resolvePath(configFile));
   } catch (e) {}
