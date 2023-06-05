@@ -4,9 +4,9 @@
 
 A utility to simplify rollup configuration
 
-## This package is under development. Do not use in production!
+## This package is currently experimental and in active development.
 
-# How to use?
+# Getting started
 
 1. Create an npm project
 
@@ -14,7 +14,7 @@ A utility to simplify rollup configuration
 npm init
 ```
 
-2. Install `rollup-scripts`. Make sure you are not installing it globally.
+2. Install `rollup-scripts`. **NOTE:** Do not install this package globally!
 
 ```sh
 npm i -D --save-exact rollup-scripts
@@ -33,6 +33,8 @@ touch src/index.mjs
 
 ```json
 {
+  "main": "dist/umd/index.js",
+  "module": "dist/esm/index.mjs",
   "scripts": {
     "build": "rollup-scripts build"
   }
@@ -40,3 +42,13 @@ touch src/index.mjs
 ```
 
 6. Run command `npm run build` to compile the code.
+
+# Available commands
+
+Rollup scripts at the moment only support `init` and `build` commands. For more
+details run:
+
+```sh
+npx rollup-scripts --help
+npx rollup-scripts build --help
+```
