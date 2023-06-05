@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 const { build, init } = require('./rollup-scripts');
-const yargs = require('yargs/yargs');
+const yargs = require('yargs');
 const { hideBin } = require('yargs/helpers');
 const { CONFIG_FILE } = require('../constants');
 
 yargs(hideBin(process.argv))
+  .scriptName('rollup-scripts')
+  .usage('$0 <cmd> [args]')
   .command(
     'build',
     'Build rollup library',
@@ -38,4 +40,4 @@ yargs(hideBin(process.argv))
       init();
     }
   )
-  .parse();
+  .help().argv;
