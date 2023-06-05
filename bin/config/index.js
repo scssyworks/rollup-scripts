@@ -25,9 +25,7 @@ const commonOutputConfig = {
 
 const { main: pjMain, module: pjModule } = resolveOutputFields();
 
-// Read configuration from current workspace. Default config file: rs.config.js
 const defaultConfig = defineConfig({
-  input: resolveInput(),
   output: [
     {
       ...commonOutputConfig,
@@ -77,9 +75,11 @@ const defaultConfig = defineConfig({
   external: Object.keys(fromPackage('dependencies') ?? {}),
 });
 
-module.exports = async () => {
+module.exports = async (args) => {
   let configFn;
-  let finalConfig = defaultConfig;
+  let finalConfig = Object.assign(defaultConfig, {
+    input: resolveInput(args),
+  });
   try {
     configFn = require(resolvePath(configFile));
   } catch (e) {}
