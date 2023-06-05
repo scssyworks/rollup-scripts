@@ -14,16 +14,19 @@ yargs(hideBin(process.argv))
       return yargs
         .option('typescript', {
           default: false,
+          type: 'boolean',
           describe: 'Enable typescript compilation',
           alias: 't',
         })
         .option('react', {
           default: false,
+          type: 'boolean',
           describe: 'Enable react compilation',
           alias: 'r',
         })
         .option('configFile', {
           default: CONFIG_FILE,
+          type: 'string',
           describe: 'Provide custom rollup configuration',
           alias: 'c',
         });
