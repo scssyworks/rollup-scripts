@@ -7,7 +7,6 @@ const terser = require('@rollup/plugin-terser');
 const replace = require('@rollup/plugin-replace');
 const babelConfig = require('./babelConfig');
 const {
-  configFile,
   fromPackage,
   getName,
   resolvePath,
@@ -70,6 +69,7 @@ const defaultConfig = defineConfig({
 });
 
 module.exports = async (args) => {
+  const { configFile } = args;
   let configFn;
   let finalConfig = Object.assign(defaultConfig, {
     input: resolveInput(args),
