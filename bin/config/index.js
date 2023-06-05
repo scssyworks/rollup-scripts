@@ -16,6 +16,7 @@ const {
   resolveInput,
   resolveOutputFields,
 } = require('../../utils');
+const { fileSize } = require('../../plugins');
 
 const commonOutputConfig = {
   name: getName(),
@@ -64,13 +65,6 @@ const defaultConfig = defineConfig({
       include: 'node_modules/**',
       extensions: ['.js', '.ts'],
     }),
-    babel({
-      babelrc: false,
-      exclude: 'node_modules/**',
-      extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.es6', '.es'],
-      babelHelpers: 'runtime',
-      ...babelConfig,
-    }),
   ],
   external: Object.keys(fromPackage('dependencies') ?? {}),
 });
@@ -80,6 +74,16 @@ module.exports = async (args) => {
   let finalConfig = Object.assign(defaultConfig, {
     input: resolveInput(args),
   });
+  finalConfig.plugins.push(
+    babel({
+      babelrc: false,
+      exclude: 'node_modules/**',
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.es6', '.es'],
+      babelHelpers: 'runtime',
+      ...babelConfig(args),
+    }),
+    fileSize()
+  );
   try {
     configFn = require(resolvePath(configFile));
   } catch (e) {}

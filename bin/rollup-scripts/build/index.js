@@ -1,14 +1,11 @@
 const { rollup } = require('rollup');
 const getConfig = require('../../config');
-const { blue, green, red } = require('../../../utils');
+const { blue, red } = require('../../../utils');
 
 async function generateOutput(bundle, outputConfig) {
   const outConf = Array.isArray(outputConfig) ? outputConfig : [outputConfig];
   for (const conf of outConf) {
-    const { output } = await bundle.write(conf);
-    for (const chunkOrAsset of output) {
-      console.log(green(`[${chunkOrAsset.type}] → ${chunkOrAsset.fileName}`));
-    }
+    await bundle.write(conf);
   }
 }
 
