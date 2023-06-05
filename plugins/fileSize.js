@@ -1,6 +1,6 @@
 const path = require('node:path');
 const { ROOT } = require('../constants');
-const { green, calculateSize } = require('../utils');
+const { green, calculateSize, yellow } = require('../utils');
 
 module.exports = {
   fileSize() {
@@ -17,7 +17,8 @@ module.exports = {
               const fileType = bundle[name].type;
               const fileSize = await calculateSize(actualPath);
               console.log(
-                green(`[${fileType}] → ${relativePath} (${fileSize})`)
+                green(`[${fileType}] → ${relativePath}`),
+                yellow(`(${fileSize})`)
               );
             }
           }
