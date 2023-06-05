@@ -43,4 +43,8 @@ yargs(hideBin(process.argv))
       init();
     }
   )
+  .demandCommand(
+    1,
+    'Rollup scripts require at least one command. Check --help for more details!'
+  )
   .help().argv;

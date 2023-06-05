@@ -1,6 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { getCommand } = require('./argv');
+const { getCommand, EXEC_COMMANDS } = require('./argv');
 const { yellow, gray } = require('./colors');
 const { resolvePath } = require('./resolvePath');
 const {
@@ -15,7 +15,7 @@ const {
 const mjsSrc = resolvePath('src/index.mjs');
 
 function isValidCommand(cmd) {
-  return ['build', 'test', 'lint'].includes(cmd);
+  return EXEC_COMMANDS.includes(cmd);
 }
 
 function warnReact(isTsxFile, args) {
