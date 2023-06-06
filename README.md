@@ -52,3 +52,14 @@ details run:
 npx rollup-scripts --help
 npx rollup-scripts build --help
 ```
+
+## NOTE:
+
+Rollup scripts supports compilation for JavaScript, TypeScript and
+React+Typescript projects.
+
+```sh
+npx rollup-scripts build --typescript
+npx rollup-scripts build --react
+npx rollup-scripts build --typescript --react
+```
