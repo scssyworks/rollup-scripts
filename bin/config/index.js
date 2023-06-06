@@ -69,11 +69,18 @@ const defaultConfig = defineConfig({
 });
 
 module.exports = async (args) => {
-  const { configFile } = args;
+  const { configFile, react } = args;
   let configFn;
   let finalConfig = Object.assign(defaultConfig, {
     input: resolveInput(args),
   });
+  if (react) {
+    finalConfig.output = defaultConfig.output.map((outConf) => {
+      outConf.globals = {
+        react: 'React',
+      };
+    });
+  }
   finalConfig.plugins.push(
     babel({
       babelrc: false,
