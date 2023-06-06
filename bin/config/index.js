@@ -79,6 +79,7 @@ module.exports = async (args) => {
       outConf.globals = {
         react: 'React',
       };
+      return outConf;
     });
   }
   finalConfig.plugins.push(
