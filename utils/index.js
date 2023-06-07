@@ -9,4 +9,5 @@ module.exports = {
   ...require('./input'),
   ...require('./output'),
   ...require('./size'),
+  ...require('./externalize'),
 };
