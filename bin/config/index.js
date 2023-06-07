@@ -14,6 +14,7 @@ const {
   env,
   resolveInput,
   resolveOutputFields,
+  externalize,
 } = require('../../utils');
 const { fileSize } = require('../../plugins');
 
@@ -65,7 +66,10 @@ const defaultConfig = defineConfig({
       extensions: ['.js', '.ts'],
     }),
   ],
-  external: Object.keys(fromPackage('dependencies') ?? {}),
+  external: externalize(
+    fromPackage('dependencies'),
+    fromPackage('peerDependencies')
+  ),
 });
 
 module.exports = async (args) => {
@@ -88,6 +92,7 @@ module.exports = async (args) => {
       exclude: 'node_modules/**',
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.es6', '.es'],
       babelHelpers: 'runtime',
+      skipPreflightCheck: true,
       ...babelConfig(args),
     }),
     fileSize()
