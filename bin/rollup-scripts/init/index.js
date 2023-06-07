@@ -11,7 +11,7 @@ module.exports = function init(args) {
       .readFileSync(template, {
         encoding: 'utf-8',
       })
-      .replace('$$filePath$$', resolveInputPath(args));
+      .replace('$$filePath$$', resolveInputPath(args).src);
     fs.writeFileSync(configFile, configFileContent, {
       encoding: 'utf-8',
     });
