@@ -66,7 +66,7 @@ const defaultConfig = defineConfig({
 });
 
 module.exports = async (args) => {
-  const { configFile, react } = args;
+  const { configFile } = args;
   let configFn;
   let finalConfig = Object.assign(defaultConfig, {
     input: resolveInput(args),
@@ -77,11 +77,6 @@ module.exports = async (args) => {
       sourcemap: isDev,
       plugins: opts(!isDev, [terser()]),
     });
-    if (react) {
-      outConf.globals = {
-        react: 'React',
-      };
-    }
     return outConf;
   });
   finalConfig.plugins.push(
