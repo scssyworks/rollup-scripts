@@ -4,6 +4,13 @@ const yargs = require('yargs');
 const { hideBin } = require('yargs/helpers');
 const { CONFIG_FILE } = require('../constants');
 
+const verboseConfig = {
+  default: false,
+  type: 'boolean',
+  describe: 'Show full error logs',
+  alias: 'v',
+};
+
 yargs(hideBin(process.argv))
   .scriptName('rollup-scripts')
   .usage('$0 <cmd> [args]')
@@ -30,12 +37,7 @@ yargs(hideBin(process.argv))
           describe: 'Provide custom rollup configuration',
           alias: 'c',
         })
-        .option('verbose', {
-          default: false,
-          type: 'boolean',
-          describe: 'Show full error logs',
-          alias: 'v',
-        });
+        .option('verbose', verboseConfig);
     },
     (args) => {
       build(args);
@@ -44,9 +46,11 @@ yargs(hideBin(process.argv))
   .command(
     'init',
     'Setup "rs.config.js" file',
-    (yargs) => yargs,
-    () => {
-      init();
+    (yargs) => {
+      return yargs.option('verbose', verboseConfig);
+    },
+    (args) => {
+      init(args);
     }
   )
   .demandCommand(
