@@ -15,6 +15,7 @@ const {
   resolveInput,
   resolveOutputFields,
   externalize,
+  opts,
 } = require('../../utils');
 const { fileSize } = require('../../plugins');
 
@@ -29,28 +30,20 @@ const { main: pjMain, module: pjModule } = resolveOutputFields();
 const defaultConfig = defineConfig({
   output: [
     {
-      ...commonOutputConfig,
       file: getOutputFileName(pjModule, true),
       format: 'es',
     },
     {
-      ...commonOutputConfig,
       file: getOutputFileName(pjMain, true),
       format: 'umd',
     },
     {
-      ...commonOutputConfig,
       file: getOutputFileName(pjModule),
       format: 'es',
-      sourcemap: false,
-      plugins: [terser()],
     },
     {
-      ...commonOutputConfig,
       file: getOutputFileName(pjMain),
       format: 'umd',
-      sourcemap: false,
-      plugins: [terser()],
     },
   ],
   plugins: [
@@ -65,6 +58,7 @@ const defaultConfig = defineConfig({
       include: 'node_modules/**',
       extensions: ['.js', '.ts'],
     }),
+    fileSize(),
   ],
   external: externalize(
     fromPackage('dependencies'),
@@ -78,25 +72,29 @@ module.exports = async (args) => {
   let finalConfig = Object.assign(defaultConfig, {
     input: resolveInput(args),
   });
-  if (react) {
-    finalConfig.output = defaultConfig.output.map((outConf) => {
+  finalConfig.output = defaultConfig.output.map((outConf) => {
+    const isDev = /development/.test(outConf.file);
+    Object.assign(outConf, commonOutputConfig, {
+      sourcemap: isDev,
+      plugins: [
+        babel({
+          babelrc: false,
+          exclude: 'node_modules/**',
+          extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.es6', '.es'],
+          babelHelpers: 'runtime',
+          skipPreflightCheck: true,
+          ...babelConfig(args, outConf.format, !isDev),
+        }),
+        ...opts(!isDev, [terser()]),
+      ],
+    });
+    if (react) {
       outConf.globals = {
         react: 'React',
       };
-      return outConf;
-    });
-  }
-  finalConfig.plugins.push(
-    babel({
-      babelrc: false,
-      exclude: 'node_modules/**',
-      extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.es6', '.es'],
-      babelHelpers: 'runtime',
-      skipPreflightCheck: true,
-      ...babelConfig(args),
-    }),
-    fileSize()
-  );
+    }
+    return outConf;
+  });
   try {
     configFn = require(resolvePath(configFile));
   } catch (e) {}

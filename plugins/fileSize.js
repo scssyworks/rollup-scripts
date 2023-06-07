@@ -7,6 +7,7 @@ module.exports = {
     return {
       name: 'fileSize',
       writeBundle: {
+        order: 'post',
         async handler(opts, bundle) {
           if (opts && typeof opts.file === 'string' && bundle) {
             const filePath = opts.file.substring(0, opts.file.lastIndexOf('/'));
