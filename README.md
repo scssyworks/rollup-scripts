@@ -6,6 +6,8 @@ A utility to simplify rollup configuration
 
 ## This package is currently experimental and in active development.
 
+## Version 0.0.x is unstable and should be used with caution.
+
 # Getting started
 
 1. Create an npm project
