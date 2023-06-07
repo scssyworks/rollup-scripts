@@ -3,7 +3,9 @@ const { opts } = require('../../utils');
 module.exports = ({ typescript, react }) => ({
   presets: [
     '@babel/preset-env',
-    ...opts(react, [['@babel/preset-react', { runtime: 'automatic' }]]),
+    ...opts(react, [
+      ['@babel/preset-react', { runtime: 'automatic', production: true }],
+    ]),
     ...opts(typescript, ['@babel/preset-typescript']),
   ],
   plugins: [
