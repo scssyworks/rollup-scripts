@@ -29,6 +29,12 @@ yargs(hideBin(process.argv))
           type: 'string',
           describe: 'Provide custom rollup configuration',
           alias: 'c',
+        })
+        .option('verbose', {
+          default: false,
+          type: 'boolean',
+          describe: 'Show full error logs',
+          alias: 'v',
         });
     },
     (args) => {

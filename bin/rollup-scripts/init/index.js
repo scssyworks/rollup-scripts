@@ -13,8 +13,8 @@ module.exports = function init() {
     fs.writeFileSync(configFile, configFileContent, {
       encoding: 'utf-8',
     });
-    console.log(blue(`Created "${CONFIG_FILE}" in project root.`));
+    blue(`Created "${CONFIG_FILE}" in project root.`);
   } else {
-    console.log(blue(`"${CONFIG_FILE}" already exists!`));
+    blue(`"${CONFIG_FILE}" already exists!`);
   }
 };

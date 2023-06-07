@@ -16,10 +16,7 @@ module.exports = {
               const relativePath = path.relative(ROOT, actualPath);
               const fileType = bundle[name].type;
               const fileSize = await calculateSize(actualPath);
-              console.log(
-                green(`[${fileType}] → ${relativePath}`),
-                yellow(`(${fileSize})`)
-              );
+              green(`[${fileType}] → ${relativePath}`, fileSize);
             }
           }
         },
