@@ -1,9 +1,11 @@
-const { typescript, react, opts } = require('../../utils');
+const { opts } = require('../../utils');
 
-module.exports = {
+module.exports = ({ typescript, react }) => ({
   presets: [
     '@babel/preset-env',
-    ...opts(react, ['@babel/preset-react']),
+    ...opts(react, [
+      ['@babel/preset-react', { runtime: 'automatic', production: true }],
+    ]),
     ...opts(typescript, ['@babel/preset-typescript']),
   ],
   plugins: [
@@ -12,4 +14,4 @@ module.exports = {
     '@babel/plugin-proposal-private-methods',
     ['@babel/plugin-transform-runtime', { regenerator: true }],
   ],
-};
+});

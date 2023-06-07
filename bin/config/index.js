@@ -7,7 +7,6 @@ const terser = require('@rollup/plugin-terser');
 const replace = require('@rollup/plugin-replace');
 const babelConfig = require('./babelConfig');
 const {
-  configFile,
   fromPackage,
   getName,
   resolvePath,
@@ -15,7 +14,10 @@ const {
   env,
   resolveInput,
   resolveOutputFields,
+  externalize,
+  opts,
 } = require('../../utils');
+const { fileSize } = require('../../plugins');
 
 const commonOutputConfig = {
   name: getName(),
@@ -25,33 +27,23 @@ const commonOutputConfig = {
 
 const { main: pjMain, module: pjModule } = resolveOutputFields();
 
-// Read configuration from current workspace. Default config file: rs.config.js
 const defaultConfig = defineConfig({
-  input: resolveInput(),
   output: [
     {
-      ...commonOutputConfig,
       file: getOutputFileName(pjModule, true),
       format: 'es',
     },
     {
-      ...commonOutputConfig,
       file: getOutputFileName(pjMain, true),
-      format: 'umd',
+      format: 'cjs',
     },
     {
-      ...commonOutputConfig,
       file: getOutputFileName(pjModule),
       format: 'es',
-      sourcemap: false,
-      plugins: [terser()],
     },
     {
-      ...commonOutputConfig,
       file: getOutputFileName(pjMain),
-      format: 'umd',
-      sourcemap: false,
-      plugins: [terser()],
+      format: 'cjs',
     },
   ],
   plugins: [
@@ -66,20 +58,38 @@ const defaultConfig = defineConfig({
       include: 'node_modules/**',
       extensions: ['.js', '.ts'],
     }),
+  ],
+  external: externalize(
+    fromPackage('dependencies'),
+    fromPackage('peerDependencies')
+  ),
+});
+
+module.exports = async (args) => {
+  const { configFile } = args;
+  let configFn;
+  let finalConfig = Object.assign(defaultConfig, {
+    input: resolveInput(args),
+  });
+  finalConfig.output = defaultConfig.output.map((outConf) => {
+    const isDev = /\.development/.test(outConf.file);
+    Object.assign(outConf, commonOutputConfig, {
+      sourcemap: isDev,
+      plugins: opts(!isDev, [terser()]),
+    });
+    return outConf;
+  });
+  finalConfig.plugins.push(
     babel({
       babelrc: false,
       exclude: 'node_modules/**',
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.es6', '.es'],
       babelHelpers: 'runtime',
-      ...babelConfig,
+      skipPreflightCheck: true,
+      ...babelConfig(args),
     }),
-  ],
-  external: Object.keys(fromPackage('dependencies') ?? {}),
-});
-
-module.exports = async () => {
-  let configFn;
-  let finalConfig = defaultConfig;
+    fileSize()
+  );
   try {
     configFn = require(resolvePath(configFile));
   } catch (e) {}

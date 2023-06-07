@@ -8,4 +8,6 @@ module.exports = {
   ...require('./env'),
   ...require('./input'),
   ...require('./output'),
+  ...require('./size'),
+  ...require('./externalize'),
 };
