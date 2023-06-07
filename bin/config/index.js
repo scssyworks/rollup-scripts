@@ -35,7 +35,7 @@ const defaultConfig = defineConfig({
     },
     {
       file: getOutputFileName(pjMain, true),
-      format: 'umd',
+      format: 'cjs',
     },
     {
       file: getOutputFileName(pjModule),
@@ -43,7 +43,7 @@ const defaultConfig = defineConfig({
     },
     {
       file: getOutputFileName(pjMain),
-      format: 'umd',
+      format: 'cjs',
     },
   ],
   plugins: [
@@ -58,7 +58,6 @@ const defaultConfig = defineConfig({
       include: 'node_modules/**',
       extensions: ['.js', '.ts'],
     }),
-    fileSize(),
   ],
   external: externalize(
     fromPackage('dependencies'),
@@ -73,20 +72,10 @@ module.exports = async (args) => {
     input: resolveInput(args),
   });
   finalConfig.output = defaultConfig.output.map((outConf) => {
-    const isDev = /development/.test(outConf.file);
+    const isDev = /\.development/.test(outConf.file);
     Object.assign(outConf, commonOutputConfig, {
       sourcemap: isDev,
-      plugins: [
-        babel({
-          babelrc: false,
-          exclude: 'node_modules/**',
-          extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.es6', '.es'],
-          babelHelpers: 'runtime',
-          skipPreflightCheck: true,
-          ...babelConfig(args, outConf.format, !isDev),
-        }),
-        ...opts(!isDev, [terser()]),
-      ],
+      plugins: opts(!isDev, [terser()]),
     });
     if (react) {
       outConf.globals = {
@@ -95,6 +84,17 @@ module.exports = async (args) => {
     }
     return outConf;
   });
+  finalConfig.plugins.push(
+    babel({
+      babelrc: false,
+      exclude: 'node_modules/**',
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.es6', '.es'],
+      babelHelpers: 'runtime',
+      skipPreflightCheck: true,
+      ...babelConfig(args),
+    }),
+    fileSize()
+  );
   try {
     configFn = require(resolvePath(configFile));
   } catch (e) {}
