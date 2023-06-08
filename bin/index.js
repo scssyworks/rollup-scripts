@@ -3,6 +3,7 @@ const { build, init } = require('./rollup-scripts');
 const yargs = require('yargs');
 const { hideBin } = require('yargs/helpers');
 const { CONFIG_FILE, SCRIPT_NAME } = require('../constants');
+const lint = require('./rollup-scripts/lint');
 
 const verboseConfig = {
   default: false,
@@ -64,6 +65,14 @@ yargs(hideBin(process.argv))
     },
     (args) => {
       init(args);
+    }
+  )
+  .command(
+    'lint',
+    'Lint JS/TS files in your workspace',
+    (yargs) => yargs,
+    (args) => {
+      lint(args);
     }
   )
   .demandCommand(
