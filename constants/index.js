@@ -26,6 +26,7 @@ const MSG_BABELRC_NOTFOUND =
   'Babelrc NOT found. Using default babel configuration...';
 const MSG_CHECKBABEL = 'Checking babelrc...';
 const MSG_CONFIG = (filename) => `Created "${filename}" in project root.`;
+const MSG_CONFIGBABEL = '".babelrc" generated in project root.';
 const ERR_CONFIG = (filename) => `"${filename}" already exists!`;
 const ERR_NOTFOUND = 'File not found!';
 const ERR_ENTRYFILE =
@@ -65,6 +66,7 @@ module.exports = {
   MSG_BABELRC_NOTFOUND,
   MSG_CHECKBABEL,
   MSG_CONFIG,
+  MSG_CONFIGBABEL,
   CMD_BUILD,
   CMD_INIT,
 };

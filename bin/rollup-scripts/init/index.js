@@ -7,6 +7,7 @@ const {
   CONFIG_FILE,
   MSG_CONFIG,
   ERR_CONFIG,
+  MSG_CONFIGBABEL,
 } = require('../../../constants');
 const {
   resolvePath,
@@ -26,6 +27,7 @@ async function generateBabelConfig(args) {
       prettyJSON(getConfig(args)),
       encodingConfig
     );
+    blue(MSG_CONFIGBABEL);
   }
 }
 
