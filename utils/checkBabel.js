@@ -7,6 +7,6 @@ module.exports = {
     const babelFile = rootFiles.find((file) =>
       SUPPORTED_BABEL_FILES.some((reg) => reg.test(file))
     );
-    return !!babelFile;
+    return babelFile;
   },
 };

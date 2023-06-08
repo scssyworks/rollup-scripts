@@ -6,7 +6,6 @@ const {
   SCRIPT_ROOT,
   CONFIG_FILE,
   MSG_CONFIG,
-  ERR_CONFIG,
   MSG_CONFIGBABEL,
 } = require('../../../constants');
 const {
@@ -43,8 +42,6 @@ module.exports = async function init(args) {
       encodingConfig
     );
     blue(MSG_CONFIG(CONFIG_FILE));
-  } else {
-    blue(ERR_CONFIG(CONFIG_FILE));
   }
   if (babelrc) {
     await generateBabelConfig(args);

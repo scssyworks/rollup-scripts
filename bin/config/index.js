@@ -73,9 +73,11 @@ const defaultConfig = defineConfig({
 });
 
 module.exports = async (args) => {
-  blue(MSG_CHECKBABEL);
-  const babelrc = await checkBabel();
-  blue(babelrc ? MSG_BABELRC : MSG_BABELRC_NOTFOUND);
+  const babelFile = await checkBabel();
+  const babelrc = !!babelFile;
+  if (babelrc) {
+    blue(MSG_BABELRC(babelFile));
+  }
   const { configFile } = args;
   let configFn;
   let finalConfig = Object.assign(defaultConfig, {

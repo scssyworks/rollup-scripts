@@ -22,13 +22,10 @@ const SUPPORTED_BABEL_FILES = [
 const MSG_COMPILE = 'Compiling...';
 const MSG_COMPILED = 'Compiled in';
 const MSG_EMITTED = 'Emitted:';
-const MSG_BABELRC = 'Babelrc found!';
-const MSG_BABELRC_NOTFOUND =
-  'Babelrc NOT found. Using default babel configuration...';
+const MSG_BABELRC = (babelrcFile) => `Using "${babelrcFile}"`;
 const MSG_CHECKBABEL = 'Checking babelrc...';
 const MSG_CONFIG = (filename) => `Created "${filename}" in project root.`;
 const MSG_CONFIGBABEL = 'Created ".babelrc" in project root.';
-const ERR_CONFIG = (filename) => `"${filename}" already exists!`;
 const ERR_NOTFOUND = 'File not found!';
 const ERR_ENTRYFILE =
   'Warning: Entry file not detected automatically. Run the following command to configure entry file.';
@@ -58,13 +55,11 @@ module.exports = {
   ERR_ENTRYFILE,
   ERR_ENTRYTYPESCRIPT,
   ERR_REACT,
-  ERR_CONFIG,
   SUPPORTED_BABEL_FILES,
   MSG_EMITTED,
   MSG_COMPILE,
   MSG_COMPILED,
   MSG_BABELRC,
-  MSG_BABELRC_NOTFOUND,
   MSG_CHECKBABEL,
   MSG_CONFIG,
   MSG_CONFIGBABEL,
