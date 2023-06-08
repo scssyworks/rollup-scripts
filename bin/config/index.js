@@ -16,8 +16,15 @@ const {
   resolveOutputFields,
   externalize,
   opts,
+  checkBabel,
+  blue,
 } = require('../../utils');
 const { fileSize } = require('../../plugins');
+const {
+  MSG_BABELRC,
+  MSG_BABELRC_NOTFOUND,
+  MSG_CHECKBABEL,
+} = require('../../constants');
 
 const commonOutputConfig = {
   name: getName(),
@@ -66,6 +73,9 @@ const defaultConfig = defineConfig({
 });
 
 module.exports = async (args) => {
+  blue(MSG_CHECKBABEL);
+  const babelrc = await checkBabel();
+  blue(babelrc ? MSG_BABELRC : MSG_BABELRC_NOTFOUND);
   const { configFile } = args;
   let configFn;
   let finalConfig = Object.assign(defaultConfig, {
@@ -81,12 +91,12 @@ module.exports = async (args) => {
   });
   finalConfig.plugins.push(
     babel({
-      babelrc: false,
+      babelrc,
       exclude: 'node_modules/**',
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.es6', '.es'],
       babelHelpers: 'runtime',
       skipPreflightCheck: true,
-      ...babelConfig(args),
+      ...(babelrc ? {} : babelConfig(args)),
     }),
     fileSize()
   );

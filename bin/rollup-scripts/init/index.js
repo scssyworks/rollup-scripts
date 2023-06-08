@@ -1,20 +1,52 @@
-const fs = require('node:fs');
+const { existsSync } = require('node:fs');
+const fs = require('node:fs/promises');
 const path = require('node:path');
-const { SCRIPT_ROOT, CONFIG_FILE } = require('../../../constants');
-const { resolvePath, blue } = require('../../../utils');
+const getConfig = require('../../config/babelConfig');
+const {
+  SCRIPT_ROOT,
+  CONFIG_FILE,
+  MSG_CONFIG,
+  ERR_CONFIG,
+  MSG_CONFIGBABEL,
+} = require('../../../constants');
+const {
+  resolvePath,
+  blue,
+  resolveInputPath,
+  checkBabel,
+  prettyJSON,
+} = require('../../../utils');
 
-module.exports = function init() {
+const encodingConfig = { encoding: 'utf-8' };
+
+async function generateBabelConfig(args) {
+  const hasBabel = await checkBabel();
+  if (!hasBabel) {
+    await fs.writeFile(
+      resolvePath('.babelrc'),
+      prettyJSON(getConfig(args)),
+      encodingConfig
+    );
+    blue(MSG_CONFIGBABEL);
+  }
+}
+
+module.exports = async function init(args) {
+  const { babelrc } = args;
   const template = path.join(SCRIPT_ROOT, 'templates', CONFIG_FILE);
   const configFile = resolvePath(CONFIG_FILE);
-  if (!fs.existsSync(configFile)) {
-    const configFileContent = fs.readFileSync(template, {
-      encoding: 'utf-8',
-    });
-    fs.writeFileSync(configFile, configFileContent, {
-      encoding: 'utf-8',
-    });
-    console.log(blue(`Created "${CONFIG_FILE}" in project root.`));
+  if (!existsSync(configFile)) {
+    const configFileContent = await fs.readFile(template, encodingConfig);
+    await fs.writeFile(
+      configFile,
+      configFileContent.replace('$$filePath$$', resolveInputPath(args).src),
+      encodingConfig
+    );
+    blue(MSG_CONFIG(CONFIG_FILE));
   } else {
-    console.log(blue(`"${CONFIG_FILE}" already exists!`));
+    blue(ERR_CONFIG(CONFIG_FILE));
+  }
+  if (babelrc) {
+    await generateBabelConfig(args);
   }
 };
