@@ -1,6 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { name: packageName } = require('./package.json');
+
+const SCRIPT_NAME = 'rollup-scripts';
 
 const ROOT = fs.realpathSync(process.cwd());
 const SCRIPT_ROOT = path.resolve(__dirname, '../');
@@ -40,9 +41,9 @@ const ERR_REACT = (isTsxFile) =>
     isTsxFile ? ' and --typescript' : ''
   } to enable React compilation.`;
 
-const CMD_INIT = `npx ${packageName} init`;
+const CMD_INIT = `npx ${SCRIPT_NAME} init`;
 const CMD_BUILD = ({ typescript, react }) =>
-  `npx ${packageName} build${react ? ' --react' : ''}${
+  `npx ${SCRIPT_NAME} build${react ? ' --react' : ''}${
     typescript ? ' --typescript' : ''
   }`;
 
@@ -69,4 +70,5 @@ module.exports = {
   MSG_CONFIGBABEL,
   CMD_BUILD,
   CMD_INIT,
+  SCRIPT_NAME,
 };

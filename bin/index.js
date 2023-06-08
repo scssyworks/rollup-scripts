@@ -2,7 +2,7 @@
 const { build, init } = require('./rollup-scripts');
 const yargs = require('yargs');
 const { hideBin } = require('yargs/helpers');
-const { CONFIG_FILE } = require('../constants');
+const { CONFIG_FILE, SCRIPT_NAME } = require('../constants');
 
 const verboseConfig = {
   default: false,
@@ -26,7 +26,7 @@ const reactConfig = {
 };
 
 yargs(hideBin(process.argv))
-  .scriptName('rollup-scripts')
+  .scriptName(SCRIPT_NAME)
   .usage('$0 <cmd> [args]')
   .command(
     'build',
