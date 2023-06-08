@@ -10,6 +10,8 @@ const {
   EXT_REGEX,
   ERR_ENTRYTYPESCRIPT,
   ERR_REACT,
+  CMD_INIT,
+  CMD_BUILD,
 } = require('../constants');
 
 const mjsSrc = 'src/index.mjs';
@@ -34,7 +36,7 @@ function resolveInputPath(args) {
   } catch (e) {
     if (isValidCommand(cmd)) {
       yellow(ERR_ENTRYFILE);
-      gray('npx rollup-scripts init');
+      gray(CMD_INIT);
     }
     if (verbose) {
       console.error(e);
@@ -49,20 +51,30 @@ function warnReact(isTsxFile, args) {
   if (isValidCommand(cmd)) {
     if (!react) {
       yellow(ERR_REACT(isTsxFile));
-      gray(`rollup-scripts build --react${isTsxFile ? ' --typescript' : ''}`);
+      gray(
+        CMD_BUILD({
+          react: true,
+          typescript: isTsxFile,
+        })
+      );
     } else if (isTsxFile) {
-      warnTypescript(' --react', args);
+      warnTypescript(true, args);
     }
   }
 }
 
-function warnTypescript(opt, args) {
+function warnTypescript(isReact, args) {
   const cmd = getCommand(args);
   const { typescript } = args;
   if (isValidCommand(cmd)) {
     if (!typescript) {
       yellow(ERR_ENTRYTYPESCRIPT);
-      gray(`rollup-scripts build --typescript${opt ? opt : ''}`);
+      gray(
+        CMD_BUILD({
+          react: isReact,
+          typescript: true,
+        })
+      );
     }
   }
 }

@@ -1,6 +1,11 @@
 const { rollup } = require('rollup');
 const getConfig = require('../../config');
 const { blue, red, timeStart, timeEnd } = require('../../../utils');
+const {
+  MSG_COMPILE,
+  MSG_COMPILED,
+  MSG_EMITTED,
+} = require('../../../constants');
 
 async function generateOutput(bundle, outputConfig) {
   const outConf = Array.isArray(outputConfig) ? outputConfig : [outputConfig];
@@ -13,15 +18,15 @@ module.exports = async function build(args) {
   const bundles = [];
   let buildFailed = false;
   const { verbose } = args;
-  blue('Compiling...');
-  timeStart('Compiled in');
+  blue(MSG_COMPILE);
+  timeStart(MSG_COMPILED);
   try {
     const rollupConfig = await getConfig(args);
     const configs = Array.isArray(rollupConfig) ? rollupConfig : [rollupConfig];
     for (const conf of configs) {
       const bundle = await rollup(conf);
       bundles.push(bundle);
-      blue('Emitted:');
+      blue(MSG_EMITTED);
       await generateOutput(bundle, conf.output);
     }
   } catch (error) {
@@ -36,6 +41,6 @@ module.exports = async function build(args) {
       bundle.close();
     }
   }
-  timeEnd('Compiled in');
+  timeEnd(MSG_COMPILED);
   process.exit(buildFailed ? 1 : 0);
 };

@@ -1,6 +1,11 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { SCRIPT_ROOT, CONFIG_FILE } = require('../../../constants');
+const {
+  SCRIPT_ROOT,
+  CONFIG_FILE,
+  MSG_CONFIG,
+  ERR_CONFIG,
+} = require('../../../constants');
 const { resolvePath, blue, resolveInputPath } = require('../../../utils');
 
 module.exports = function init(args) {
@@ -15,8 +20,8 @@ module.exports = function init(args) {
     fs.writeFileSync(configFile, configFileContent, {
       encoding: 'utf-8',
     });
-    blue(`Created "${CONFIG_FILE}" in project root.`);
+    blue(MSG_CONFIG(CONFIG_FILE));
   } else {
-    blue(`"${CONFIG_FILE}" already exists!`);
+    blue(ERR_CONFIG(CONFIG_FILE));
   }
 };

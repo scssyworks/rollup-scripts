@@ -11,6 +11,20 @@ const verboseConfig = {
   alias: 'v',
 };
 
+const typescriptConfig = {
+  default: false,
+  type: 'boolean',
+  describe: 'Enable typescript compilation',
+  alias: 't',
+};
+
+const reactConfig = {
+  default: false,
+  type: 'boolean',
+  describe: 'Enable react compilation',
+  alias: 'r',
+};
+
 yargs(hideBin(process.argv))
   .scriptName('rollup-scripts')
   .usage('$0 <cmd> [args]')
@@ -19,18 +33,8 @@ yargs(hideBin(process.argv))
     'Build rollup library',
     (yargs) => {
       return yargs
-        .option('typescript', {
-          default: false,
-          type: 'boolean',
-          describe: 'Enable typescript compilation',
-          alias: 't',
-        })
-        .option('react', {
-          default: false,
-          type: 'boolean',
-          describe: 'Enable react compilation',
-          alias: 'r',
-        })
+        .option('typescript', typescriptConfig)
+        .option('react', reactConfig)
         .option('configFile', {
           default: CONFIG_FILE,
           type: 'string',
@@ -47,7 +51,16 @@ yargs(hideBin(process.argv))
     'init',
     'Setup "rs.config.js" file',
     (yargs) => {
-      return yargs.option('verbose', verboseConfig);
+      return yargs
+        .option('babelrc', {
+          default: false,
+          type: 'boolean',
+          describe: 'Enable babelrc instead of built-in configuration',
+          alias: 'b',
+        })
+        .option('typescript', typescriptConfig)
+        .option('react', reactConfig)
+        .option('verbose', verboseConfig);
     },
     (args) => {
       init(args);

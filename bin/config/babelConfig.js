@@ -6,7 +6,15 @@ module.exports = ({ typescript, react }) => ({
     ...opts(react, [
       ['@babel/preset-react', { runtime: 'automatic', production: true }],
     ]),
-    ...opts(typescript, ['@babel/preset-typescript']),
+    ...opts(typescript, [
+      [
+        '@babel/preset-typescript',
+        {
+          isTSX: true,
+          allExtensions: true,
+        },
+      ],
+    ]),
   ],
   plugins: [
     '@babel/plugin-syntax-optional-chaining',
