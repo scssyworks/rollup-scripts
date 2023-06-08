@@ -96,7 +96,7 @@ module.exports = async (args) => {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.es6', '.es'],
       babelHelpers: 'runtime',
       skipPreflightCheck: true,
-      ...(babelrc ? babelConfig(args) : {}),
+      ...(babelrc ? {} : babelConfig(args)),
     }),
     fileSize()
   );
