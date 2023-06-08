@@ -31,7 +31,7 @@ yargs(hideBin(process.argv))
   .usage('$0 <cmd> [args]')
   .command(
     'build',
-    'Build rollup library',
+    'Build JavaScript/TypeScript library',
     (yargs) => {
       return yargs
         .option('typescript', typescriptConfig)
@@ -50,7 +50,7 @@ yargs(hideBin(process.argv))
   )
   .command(
     'init',
-    'Setup "rs.config.js" file',
+    'Setup configuration files',
     (yargs) => {
       return yargs
         .option('babelrc', {
