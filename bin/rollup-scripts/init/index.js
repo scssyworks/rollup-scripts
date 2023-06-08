@@ -1,7 +1,7 @@
 const { existsSync } = require('node:fs');
 const fs = require('node:fs/promises');
 const path = require('node:path');
-const getConfig = require('../../config/babelConfig');
+const getConfig = require('../../../templates/babel.config');
 const {
   SCRIPT_ROOT,
   CONFIG_FILE,

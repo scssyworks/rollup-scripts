@@ -5,7 +5,7 @@ const commonjs = require('@rollup/plugin-commonjs');
 const { babel } = require('@rollup/plugin-babel');
 const terser = require('@rollup/plugin-terser');
 const replace = require('@rollup/plugin-replace');
-const babelConfig = require('./babelConfig');
+const babelConfig = require('../../templates/babel.config');
 const {
   fromPackage,
   getName,
