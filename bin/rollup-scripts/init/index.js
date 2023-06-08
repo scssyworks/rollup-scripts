@@ -21,7 +21,7 @@ const encodingConfig = { encoding: 'utf-8' };
 
 async function generateBabelConfig(args) {
   const hasBabel = await checkBabel();
-  if (hasBabel) {
+  if (!hasBabel) {
     await fs.writeFile(
       resolvePath('.babelrc'),
       prettyJSON(getConfig(args)),
