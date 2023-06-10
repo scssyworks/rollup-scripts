@@ -43,6 +43,7 @@ const SUPPORTED_ESLINT_CONFIG_FILES = [
   /^\.eslintrc\.json$/,
 ];
 
+const MSG_INIT = 'Initializing workspace...';
 const MSG_LINT = 'Linting...';
 const MSG_COMPILE = 'Compiling...';
 const MSG_COMPILED = 'Compiled in';
@@ -97,6 +98,7 @@ module.exports = {
   MSG_LINT,
   MSG_LINTED,
   MSG_LINTER,
+  MSG_INIT,
   CMD_BUILD,
   CMD_INIT,
   SCRIPT_NAME,

@@ -13,6 +13,7 @@ const {
   configTypes,
   configFiles,
   MSG_CONFIGESLINT,
+  MSG_INIT,
 } = require('../../../constants');
 const {
   resolvePath,
@@ -54,6 +55,7 @@ async function generateConfig(args, configType, configFile) {
 }
 
 module.exports = async function init(args) {
+  blue(MSG_INIT);
   const template = path.join(SCRIPT_ROOT, 'templates', CONFIG_FILE);
   const configFile = resolvePath(CONFIG_FILE);
   if (!existsSync(configFile)) {
