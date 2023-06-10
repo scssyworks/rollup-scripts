@@ -22,12 +22,12 @@ const {
   prettyJSON,
 } = require('../../../utils');
 
-function getConfig(configType, args) {
+async function getConfig(configType, args) {
   switch (configType) {
     case configTypes.BABEL:
       return babelConfig(args);
     case configTypes.ESLINT:
-      return eslintConfig(args);
+      return await eslintConfig(args);
   }
 }
 
@@ -43,9 +43,10 @@ function getMessage(configType) {
 async function generateConfig(args, configType, configFile) {
   const hasBabel = await check(configType);
   if (!hasBabel) {
+    const conf = await getConfig(configType, args);
     await fs.writeFile(
       resolvePath(configFile),
-      prettyJSON(getConfig(configType, args)),
+      prettyJSON(conf),
       DEFAULT_ENCODING
     );
     blue(getMessage(configType));
