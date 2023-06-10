@@ -65,8 +65,6 @@ module.exports = async function init(args) {
     );
     blue(MSG_CONFIG(CONFIG_FILE));
   }
-  await Promise.all([
-    generateConfig(args, configTypes.BABEL, configFiles.BABEL),
-    generateConfig(args, configTypes.ESLINT, configFiles.ESLINT),
-  ]);
+  await generateConfig(args, configTypes.BABEL, configFiles.BABEL);
+  await generateConfig(args, configTypes.ESLINT, configFiles.ESLINT);
 };

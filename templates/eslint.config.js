@@ -1,4 +1,4 @@
-const { check } = require('../utils');
+const { check, resolvePath } = require('../utils');
 const babelConfig = require('../templates/babel.config');
 const { configTypes } = require('../constants');
 
@@ -26,9 +26,11 @@ module.exports = async (args) => {
       requireConfigFile: babelrc,
       babelOptions: {
         babelrc,
+        configFile: babelrc ? resolvePath(babelFile) : false,
         ...(babelrc ? {} : babelConfig(args)),
       },
     });
+    eslintBaseRc.plugins = ['@babel'];
   }
 
   return eslintBaseRc;
