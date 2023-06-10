@@ -3,6 +3,10 @@ const path = require('node:path');
 
 const SCRIPT_NAME = 'rollup-scripts';
 
+const DEFAULT_ENCODING = {
+  encoding: 'utf-8',
+};
+
 const ROOT = fs.realpathSync(process.cwd());
 const SCRIPT_ROOT = path.resolve(__dirname, '../');
 const CONFIG_FILE = 'rs.config.js';
@@ -10,6 +14,8 @@ const OUT = 'dist/umd/output.js';
 
 const EXT_REGEX = /\.(j|mj|cj|t)sx?$/;
 const INDEX_REGEX = /index\.(j|mj|cj|t)sx?$/;
+
+const VAR_FILE_PATH = '$$filePath$$';
 
 const SUPPORTED_BABEL_FILES = [
   /^babel\.config\.(j|mj|cj|ct)s$/,
@@ -19,11 +25,16 @@ const SUPPORTED_BABEL_FILES = [
   /^\.babelrc$/,
 ];
 
+const SUPPORTED_ESLINT_CONFIG_FILES = [
+  /^\.eslintrc\.(j|cj)s$/,
+  /^\.eslintrc\.(y|ya)ml$/,
+  /^\.eslintrc\.json$/,
+];
+
 const MSG_COMPILE = 'Compiling...';
 const MSG_COMPILED = 'Compiled in';
 const MSG_EMITTED = 'Emitted:';
 const MSG_BABELRC = (babelrcFile) => `Using "${babelrcFile}"`;
-const MSG_CHECKBABEL = 'Checking babelrc...';
 const MSG_CONFIG = (filename) => `Created "${filename}" in project root.`;
 const MSG_CONFIGBABEL = 'Created ".babelrc" in project root.';
 const ERR_NOTFOUND = 'File not found!';
@@ -56,14 +67,16 @@ module.exports = {
   ERR_ENTRYTYPESCRIPT,
   ERR_REACT,
   SUPPORTED_BABEL_FILES,
+  SUPPORTED_ESLINT_CONFIG_FILES,
   MSG_EMITTED,
   MSG_COMPILE,
   MSG_COMPILED,
   MSG_BABELRC,
-  MSG_CHECKBABEL,
   MSG_CONFIG,
   MSG_CONFIGBABEL,
   CMD_BUILD,
   CMD_INIT,
   SCRIPT_NAME,
+  DEFAULT_ENCODING,
+  VAR_FILE_PATH,
 };

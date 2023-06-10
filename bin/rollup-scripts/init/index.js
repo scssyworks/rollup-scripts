@@ -7,24 +7,24 @@ const {
   CONFIG_FILE,
   MSG_CONFIG,
   MSG_CONFIGBABEL,
+  DEFAULT_ENCODING,
+  VAR_FILE_PATH,
 } = require('../../../constants');
 const {
   resolvePath,
   blue,
   resolveInputPath,
-  checkBabel,
+  check,
   prettyJSON,
 } = require('../../../utils');
 
-const encodingConfig = { encoding: 'utf-8' };
-
 async function generateBabelConfig(args) {
-  const hasBabel = await checkBabel();
+  const hasBabel = await check('babel');
   if (!hasBabel) {
     await fs.writeFile(
       resolvePath('.babelrc'),
       prettyJSON(getConfig(args)),
-      encodingConfig
+      DEFAULT_ENCODING
     );
     blue(MSG_CONFIGBABEL);
   }
@@ -35,11 +35,11 @@ module.exports = async function init(args) {
   const template = path.join(SCRIPT_ROOT, 'templates', CONFIG_FILE);
   const configFile = resolvePath(CONFIG_FILE);
   if (!existsSync(configFile)) {
-    const configFileContent = await fs.readFile(template, encodingConfig);
+    const configFileContent = await fs.readFile(template, DEFAULT_ENCODING);
     await fs.writeFile(
       configFile,
-      configFileContent.replace('$$filePath$$', resolveInputPath(args).src),
-      encodingConfig
+      configFileContent.replace(VAR_FILE_PATH, resolveInputPath(args).src),
+      DEFAULT_ENCODING
     );
     blue(MSG_CONFIG(CONFIG_FILE));
   }

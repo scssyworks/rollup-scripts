@@ -5,23 +5,25 @@ const { hideBin } = require('yargs/helpers');
 const { CONFIG_FILE, SCRIPT_NAME } = require('../constants');
 const lint = require('./rollup-scripts/lint');
 
-const verboseConfig = {
+const boolConfig = {
   default: false,
   type: 'boolean',
+};
+
+const verboseConfig = {
+  ...boolConfig,
   describe: 'Show full error logs',
   alias: 'v',
 };
 
 const typescriptConfig = {
-  default: false,
-  type: 'boolean',
+  ...boolConfig,
   describe: 'Enable typescript compilation',
   alias: 't',
 };
 
 const reactConfig = {
-  default: false,
-  type: 'boolean',
+  ...boolConfig,
   describe: 'Enable react compilation',
   alias: 'r',
 };
@@ -54,8 +56,7 @@ yargs(hideBin(process.argv))
     (yargs) => {
       return yargs
         .option('babelrc', {
-          default: false,
-          type: 'boolean',
+          ...boolConfig,
           describe: 'Enable babelrc instead of built-in configuration',
           alias: 'b',
         })
