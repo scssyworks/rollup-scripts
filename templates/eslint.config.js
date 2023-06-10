@@ -1,4 +1,4 @@
-const { check } = require('yargs');
+const { check } = require('../utils');
 const babelConfig = require('../templates/babel.config');
 const { configTypes } = require('../constants');
 
