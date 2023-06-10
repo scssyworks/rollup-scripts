@@ -43,8 +43,12 @@ const SUPPORTED_ESLINT_CONFIG_FILES = [
   /^\.eslintrc\.json$/,
 ];
 
+const MSG_LINT = 'Linting...';
 const MSG_COMPILE = 'Compiling...';
 const MSG_COMPILED = 'Compiled in';
+const MSG_LINTED = 'Completed in';
+const MSG_LINTER = (totalFiles, errorCount, warningCount) =>
+  `Checked ${totalFiles} files! Found ${errorCount} errors and ${warningCount} warnings.`;
 const MSG_EMITTED = 'Emitted:';
 const MSG_BABELRC = (babelrcFile) => `Using "${babelrcFile}"`;
 const MSG_ESLINTRC = (eslintRcFile) => `Using "${eslintRcFile}"`;
@@ -90,6 +94,9 @@ module.exports = {
   MSG_CONFIG,
   MSG_CONFIGBABEL,
   MSG_CONFIGESLINT,
+  MSG_LINT,
+  MSG_LINTED,
+  MSG_LINTER,
   CMD_BUILD,
   CMD_INIT,
   SCRIPT_NAME,
