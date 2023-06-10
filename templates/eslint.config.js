@@ -8,6 +8,7 @@ module.exports = async (args) => {
     env: {
       browser: true,
       node: true,
+      es2022: true,
     },
     parserOptions: {
       sourceType: 'module',
@@ -22,6 +23,7 @@ module.exports = async (args) => {
     const babelrc = !!babelFile;
     eslintBaseRc.parser = '@babel/eslint-parser';
     Object.assign(eslintBaseRc.parserOptions, {
+      requireConfigFile: babelrc,
       babelOptions: {
         babelrc,
         ...(babelrc ? {} : babelConfig(args)),
