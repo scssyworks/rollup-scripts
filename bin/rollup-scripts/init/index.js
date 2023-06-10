@@ -11,6 +11,8 @@ const {
   DEFAULT_ENCODING,
   VAR_FILE_PATH,
   configTypes,
+  configFiles,
+  MSG_CONFIGESLINT,
 } = require('../../../constants');
 const {
   resolvePath,
@@ -29,6 +31,15 @@ function getConfig(configType, args) {
   }
 }
 
+function getMessage(configType) {
+  switch (configType) {
+    case configTypes.BABEL:
+      return MSG_CONFIGBABEL;
+    case configTypes.ESLINT:
+      return MSG_CONFIGESLINT;
+  }
+}
+
 async function generateConfig(args, configType, configFile) {
   const hasBabel = await check(configType);
   if (!hasBabel) {
@@ -37,7 +48,7 @@ async function generateConfig(args, configType, configFile) {
       prettyJSON(getConfig(configType, args)),
       DEFAULT_ENCODING
     );
-    blue(MSG_CONFIGBABEL);
+    blue(getMessage(configType));
   }
 }
 
@@ -53,6 +64,8 @@ module.exports = async function init(args) {
     );
     blue(MSG_CONFIG(CONFIG_FILE));
   }
-  await generateConfig(configTypes.BABEL, args);
-  await generateConfig(configTypes.ESLINT, args);
+  await Promise.all([
+    generateConfig(args, configTypes.BABEL, configFiles.BABEL),
+    generateConfig(args, configTypes.ESLINT, configFiles.ESLINT),
+  ]);
 };

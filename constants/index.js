@@ -14,6 +14,11 @@ const configTypes = {
   ESLINT: 'eslintConfig',
 };
 
+const configFiles = {
+  BABEL: '.babelrc',
+  ESLINT: '.eslintrc.json',
+};
+
 const ROOT = fs.realpathSync(process.cwd());
 const SCRIPT_ROOT = path.resolve(__dirname, '../');
 const CONFIG_FILE = 'rs.config.js';
@@ -42,8 +47,10 @@ const MSG_COMPILE = 'Compiling...';
 const MSG_COMPILED = 'Compiled in';
 const MSG_EMITTED = 'Emitted:';
 const MSG_BABELRC = (babelrcFile) => `Using "${babelrcFile}"`;
+const MSG_ESLINTRC = (eslintRcFile) => `Using "${eslintRcFile}"`;
 const MSG_CONFIG = (filename) => `Created "${filename}" in project root.`;
 const MSG_CONFIGBABEL = 'Created ".babelrc" in project root.';
+const MSG_CONFIGESLINT = 'Created ".eslintrc.json" in project root.';
 const ERR_NOTFOUND = 'File not found!';
 const ERR_ENTRYFILE =
   'Warning: Entry file not detected automatically. Run the following command to configure entry file.';
@@ -79,13 +86,16 @@ module.exports = {
   MSG_COMPILE,
   MSG_COMPILED,
   MSG_BABELRC,
+  MSG_ESLINTRC,
   MSG_CONFIG,
   MSG_CONFIGBABEL,
+  MSG_CONFIGESLINT,
   CMD_BUILD,
   CMD_INIT,
   SCRIPT_NAME,
   DEFAULT_ENCODING,
   VAR_FILE_PATH,
   configTypes,
+  configFiles,
   PKG,
 };
