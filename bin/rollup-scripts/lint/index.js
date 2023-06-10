@@ -6,6 +6,8 @@ const {
   timeStart,
   timeEnd,
   green,
+  red,
+  yellow,
 } = require('../../../utils');
 const eslintConfig = require('../../../templates/eslint.config');
 const {
@@ -37,9 +39,15 @@ module.exports = async function lint(args) {
     });
     const formatter = await eslint.loadFormatter(formatterType);
     const resultText = formatter.format(results);
-    green(MSG_LINTER(totalFiles, errorCount, warningCount));
+    if (errorCount > 0) {
+      red(MSG_LINTER(totalFiles, errorCount, warningCount));
+    } else if (warningCount > 0) {
+      yellow(MSG_LINTER(totalFiles, errorCount, warningCount));
+    } else {
+      green(MSG_LINTER(totalFiles, errorCount, warningCount));
+    }
+
     console.log(resultText);
-    blue();
   } catch (e) {
     if (verbose) {
       console.error(e);
