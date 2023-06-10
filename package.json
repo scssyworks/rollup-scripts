@@ -1,7 +1,7 @@
 {
   "name": "rollup-scripts",
   "version": "0.0.52",
-  "description": "A utility to simplify rollup configuration",
+  "description": "Rollup scripts is a zero configuration compiler and bundler",
   "main": "src/index.js",
   "bin": {
     "rollup-scripts": "./bin/index.js"
