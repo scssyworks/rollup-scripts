@@ -1,6 +1,6 @@
 const { rollup } = require('rollup');
 const getConfig = require('../../config');
-const { blue, red, timeStart, timeEnd } = require('../../../utils');
+const { blue, red, timeStart, timeEnd, wrapArray } = require('../../../utils');
 const {
   MSG_COMPILE,
   MSG_COMPILED,
@@ -8,7 +8,7 @@ const {
 } = require('../../../constants');
 
 async function generateOutput(bundle, outputConfig) {
-  const outConf = Array.isArray(outputConfig) ? outputConfig : [outputConfig];
+  const outConf = wrapArray(outputConfig);
   for (const conf of outConf) {
     await bundle.write(conf);
   }
@@ -22,7 +22,7 @@ module.exports = async function build(args) {
   timeStart(MSG_COMPILED);
   try {
     const rollupConfig = await getConfig(args);
-    const configs = Array.isArray(rollupConfig) ? rollupConfig : [rollupConfig];
+    const configs = wrapArray(rollupConfig);
     for (const conf of configs) {
       const bundle = await rollup(conf);
       bundles.push(bundle);

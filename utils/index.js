@@ -12,4 +12,5 @@ module.exports = {
   ...require('./externalize'),
   ...require('./check'),
   ...require('./prettyJSON'),
+  ...require('./array'),
 };
