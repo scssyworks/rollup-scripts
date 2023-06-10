@@ -5,6 +5,7 @@
 - [x] Add support for `init` command to add configuration files in workspace
 - [x] Add support for `lint` command to lint files in workspace
 - [ ] Add support for `test` command to test files in workspace
+- [ ] Add support for `SWC` compilation for faster builds
 - [ ] Add support for `CSS`, `SCSS`, `CSS modules` and `SCSS modules`
 - [ ] Add support for `tailwindcss`
 - [ ] Add support for `CSS-in-JS` libraries
