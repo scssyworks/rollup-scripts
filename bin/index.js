@@ -55,11 +55,6 @@ yargs(hideBin(process.argv))
     'Setup configuration files',
     (yargs) => {
       return yargs
-        .option('babelrc', {
-          ...boolConfig,
-          describe: 'Enable babelrc instead of built-in configuration',
-          alias: 'b',
-        })
         .option('typescript', typescriptConfig)
         .option('react', reactConfig)
         .option('verbose', verboseConfig);
@@ -71,7 +66,22 @@ yargs(hideBin(process.argv))
   .command(
     'lint',
     'Lint JS/TS files in your workspace',
-    (yargs) => yargs,
+    (yargs) => {
+      return yargs
+        .option('fix', {
+          ...boolConfig,
+          describe: 'Automatically fix lint errors',
+          alias: 'f',
+        })
+        .option('verbose', verboseConfig)
+        .option('formatter', {
+          type: 'string',
+          default: 'stylish',
+          describe: 'Provide a custom formatter',
+        })
+        .option('typescript', typescriptConfig)
+        .option('react', reactConfig);
+    },
     (args) => {
       lint(args);
     }

@@ -3,8 +3,15 @@ const path = require('node:path');
 
 const SCRIPT_NAME = 'rollup-scripts';
 
+const PKG = 'package.json';
+
 const DEFAULT_ENCODING = {
   encoding: 'utf-8',
+};
+
+const configTypes = {
+  BABEL: 'babel',
+  ESLINT: 'eslintConfig',
 };
 
 const ROOT = fs.realpathSync(process.cwd());
@@ -79,4 +86,6 @@ module.exports = {
   SCRIPT_NAME,
   DEFAULT_ENCODING,
   VAR_FILE_PATH,
+  configTypes,
+  PKG,
 };

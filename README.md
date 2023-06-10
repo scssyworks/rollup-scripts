@@ -14,14 +14,12 @@ cases, rollup scripts makes it super easy for you to setup configuration.
 ```sh
 # Configure rollup
 npx rollup-scripts init
-# Configure rollup and babel config
-npx rollup-scripts init --babel
-# Configure rollup and babel config for typescript
-npx rollup-scripts init --babel --typescript
-# Configure rollup and babel config for react
-npx rollup-scripts init --babel --react
-# Configure rollup and babel config for react+typescript
-npx rollup-scripts init --babel --react --typescript
+# Configure rollup config for typescript
+npx rollup-scripts init --typescript
+# Configure rollup config for react
+npx rollup-scripts init --react
+# Configure rollup config for react+typescript
+npx rollup-scripts init --react --typescript
 ```
 
 # Getting started

@@ -1,5 +1,5 @@
 const path = require('node:path');
-const { ROOT } = require('../constants');
+const { ROOT, PKG } = require('../constants');
 
 /**
  * Returns package.json configuration
@@ -8,7 +8,7 @@ const { ROOT } = require('../constants');
  */
 function getPackage() {
   try {
-    return require(path.join(ROOT, 'package.json'));
+    return require(path.join(ROOT, PKG));
   } catch (e) {
     return null;
   }

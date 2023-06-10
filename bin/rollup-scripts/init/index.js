@@ -1,7 +1,8 @@
 const { existsSync } = require('node:fs');
 const fs = require('node:fs/promises');
 const path = require('node:path');
-const getConfig = require('../../../templates/babel.config');
+const babelConfig = require('../../../templates/babel.config');
+const eslintConfig = require('../../../templates/eslint.config');
 const {
   SCRIPT_ROOT,
   CONFIG_FILE,
@@ -9,6 +10,7 @@ const {
   MSG_CONFIGBABEL,
   DEFAULT_ENCODING,
   VAR_FILE_PATH,
+  configTypes,
 } = require('../../../constants');
 const {
   resolvePath,
@@ -18,12 +20,21 @@ const {
   prettyJSON,
 } = require('../../../utils');
 
-async function generateBabelConfig(args) {
-  const hasBabel = await check('babel');
+function getConfig(configType, args) {
+  switch (configType) {
+    case configTypes.BABEL:
+      return babelConfig(args);
+    case configTypes.ESLINT:
+      return eslintConfig(args);
+  }
+}
+
+async function generateConfig(args, configType, configFile) {
+  const hasBabel = await check(configType);
   if (!hasBabel) {
     await fs.writeFile(
-      resolvePath('.babelrc'),
-      prettyJSON(getConfig(args)),
+      resolvePath(configFile),
+      prettyJSON(getConfig(configType, args)),
       DEFAULT_ENCODING
     );
     blue(MSG_CONFIGBABEL);
@@ -31,7 +42,6 @@ async function generateBabelConfig(args) {
 }
 
 module.exports = async function init(args) {
-  const { babelrc } = args;
   const template = path.join(SCRIPT_ROOT, 'templates', CONFIG_FILE);
   const configFile = resolvePath(CONFIG_FILE);
   if (!existsSync(configFile)) {
@@ -43,7 +53,6 @@ module.exports = async function init(args) {
     );
     blue(MSG_CONFIG(CONFIG_FILE));
   }
-  if (babelrc) {
-    await generateBabelConfig(args);
-  }
+  await generateConfig(configTypes.BABEL, args);
+  await generateConfig(configTypes.ESLINT, args);
 };

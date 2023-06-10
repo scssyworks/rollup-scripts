@@ -20,7 +20,7 @@ const {
   blue,
 } = require('../../utils');
 const { fileSize } = require('../../plugins');
-const { MSG_BABELRC } = require('../../constants');
+const { MSG_BABELRC, configTypes } = require('../../constants');
 
 const commonOutputConfig = {
   name: getName(),
@@ -69,7 +69,7 @@ const defaultConfig = defineConfig({
 });
 
 module.exports = async (args) => {
-  const babelFile = await check('babel');
+  const babelFile = await check(configTypes.BABEL);
   const babelrc = !!babelFile;
   if (babelrc) {
     blue(MSG_BABELRC(babelFile));
