@@ -31,6 +31,10 @@ module.exports = async (args) => {
       },
     });
     eslintBaseRc.plugins = ['@babel'];
+    if (typescript) {
+      eslintBaseRc.plugins.push('@typescript-eslint');
+      eslintBaseRc.extends.push('plugin:@typescript-eslint/recommended');
+    }
   }
 
   return eslintBaseRc;
