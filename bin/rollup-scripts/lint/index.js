@@ -26,9 +26,10 @@ module.exports = async function lint(args) {
     let errorCount = 0;
     let warningCount = 0;
     let totalFiles = 0;
+    const overrideConfig = await eslintConfig(args);
     const eslint = new ESLint({
       useEslintrc: !!eslintConfigFile,
-      overrideConfig: eslintConfig(args),
+      overrideConfig,
       fix,
     });
     const results = await eslint.lintFiles(resolvePath('src/**/*'));

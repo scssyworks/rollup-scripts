@@ -1,3 +1,7 @@
+const { check, resolvePath } = require('../utils');
+const babelConfig = require('../templates/babel.config');
+const { configTypes } = require('../constants');
+
 module.exports = async (args) => {
   const { typescript, react } = args;
   const eslintBaseRc = {
@@ -14,12 +18,19 @@ module.exports = async (args) => {
     extends: ['eslint:recommended'],
   };
 
-  if (react) {
+  if (typescript || react) {
+    const babelFile = await check(configTypes.BABEL);
+    const babelrc = !!babelFile;
+    eslintBaseRc.parser = '@babel/eslint-parser';
     Object.assign(eslintBaseRc.parserOptions, {
-      ecmaFeatures: {
-        jsx: true,
+      requireConfigFile: babelrc,
+      babelOptions: {
+        babelrc,
+        configFile: babelrc ? resolvePath(babelFile) : false,
+        ...(babelrc ? {} : babelConfig(args)),
       },
     });
+    eslintBaseRc.plugins = ['@babel'];
   }
 
   return eslintBaseRc;
