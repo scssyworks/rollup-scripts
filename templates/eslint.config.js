@@ -49,6 +49,11 @@ module.exports = async (args) => {
         'plugin:jsx-a11y/recommended',
         'plugin:react-hooks/recommended'
       );
+      eslintBaseRc.settings = Object.assign(eslintBaseRc.settings ?? {}, {
+        react: {
+          version: 'detect',
+        },
+      });
     }
   }
 
