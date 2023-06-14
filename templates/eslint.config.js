@@ -31,6 +31,7 @@ module.exports = async (args) => {
       },
     });
     if (typescript) {
+      eslintBaseRc.parser = '@typescript-eslint/parser';
       eslintBaseRc.extends.push(
         'plugin:import/typescript',
         'plugin:@typescript-eslint/recommended'
