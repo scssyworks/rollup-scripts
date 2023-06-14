@@ -8,11 +8,9 @@ const {
   ERR_NOTFOUND,
   ERR_ENTRYFILE,
   EXT_REGEX,
-  ERR_ENTRYTYPESCRIPT,
-  ERR_REACT,
   CMD_INIT,
-  CMD_BUILD,
 } = require('../constants');
+const { deps } = require('./getPackage');
 
 const mjsSrc = 'src/index.mjs';
 
@@ -45,50 +43,12 @@ function resolveInputPath(args) {
   }
 }
 
-function warnReact(isTsxFile, args) {
-  const cmd = getCommand(args);
-  const { react } = args;
-  if (isValidCommand(cmd)) {
-    if (!react) {
-      yellow(ERR_REACT(isTsxFile));
-      gray(
-        CMD_BUILD({
-          react: true,
-          typescript: isTsxFile,
-        })
-      );
-    } else if (isTsxFile) {
-      warnTypescript(true, args);
-    }
-  }
-}
-
-function warnTypescript(isReact, args) {
-  const cmd = getCommand(args);
-  const { typescript } = args;
-  if (isValidCommand(cmd)) {
-    if (!typescript) {
-      yellow(ERR_ENTRYTYPESCRIPT);
-      gray(
-        CMD_BUILD({
-          react: isReact,
-          typescript: true,
-        })
-      );
-    }
-  }
-}
-
 module.exports = {
   resolveInputPath,
   resolveInput(args) {
     const { src, ext } = resolveInputPath(args);
-    if (['.jsx', '.tsx'].includes(ext)) {
-      warnReact(ext === '.tsx', args);
-    }
-    if (ext === '.ts') {
-      warnTypescript(null, args);
-    }
-    return resolvePath(src);
+    const react = ['.jsx', '.tsx'].includes(ext) || deps().includes('react');
+    const typescript = ['.ts', '.mts', '.cts', '.tsx'].includes(ext);
+    return { input: resolvePath(src), ext, typescript, react };
   },
 };

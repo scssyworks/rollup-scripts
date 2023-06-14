@@ -24,7 +24,24 @@ function fromPackage(field) {
   return pkg?.[field] ?? null;
 }
 
+/**
+ * Returns list of dependencies
+ * @returns {string[]} List of dependencies
+ */
+function deps(keys = ['dependencies', 'devDependencies']) {
+  const deps = [];
+  for (const key of keys) {
+    for (const dep of Object.keys(fromPackage(key) ?? {})) {
+      if (!deps.includes(dep)) {
+        deps.push(dep);
+      }
+    }
+  }
+  return deps;
+}
+
 module.exports = {
   getPackage,
   fromPackage,
+  deps,
 };
