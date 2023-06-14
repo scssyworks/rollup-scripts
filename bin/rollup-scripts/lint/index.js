@@ -8,6 +8,8 @@ const {
   green,
   red,
   yellow,
+  resolveInput,
+  updateArgs,
 } = require('../../../utils');
 const eslintConfig = require('../../../templates/eslint.config');
 const {
@@ -18,15 +20,17 @@ const {
 } = require('../../../constants');
 
 module.exports = async function lint(args) {
+  const { typescript, react } = resolveInput(args);
+  const finalArgs = updateArgs(args, { typescript, react });
   blue(MSG_LINT);
   timeStart(MSG_LINTED);
   const eslintConfigFile = await check(configTypes.ESLINT);
-  const { verbose, fix, formatter: formatterType } = args;
+  const { verbose, fix, formatter: formatterType } = finalArgs;
   try {
     let errorCount = 0;
     let warningCount = 0;
     let totalFiles = 0;
-    const overrideConfig = await eslintConfig(args);
+    const overrideConfig = await eslintConfig(finalArgs);
     const eslint = new ESLint({
       useEslintrc: !!eslintConfigFile,
       overrideConfig,

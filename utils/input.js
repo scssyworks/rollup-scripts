@@ -49,6 +49,6 @@ module.exports = {
     const { src, ext } = resolveInputPath(args);
     const react = ['.jsx', '.tsx'].includes(ext) || deps().includes('react');
     const typescript = ['.ts', '.mts', '.cts', '.tsx'].includes(ext);
-    return { input: resolvePath(src), ext, typescript, react };
+    return { input: resolvePath(src), src, ext, typescript, react };
   },
 };

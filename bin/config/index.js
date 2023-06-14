@@ -17,6 +17,7 @@ const {
   opts,
   check,
   blue,
+  updateArgs,
 } = require('../../utils');
 const { fileSize } = require('../../plugins');
 const { MSG_BABELRC, configTypes } = require('../../constants');
@@ -66,12 +67,7 @@ const defaultConfig = defineConfig({
 
 module.exports = async (args) => {
   const { input, typescript, react } = resolveInput(args);
-  const finalArgs = Object.assign(
-    {},
-    args,
-    typescript ? { typescript } : {},
-    react ? { react } : {}
-  );
+  const finalArgs = updateArgs(args, { typescript, react });
   const babelFile = await check(configTypes.BABEL);
   const babelrc = !!babelFile;
   if (babelrc) {

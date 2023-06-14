@@ -18,9 +18,10 @@ const {
 const {
   resolvePath,
   blue,
-  resolveInputPath,
   check,
   prettyJSON,
+  resolveInput,
+  updateArgs,
 } = require('../../../utils');
 
 async function getConfig(configType, args) {
@@ -55,6 +56,8 @@ async function generateConfig(args, configType, configFile) {
 }
 
 module.exports = async function init(args) {
+  const { src, typescript, react } = resolveInput(args);
+  const finalArgs = updateArgs(args, { typescript, react });
   blue(MSG_INIT);
   const template = path.join(SCRIPT_ROOT, 'templates', CONFIG_FILE);
   const configFile = resolvePath(CONFIG_FILE);
@@ -62,11 +65,11 @@ module.exports = async function init(args) {
     const configFileContent = await fs.readFile(template, DEFAULT_ENCODING);
     await fs.writeFile(
       configFile,
-      configFileContent.replace(VAR_FILE_PATH, resolveInputPath(args).src),
+      configFileContent.replace(VAR_FILE_PATH, src),
       DEFAULT_ENCODING
     );
     blue(MSG_CONFIG(CONFIG_FILE));
   }
-  await generateConfig(args, configTypes.BABEL, configFiles.BABEL);
-  await generateConfig(args, configTypes.ESLINT, configFiles.ESLINT);
+  await generateConfig(finalArgs, configTypes.BABEL, configFiles.BABEL);
+  await generateConfig(finalArgs, configTypes.ESLINT, configFiles.ESLINT);
 };
