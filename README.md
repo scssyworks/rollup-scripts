@@ -14,12 +14,6 @@ cases, rollup scripts makes it super easy for you to setup configuration.
 ```sh
 # Configure rollup
 npx rollup-scripts init
-# Configure rollup config for typescript
-npx rollup-scripts init --typescript
-# Configure rollup config for react
-npx rollup-scripts init --react
-# Configure rollup config for react+typescript
-npx rollup-scripts init --react --typescript
 ```
 
 # Getting started
@@ -51,7 +45,8 @@ touch src/index.mjs
   "main": "dist/umd/index.js",
   "module": "dist/esm/index.mjs",
   "scripts": {
-    "build": "rollup-scripts build"
+    "build": "rollup-scripts build",
+    "lint": "rollup-scripts lint"
   }
 }
 ```
@@ -64,12 +59,7 @@ Rollup scripts supports compilation for JavaScript, TypeScript and
 React+Typescript projects.
 
 ```sh
-# TypeScript project
-npx rollup-scripts build --typescript
-# React project
-npx rollup-scripts build --react
-# TypeScript + React project
-npx rollup-scripts build --typescript --react
+npx rollup-scripts build
 ```
 
 # Available commands
