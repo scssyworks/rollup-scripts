@@ -12,19 +12,19 @@ const boolConfig = {
 
 const verboseConfig = {
   ...boolConfig,
-  describe: 'Show full error logs',
+  describe: 'Show complete logs',
   alias: 'v',
 };
 
 const typescriptConfig = {
   ...boolConfig,
-  describe: 'Enable typescript compilation',
+  describe: 'Explicitly enable typescript compilation',
   alias: 't',
 };
 
 const reactConfig = {
   ...boolConfig,
-  describe: 'Enable react compilation',
+  describe: 'Explicitly enable react compilation',
   alias: 'r',
 };
 
