@@ -16,18 +16,6 @@ const verboseConfig = {
   alias: 'v',
 };
 
-const typescriptConfig = {
-  ...boolConfig,
-  describe: 'Explicitly enable typescript compilation',
-  alias: 't',
-};
-
-const reactConfig = {
-  ...boolConfig,
-  describe: 'Explicitly enable react compilation',
-  alias: 'r',
-};
-
 yargs(hideBin(process.argv))
   .scriptName(SCRIPT_NAME)
   .usage('$0 <cmd> [args]')
@@ -36,8 +24,6 @@ yargs(hideBin(process.argv))
     'Build JavaScript/TypeScript library',
     (yargs) => {
       return yargs
-        .option('typescript', typescriptConfig)
-        .option('react', reactConfig)
         .option('configFile', {
           default: CONFIG_FILE,
           type: 'string',
@@ -54,10 +40,7 @@ yargs(hideBin(process.argv))
     'init',
     'Setup configuration files',
     (yargs) => {
-      return yargs
-        .option('typescript', typescriptConfig)
-        .option('react', reactConfig)
-        .option('verbose', verboseConfig);
+      return yargs.option('verbose', verboseConfig);
     },
     (args) => {
       init(args);
@@ -78,9 +61,7 @@ yargs(hideBin(process.argv))
           type: 'string',
           default: 'stylish',
           describe: 'Provide a custom formatter',
-        })
-        .option('typescript', typescriptConfig)
-        .option('react', reactConfig);
+        });
     },
     (args) => {
       lint(args);
