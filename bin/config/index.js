@@ -66,8 +66,8 @@ const defaultConfig = defineConfig({
 });
 
 module.exports = async (args) => {
-  const { input, typescript, react } = resolveInput(args);
-  const finalArgs = updateArgs(args, { typescript, react });
+  const { input, typescript, react, preact } = resolveInput(args);
+  const finalArgs = updateArgs(args, { typescript, react, preact });
   const babelFile = await check(configTypes.BABEL);
   const babelrc = !!babelFile;
   if (babelrc) {

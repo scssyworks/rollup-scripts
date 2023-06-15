@@ -1,5 +1,5 @@
 const path = require('node:path');
-const { ROOT, PKG } = require('../constants');
+const { ROOT, PKG, JSX_MODULES, ERR_JSX_MODULE } = require('../constants');
 
 /**
  * Returns package.json configuration
@@ -40,8 +40,17 @@ function deps(keys = ['dependencies', 'devDependencies']) {
   return deps;
 }
 
+function jsxImportSource() {
+  const modules = deps().filter((module) => JSX_MODULES.includes(module));
+  if (modules.length === 1) {
+    return modules[0];
+  }
+  throw new Error(ERR_JSX_MODULE(modules));
+}
+
 module.exports = {
   getPackage,
   fromPackage,
+  jsxImportSource,
   deps,
 };
