@@ -5,9 +5,8 @@ const commonjs = require('@rollup/plugin-commonjs');
 const { babel } = require('@rollup/plugin-babel');
 const terser = require('@rollup/plugin-terser');
 const replace = require('@rollup/plugin-replace');
-const babelConfig = require('./babelConfig');
+const babelConfig = require('../../templates/babel.config');
 const {
-  fromPackage,
   getName,
   resolvePath,
   getOutputFileName,
@@ -16,15 +15,12 @@ const {
   resolveOutputFields,
   externalize,
   opts,
-  checkBabel,
+  check,
   blue,
+  updateArgs,
 } = require('../../utils');
 const { fileSize } = require('../../plugins');
-const {
-  MSG_BABELRC,
-  MSG_BABELRC_NOTFOUND,
-  MSG_CHECKBABEL,
-} = require('../../constants');
+const { MSG_BABELRC, configTypes } = require('../../constants');
 
 const commonOutputConfig = {
   name: getName(),
@@ -66,20 +62,21 @@ const defaultConfig = defineConfig({
       extensions: ['.js', '.ts'],
     }),
   ],
-  external: externalize(
-    fromPackage('dependencies'),
-    fromPackage('peerDependencies')
-  ),
+  external: externalize(),
 });
 
 module.exports = async (args) => {
-  blue(MSG_CHECKBABEL);
-  const babelrc = await checkBabel();
-  blue(babelrc ? MSG_BABELRC : MSG_BABELRC_NOTFOUND);
-  const { configFile } = args;
+  const { input, typescript, react } = resolveInput(args);
+  const finalArgs = updateArgs(args, { typescript, react });
+  const babelFile = await check(configTypes.BABEL);
+  const babelrc = !!babelFile;
+  if (babelrc) {
+    blue(MSG_BABELRC(babelFile));
+  }
+  const { configFile } = finalArgs;
   let configFn;
   let finalConfig = Object.assign(defaultConfig, {
-    input: resolveInput(args),
+    input,
   });
   finalConfig.output = defaultConfig.output.map((outConf) => {
     const isDev = /\.development/.test(outConf.file);
@@ -96,7 +93,7 @@ module.exports = async (args) => {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.es6', '.es'],
       babelHelpers: 'runtime',
       skipPreflightCheck: true,
-      ...(babelrc ? {} : babelConfig(args)),
+      ...(babelrc ? {} : babelConfig(finalArgs)),
     }),
     fileSize()
   );

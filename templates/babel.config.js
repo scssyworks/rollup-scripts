@@ -1,4 +1,4 @@
-const { opts } = require('../../utils');
+const { opts } = require('../utils');
 
 module.exports = ({ typescript, react }) => ({
   presets: [

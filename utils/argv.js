@@ -6,4 +6,12 @@ module.exports = {
   getCommand(argv) {
     return argv._.find((c) => ALL_COMMANDS.includes(c));
   },
+  updateArgs(args, { typescript, react }) {
+    return Object.assign(
+      {},
+      args,
+      typescript ? { typescript } : {},
+      react ? { react } : {}
+    );
+  },
 };

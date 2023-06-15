@@ -1,5 +1,5 @@
 const path = require('node:path');
-const { ROOT } = require('../constants');
+const { ROOT, PKG } = require('../constants');
 
 /**
  * Returns package.json configuration
@@ -8,7 +8,7 @@ const { ROOT } = require('../constants');
  */
 function getPackage() {
   try {
-    return require(path.join(ROOT, 'package.json'));
+    return require(path.join(ROOT, PKG));
   } catch (e) {
     return null;
   }
@@ -24,7 +24,24 @@ function fromPackage(field) {
   return pkg?.[field] ?? null;
 }
 
+/**
+ * Returns list of dependencies
+ * @returns {string[]} List of dependencies
+ */
+function deps(keys = ['dependencies', 'devDependencies']) {
+  const deps = [];
+  for (const key of keys) {
+    for (const dep of Object.keys(fromPackage(key) ?? {})) {
+      if (!deps.includes(dep)) {
+        deps.push(dep);
+      }
+    }
+  }
+  return deps;
+}
+
 module.exports = {
   getPackage,
   fromPackage,
+  deps,
 };

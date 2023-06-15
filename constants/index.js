@@ -3,6 +3,22 @@ const path = require('node:path');
 
 const SCRIPT_NAME = 'rollup-scripts';
 
+const PKG = 'package.json';
+
+const DEFAULT_ENCODING = {
+  encoding: 'utf-8',
+};
+
+const configTypes = {
+  BABEL: 'babel',
+  ESLINT: 'eslintConfig',
+};
+
+const configFiles = {
+  BABEL: '.babelrc',
+  ESLINT: '.eslintrc.json',
+};
+
 const ROOT = fs.realpathSync(process.cwd());
 const SCRIPT_ROOT = path.resolve(__dirname, '../');
 const CONFIG_FILE = 'rs.config.js';
@@ -10,6 +26,8 @@ const OUT = 'dist/umd/output.js';
 
 const EXT_REGEX = /\.(j|mj|cj|t)sx?$/;
 const INDEX_REGEX = /index\.(j|mj|cj|t)sx?$/;
+
+const VAR_FILE_PATH = '$$filePath$$';
 
 const SUPPORTED_BABEL_FILES = [
   /^babel\.config\.(j|mj|cj|ct)s$/,
@@ -19,16 +37,25 @@ const SUPPORTED_BABEL_FILES = [
   /^\.babelrc$/,
 ];
 
+const SUPPORTED_ESLINT_CONFIG_FILES = [
+  /^\.eslintrc\.(j|cj)s$/,
+  /^\.eslintrc\.(y|ya)ml$/,
+  /^\.eslintrc\.json$/,
+];
+
+const MSG_INIT = 'Initializing workspace...';
+const MSG_LINT = 'Linting...';
 const MSG_COMPILE = 'Compiling...';
 const MSG_COMPILED = 'Compiled in';
+const MSG_LINTED = 'Completed in';
+const MSG_LINTER = (totalFiles, errorCount, warningCount) =>
+  `Checked ${totalFiles} files! Found ${errorCount} errors and ${warningCount} warnings.`;
 const MSG_EMITTED = 'Emitted:';
-const MSG_BABELRC = 'Babelrc found!';
-const MSG_BABELRC_NOTFOUND =
-  'Babelrc NOT found. Using default babel configuration...';
-const MSG_CHECKBABEL = 'Checking babelrc...';
+const MSG_BABELRC = (babelrcFile) => `Using "${babelrcFile}"`;
+const MSG_ESLINTRC = (eslintRcFile) => `Using "${eslintRcFile}"`;
 const MSG_CONFIG = (filename) => `Created "${filename}" in project root.`;
 const MSG_CONFIGBABEL = 'Created ".babelrc" in project root.';
-const ERR_CONFIG = (filename) => `"${filename}" already exists!`;
+const MSG_CONFIGESLINT = 'Created ".eslintrc.json" in project root.';
 const ERR_NOTFOUND = 'File not found!';
 const ERR_ENTRYFILE =
   'Warning: Entry file not detected automatically. Run the following command to configure entry file.';
@@ -58,17 +85,26 @@ module.exports = {
   ERR_ENTRYFILE,
   ERR_ENTRYTYPESCRIPT,
   ERR_REACT,
-  ERR_CONFIG,
   SUPPORTED_BABEL_FILES,
+  SUPPORTED_ESLINT_CONFIG_FILES,
   MSG_EMITTED,
   MSG_COMPILE,
   MSG_COMPILED,
   MSG_BABELRC,
-  MSG_BABELRC_NOTFOUND,
-  MSG_CHECKBABEL,
+  MSG_ESLINTRC,
   MSG_CONFIG,
   MSG_CONFIGBABEL,
+  MSG_CONFIGESLINT,
+  MSG_LINT,
+  MSG_LINTED,
+  MSG_LINTER,
+  MSG_INIT,
   CMD_BUILD,
   CMD_INIT,
   SCRIPT_NAME,
+  DEFAULT_ENCODING,
+  VAR_FILE_PATH,
+  configTypes,
+  configFiles,
+  PKG,
 };

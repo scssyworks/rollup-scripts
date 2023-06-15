@@ -3,25 +3,28 @@ const { build, init } = require('./rollup-scripts');
 const yargs = require('yargs');
 const { hideBin } = require('yargs/helpers');
 const { CONFIG_FILE, SCRIPT_NAME } = require('../constants');
+const lint = require('./rollup-scripts/lint');
 
-const verboseConfig = {
+const boolConfig = {
   default: false,
   type: 'boolean',
-  describe: 'Show full error logs',
+};
+
+const verboseConfig = {
+  ...boolConfig,
+  describe: 'Show complete logs',
   alias: 'v',
 };
 
 const typescriptConfig = {
-  default: false,
-  type: 'boolean',
-  describe: 'Enable typescript compilation',
+  ...boolConfig,
+  describe: 'Explicitly enable typescript compilation',
   alias: 't',
 };
 
 const reactConfig = {
-  default: false,
-  type: 'boolean',
-  describe: 'Enable react compilation',
+  ...boolConfig,
+  describe: 'Explicitly enable react compilation',
   alias: 'r',
 };
 
@@ -30,7 +33,7 @@ yargs(hideBin(process.argv))
   .usage('$0 <cmd> [args]')
   .command(
     'build',
-    'Build rollup library',
+    'Build JavaScript/TypeScript library',
     (yargs) => {
       return yargs
         .option('typescript', typescriptConfig)
@@ -49,21 +52,38 @@ yargs(hideBin(process.argv))
   )
   .command(
     'init',
-    'Setup "rs.config.js" file',
+    'Setup configuration files',
     (yargs) => {
       return yargs
-        .option('babelrc', {
-          default: false,
-          type: 'boolean',
-          describe: 'Enable babelrc instead of built-in configuration',
-          alias: 'b',
-        })
         .option('typescript', typescriptConfig)
         .option('react', reactConfig)
         .option('verbose', verboseConfig);
     },
     (args) => {
       init(args);
+    }
+  )
+  .command(
+    'lint',
+    'Lint JS/TS files in your workspace',
+    (yargs) => {
+      return yargs
+        .option('fix', {
+          ...boolConfig,
+          describe: 'Automatically fix lint errors',
+          alias: 'f',
+        })
+        .option('verbose', verboseConfig)
+        .option('formatter', {
+          type: 'string',
+          default: 'stylish',
+          describe: 'Provide a custom formatter',
+        })
+        .option('typescript', typescriptConfig)
+        .option('react', reactConfig);
+    },
+    (args) => {
+      lint(args);
     }
   )
   .demandCommand(

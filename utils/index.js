@@ -10,6 +10,7 @@ module.exports = {
   ...require('./output'),
   ...require('./size'),
   ...require('./externalize'),
-  ...require('./checkBabel'),
+  ...require('./check'),
   ...require('./prettyJSON'),
+  ...require('./array'),
 };
