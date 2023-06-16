@@ -20,8 +20,8 @@ const {
 } = require('../../../constants');
 
 module.exports = async function lint(args) {
-  const { typescript, react } = resolveInput(args);
-  const finalArgs = updateArgs(args, { typescript, react });
+  const { typescript, react, preact } = resolveInput(args);
+  const finalArgs = updateArgs(args, { typescript, react, preact });
   blue(MSG_LINT);
   timeStart(MSG_LINTED);
   const eslintConfigFile = await check(configTypes.ESLINT);

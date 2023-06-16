@@ -21,6 +21,8 @@ const configFiles = {
   ESLINT: '.eslintrc.json',
 };
 
+const JSX_MODULES = ['react', 'preact'];
+
 const ROOT = fs.realpathSync(process.cwd());
 const SCRIPT_ROOT = path.resolve(__dirname, '../');
 const CONFIG_FILE = 'rs.config.js';
@@ -61,14 +63,37 @@ const ERR_NOTFOUND = 'File not found!';
 const ERR_ENTRYFILE =
   'Warning: Entry file not detected automatically. Run the following command to configure entry file.';
 const CMD_INIT = `npx ${SCRIPT_NAME} init`;
+const ERR_JSX_MODULE = (modules) =>
+  `More than one JSX runtime detected ==> ${modules.join(', ')}`;
+
+const ESLINT_DEFAULT_EXTENSIONS = [
+  'eslint:recommended',
+  'plugin:import/recommended',
+];
+
+const ESLINT_TYPSCRIPT_EXTENSIONS = [
+  'plugin:import/typescript',
+  'plugin:@typescript-eslint/recommended',
+];
+
+const ESLINT_REACT_EXTENSIONS = [
+  'plugin:react/recommended',
+  'plugin:react/jsx-runtime',
+  'plugin:jsx-a11y/recommended',
+  'plugin:react-hooks/recommended',
+];
+
+const ESLINT_PREACT_EXTENSIONS = ['preact'];
 
 module.exports = {
   ROOT,
+  JSX_MODULES,
   SCRIPT_ROOT,
   CONFIG_FILE,
   EXT_REGEX,
   INDEX_REGEX,
   OUT,
+  ERR_JSX_MODULE,
   ERR_NOTFOUND,
   ERR_ENTRYFILE,
   SUPPORTED_BABEL_FILES,
@@ -91,4 +116,8 @@ module.exports = {
   configTypes,
   configFiles,
   PKG,
+  ESLINT_DEFAULT_EXTENSIONS,
+  ESLINT_TYPSCRIPT_EXTENSIONS,
+  ESLINT_REACT_EXTENSIONS,
+  ESLINT_PREACT_EXTENSIONS,
 };

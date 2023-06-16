@@ -1,10 +1,17 @@
-const { opts } = require('../utils');
+const { opts, jsxImportSource } = require('../utils');
 
-module.exports = ({ typescript, react }) => ({
+module.exports = ({ typescript, react, preact }) => ({
   presets: [
     '@babel/preset-env',
-    ...opts(react, [
-      ['@babel/preset-react', { runtime: 'automatic', production: true }],
+    ...opts(react || preact, [
+      [
+        '@babel/preset-react',
+        {
+          runtime: 'automatic',
+          production: true,
+          importSource: jsxImportSource(),
+        },
+      ],
     ]),
     ...opts(typescript, [
       [

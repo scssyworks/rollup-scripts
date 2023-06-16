@@ -10,7 +10,7 @@ const {
   EXT_REGEX,
   CMD_INIT,
 } = require('../constants');
-const { deps } = require('./getPackage');
+const { deps, jsxImportSource } = require('./getPackage');
 
 const mjsSrc = 'src/index.mjs';
 
@@ -47,8 +47,10 @@ module.exports = {
   resolveInputPath,
   resolveInput(args) {
     const { src, ext } = resolveInputPath(args);
-    const react = ['.jsx', '.tsx'].includes(ext) || deps().includes('react');
+    const importSource = jsxImportSource();
+    const react = importSource === 'react';
+    const preact = importSource === 'preact';
     const typescript = ['.ts', '.mts', '.cts', '.tsx'].includes(ext);
-    return { input: resolvePath(src), src, ext, typescript, react };
+    return { input: resolvePath(src), src, ext, typescript, react, preact };
   },
 };

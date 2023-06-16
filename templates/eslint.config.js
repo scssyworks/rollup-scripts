@@ -1,9 +1,15 @@
-const { configTypes } = require('../constants');
+const {
+  configTypes,
+  ESLINT_TYPSCRIPT_EXTENSIONS,
+  ESLINT_REACT_EXTENSIONS,
+  ESLINT_DEFAULT_EXTENSIONS,
+  ESLINT_PREACT_EXTENSIONS,
+} = require('../constants');
 const { check, resolvePath } = require('../utils');
 const babelConfig = require('./babel.config');
 
 module.exports = async (args) => {
-  const { typescript, react } = args;
+  const { typescript, react, preact } = args;
   const eslintBaseRc = {
     env: {
       browser: true,
@@ -15,10 +21,10 @@ module.exports = async (args) => {
       allowImportExportEverywhere: true,
       ecmaVersion: 'latest',
     },
-    extends: ['eslint:recommended', 'plugin:import/recommended'],
+    extends: ESLINT_DEFAULT_EXTENSIONS,
   };
 
-  if (typescript || react) {
+  if (typescript || react || preact) {
     const babelFile = await check(configTypes.BABEL);
     const babelrc = !!babelFile;
     eslintBaseRc.parser = '@babel/eslint-parser';
@@ -32,10 +38,7 @@ module.exports = async (args) => {
     });
     if (typescript) {
       eslintBaseRc.parser = '@typescript-eslint/parser';
-      eslintBaseRc.extends.push(
-        'plugin:import/typescript',
-        'plugin:@typescript-eslint/recommended'
-      );
+      eslintBaseRc.extends.push(...ESLINT_TYPSCRIPT_EXTENSIONS);
       eslintBaseRc.settings = {
         'import/resolver': {
           typescript: true,
@@ -44,17 +47,15 @@ module.exports = async (args) => {
       };
     }
     if (react) {
-      eslintBaseRc.extends.push(
-        'plugin:react/recommended',
-        'plugin:react/jsx-runtime',
-        'plugin:jsx-a11y/recommended',
-        'plugin:react-hooks/recommended'
-      );
+      eslintBaseRc.extends.push(...ESLINT_REACT_EXTENSIONS);
       eslintBaseRc.settings = Object.assign(eslintBaseRc.settings ?? {}, {
         react: {
           version: 'detect',
         },
       });
+    }
+    if (preact) {
+      eslintBaseRc.extends.push(...ESLINT_PREACT_EXTENSIONS);
     }
   }
 
