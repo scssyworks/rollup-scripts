@@ -37,7 +37,7 @@ npm i -D --save-exact rollup-scripts
 3. If you are using a forked repository and want to test your changes:
 
 ```sh
-npm i -D --save-exact github:<your username>/rollup-scripts
+npm i -D --save-exact github:{your username}/rollup-scripts
 ```
 
 4. Create `src` folder and an entry file `index.mjs` with a valid `JavaScript`
