@@ -16,6 +16,9 @@ cases, rollup scripts makes it super easy for you to setup configuration.
 npx rollup-scripts init
 ```
 
+# Roadmap
+https://github.com/scssyworks/rollup-scripts/blob/main/ROADMAP.md
+
 # Getting started
 
 1. Create an npm project
@@ -55,8 +58,7 @@ touch src/index.mjs
 
 ## NOTE:
 
-Rollup scripts supports compilation for JavaScript, TypeScript and
-React+Typescript projects.
+Rollup scripts supports compilation for `JavaScript`, `TypeScript`, `React` and `Preact` projects.
 
 ```sh
 npx rollup-scripts build
@@ -72,6 +74,5 @@ npx rollup-scripts --help
 npx rollup-scripts build --help
 ```
 
-## This package is currently experimental and in active development.
-
-## Version 0.0.x is unstable and should be used only for trial purposes.
+## This package is currently experimental and in active development. Version 0.0.x is unstable and should be used only for trial purposes.
+Raise a defect here: https://github.com/scssyworks/rollup-scripts/issues
