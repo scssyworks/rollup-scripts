@@ -17,6 +17,7 @@ npx rollup-scripts init
 ```
 
 # Roadmap
+
 https://github.com/scssyworks/rollup-scripts/blob/main/ROADMAP.md
 
 # Getting started
@@ -33,7 +34,13 @@ npm init
 npm i -D --save-exact rollup-scripts
 ```
 
-3. Create `src` folder and an entry file `index.mjs` with a valid `JavaScript`
+3. If you are using a forked repository and want to test out your changes:
+
+```sh
+npm i -D --save-exact github:<your username>/rollup-scripts
+```
+
+4. Create `src` folder and an entry file `index.mjs` with a valid `JavaScript`
    code.
 
 ```sh
@@ -41,7 +48,7 @@ mkdir src
 touch src/index.mjs
 ```
 
-4. Update `package.json` file as follows
+5. Update `package.json` file as follows
 
 ```json
 {
@@ -54,11 +61,12 @@ touch src/index.mjs
 }
 ```
 
-5. Run command `npm run build` to compile the code.
+6. Run command `npm run build` to compile the code.
 
 ## NOTE:
 
-Rollup scripts supports compilation for `JavaScript`, `TypeScript`, `React` and `Preact` projects.
+Rollup scripts supports compilation for `JavaScript`, `TypeScript`, `React` and
+`Preact` projects.
 
 ```sh
 npx rollup-scripts build
@@ -75,4 +83,5 @@ npx rollup-scripts build --help
 ```
 
 ## This package is currently experimental and in active development. Version 0.0.x is unstable and should be used only for trial purposes.
+
 Raise a defect here: https://github.com/scssyworks/rollup-scripts/issues
