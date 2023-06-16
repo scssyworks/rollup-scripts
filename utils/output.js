@@ -4,10 +4,10 @@ const { resolvePath } = require('./resolvePath');
 
 module.exports = {
   resolveOutputFields() {
-    const main = resolvePath(fromPackage('main') ?? OUT);
+    const main = fromPackage('main') ?? OUT;
     const module = resolvePath(
       fromPackage('module') ?? main.replace(EXT_REGEX, '.mjs')
     );
-    return { main, module };
+    return { main: resolvePath(main), module };
   },
 };
