@@ -34,7 +34,7 @@ npm init
 npm i -D --save-exact rollup-scripts
 ```
 
-3. If you are using a forked repository and want to test out your changes:
+3. If you are using a forked repository and want to test your changes:
 
 ```sh
 npm i -D --save-exact github:<your username>/rollup-scripts
