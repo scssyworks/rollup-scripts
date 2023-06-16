@@ -10,4 +10,7 @@ module.exports = {
   ...require('./output'),
   ...require('./size'),
   ...require('./externalize'),
+  ...require('./check'),
+  ...require('./prettyJSON'),
+  ...require('./array'),
 };

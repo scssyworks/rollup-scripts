@@ -5,9 +5,8 @@ const commonjs = require('@rollup/plugin-commonjs');
 const { babel } = require('@rollup/plugin-babel');
 const terser = require('@rollup/plugin-terser');
 const replace = require('@rollup/plugin-replace');
-const babelConfig = require('./babelConfig');
+const babelConfig = require('../../templates/babel.config');
 const {
-  fromPackage,
   getName,
   resolvePath,
   getOutputFileName,
@@ -16,8 +15,12 @@ const {
   resolveOutputFields,
   externalize,
   opts,
+  check,
+  blue,
+  updateArgs,
 } = require('../../utils');
 const { fileSize } = require('../../plugins');
+const { MSG_BABELRC, configTypes } = require('../../constants');
 
 const commonOutputConfig = {
   name: getName(),
@@ -59,17 +62,21 @@ const defaultConfig = defineConfig({
       extensions: ['.js', '.ts'],
     }),
   ],
-  external: externalize(
-    fromPackage('dependencies'),
-    fromPackage('peerDependencies')
-  ),
+  external: externalize(),
 });
 
 module.exports = async (args) => {
-  const { configFile } = args;
+  const { input, typescript, react, preact } = resolveInput(args);
+  const finalArgs = updateArgs(args, { typescript, react, preact });
+  const babelFile = await check(configTypes.BABEL);
+  const babelrc = !!babelFile;
+  if (babelrc) {
+    blue(MSG_BABELRC(babelFile));
+  }
+  const { configFile } = finalArgs;
   let configFn;
   let finalConfig = Object.assign(defaultConfig, {
-    input: resolveInput(args),
+    input,
   });
   finalConfig.output = defaultConfig.output.map((outConf) => {
     const isDev = /\.development/.test(outConf.file);
@@ -81,12 +88,12 @@ module.exports = async (args) => {
   });
   finalConfig.plugins.push(
     babel({
-      babelrc: false,
+      babelrc,
       exclude: 'node_modules/**',
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.es6', '.es'],
       babelHelpers: 'runtime',
       skipPreflightCheck: true,
-      ...babelConfig(args),
+      ...(babelrc ? {} : babelConfig(finalArgs)),
     }),
     fileSize()
   );

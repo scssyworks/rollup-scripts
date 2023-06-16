@@ -13,6 +13,6 @@ const { resolvePath } = require('rollup-scripts');
 module.exports = function config(baseConfig) {
   return defineConfig({
     ...baseConfig,
-    input: resolvePath('src/index.mjs'),
+    input: resolvePath('$$filePath$$'),
   });
 };

@@ -2,34 +2,35 @@
 const { build, init } = require('./rollup-scripts');
 const yargs = require('yargs');
 const { hideBin } = require('yargs/helpers');
-const { CONFIG_FILE } = require('../constants');
+const { CONFIG_FILE, SCRIPT_NAME } = require('../constants');
+const lint = require('./rollup-scripts/lint');
+
+const boolConfig = {
+  default: false,
+  type: 'boolean',
+};
+
+const verboseConfig = {
+  ...boolConfig,
+  describe: 'Show complete logs',
+  alias: 'v',
+};
 
 yargs(hideBin(process.argv))
-  .scriptName('rollup-scripts')
+  .scriptName(SCRIPT_NAME)
   .usage('$0 <cmd> [args]')
   .command(
     'build',
-    'Build rollup library',
+    'Build JavaScript/TypeScript library',
     (yargs) => {
       return yargs
-        .option('typescript', {
-          default: false,
-          type: 'boolean',
-          describe: 'Enable typescript compilation',
-          alias: 't',
-        })
-        .option('react', {
-          default: false,
-          type: 'boolean',
-          describe: 'Enable react compilation',
-          alias: 'r',
-        })
         .option('configFile', {
           default: CONFIG_FILE,
           type: 'string',
           describe: 'Provide custom rollup configuration',
           alias: 'c',
-        });
+        })
+        .option('verbose', verboseConfig);
     },
     (args) => {
       build(args);
@@ -37,10 +38,33 @@ yargs(hideBin(process.argv))
   )
   .command(
     'init',
-    'Setup "rs.config.js" file',
-    (yargs) => yargs,
-    () => {
-      init();
+    'Setup configuration files',
+    (yargs) => {
+      return yargs.option('verbose', verboseConfig);
+    },
+    (args) => {
+      init(args);
+    }
+  )
+  .command(
+    'lint',
+    'Lint JS/TS files in your workspace',
+    (yargs) => {
+      return yargs
+        .option('fix', {
+          ...boolConfig,
+          describe: 'Automatically fix lint errors',
+          alias: 'f',
+        })
+        .option('verbose', verboseConfig)
+        .option('formatter', {
+          type: 'string',
+          default: 'stylish',
+          describe: 'Provide a custom formatter',
+        });
+    },
+    (args) => {
+      lint(args);
     }
   )
   .demandCommand(

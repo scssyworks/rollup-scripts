@@ -8,67 +8,49 @@ const {
   ERR_NOTFOUND,
   ERR_ENTRYFILE,
   EXT_REGEX,
-  ERR_ENTRYTYPESCRIPT,
-  ERR_REACT,
+  CMD_INIT,
 } = require('../constants');
+const { deps, jsxImportSource } = require('./getPackage');
 
-const mjsSrc = resolvePath('src/index.mjs');
+const mjsSrc = 'src/index.mjs';
 
 function isValidCommand(cmd) {
   return EXEC_COMMANDS.includes(cmd);
 }
 
-function warnReact(isTsxFile, args) {
+function resolveInputPath(args) {
   const cmd = getCommand(args);
-  const { react } = args;
-  if (isValidCommand(cmd)) {
-    if (!react) {
-      console.log(yellow(ERR_REACT(isTsxFile)));
-      console.log(
-        gray(`rollup-scripts build --react${isTsxFile ? ' --typescript' : ''}`)
-      );
-    } else if (isTsxFile) {
-      warnTypescript(' --react', args);
+  const { verbose } = args;
+  try {
+    const srcFiles = fs.readdirSync(resolvePath('src'));
+    if (srcFiles.length) {
+      const entryFile = srcFiles.find((file) => INDEX_REGEX.test(file));
+      if (entryFile) {
+        const [ext] = entryFile.match(EXT_REGEX);
+        return { src: path.join('src', entryFile), ext };
+      }
     }
-  }
-}
-
-function warnTypescript(opt, args) {
-  const cmd = getCommand(args);
-  const { typescript } = args;
-  if (isValidCommand(cmd)) {
-    if (!typescript) {
-      console.log(yellow(ERR_ENTRYTYPESCRIPT));
-      console.log(gray(`rollup-scripts build --typescript${opt ? opt : ''}`));
+    throw new Error(ERR_NOTFOUND);
+  } catch (e) {
+    if (isValidCommand(cmd)) {
+      yellow(ERR_ENTRYFILE);
+      gray(CMD_INIT);
     }
+    if (verbose) {
+      console.error(e);
+    }
+    return { src: mjsSrc, ext: '.mjs' };
   }
 }
 
 module.exports = {
+  resolveInputPath,
   resolveInput(args) {
-    const cmd = getCommand(args);
-    try {
-      const srcFiles = fs.readdirSync(resolvePath('src'));
-      if (srcFiles.length) {
-        const entryFile = srcFiles.find((file) => INDEX_REGEX.test(file));
-        if (entryFile) {
-          const [ext] = entryFile.match(EXT_REGEX);
-          if (['.jsx', '.tsx'].includes(ext)) {
-            warnReact(ext === '.tsx', args);
-          }
-          if (ext === '.ts') {
-            warnTypescript(null, args);
-          }
-          return resolvePath(path.join('src', entryFile));
-        }
-      }
-      throw new Error(ERR_NOTFOUND);
-    } catch (e) {
-      if (isValidCommand(cmd)) {
-        console.log(yellow(ERR_ENTRYFILE));
-        console.log(gray('npx rollup-scripts init'));
-      }
-      return mjsSrc;
-    }
+    const { src, ext } = resolveInputPath(args);
+    const importSource = jsxImportSource();
+    const react = importSource === 'react';
+    const preact = importSource === 'preact';
+    const typescript = ['.ts', '.mts', '.cts', '.tsx'].includes(ext);
+    return { input: resolvePath(src), src, ext, typescript, react, preact };
   },
 };

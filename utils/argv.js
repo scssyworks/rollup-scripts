@@ -6,4 +6,7 @@ module.exports = {
   getCommand(argv) {
     return argv._.find((c) => ALL_COMMANDS.includes(c));
   },
+  updateArgs(args, additionalFlags) {
+    return Object.assign({}, args, additionalFlags);
+  },
 };
