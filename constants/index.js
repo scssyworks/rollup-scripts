@@ -28,8 +28,8 @@ const SCRIPT_ROOT = path.resolve(__dirname, '../');
 const CONFIG_FILE = 'rs.config.js';
 const OUT = 'dist/umd/output.js';
 
-const EXT_REGEX = /\.(j|mj|cj|t)sx?$/;
-const INDEX_REGEX = /index\.(j|mj|cj|t)sx?$/;
+const EXT_REGEX = /\.(j|mj|cj|t|mt|ct)sx?$/;
+const INDEX_REGEX = /index\.(j|mj|cj|t|mt|ct)sx?$/;
 
 const VAR_FILE_PATH = '$$filePath$$';
 
@@ -62,6 +62,8 @@ const MSG_CONFIGESLINT = `${PREFIX}".eslintrc.json"`;
 const ERR_NOTFOUND = 'File not found!';
 const ERR_ENTRYFILE =
   'Warning: Entry file not detected automatically. Run the following command to configure entry file.';
+const ERR_OUTPUTFILE =
+  'Warning: Both "main" and "module" fields are same. Rollup scripts will attempt to make modifications to avoid overriding output files.';
 const CMD_INIT = `npx ${SCRIPT_NAME} init`;
 const ERR_JSX_MODULE = (modules) =>
   `More than one JSX runtime detected ==> ${modules.join(', ')}`;
@@ -96,6 +98,7 @@ module.exports = {
   ERR_JSX_MODULE,
   ERR_NOTFOUND,
   ERR_ENTRYFILE,
+  ERR_OUTPUTFILE,
   SUPPORTED_BABEL_FILES,
   SUPPORTED_ESLINT_CONFIG_FILES,
   MSG_EMITTED,
