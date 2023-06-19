@@ -6,14 +6,12 @@ const { yellow } = require('./colors');
 module.exports = {
   resolveOutputFields() {
     let main = fromPackage('main') ?? OUT;
-    let mod = resolvePath(
-      fromPackage('module') ?? main.replace(EXT_REGEX, '.mjs')
-    );
+    let mod = fromPackage('module') ?? main.replace(EXT_REGEX, '.mjs');
     if (main === mod) {
       yellow(ERR_OUTPUTFILE);
       main = main.replace(EXT_REGEX, '.js');
       mod = mod.replace(EXT_REGEX, '.mjs');
     }
-    return { main: resolvePath(main), module: mod };
+    return { main: resolvePath(main), module: resolvePath(mod) };
   },
 };
