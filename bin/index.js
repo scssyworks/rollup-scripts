@@ -4,6 +4,7 @@ const yargs = require('yargs');
 const { hideBin } = require('yargs/helpers');
 const { CONFIG_FILE, SCRIPT_NAME } = require('../constants');
 const lint = require('./rollup-scripts/lint');
+const test = require('./rollup-scripts/test');
 
 const boolConfig = {
   default: false,
@@ -14,6 +15,12 @@ const verboseConfig = {
   ...boolConfig,
   describe: 'Show complete logs',
   alias: 'v',
+};
+
+const silentConfig = {
+  ...boolConfig,
+  describe: 'Suppress rollup scripts output logs',
+  alias: 's',
 };
 
 yargs(hideBin(process.argv))
@@ -30,6 +37,7 @@ yargs(hideBin(process.argv))
           describe: 'Provide custom rollup configuration',
           alias: 'c',
         })
+        .option('silent', silentConfig)
         .option('verbose', verboseConfig);
     },
     (args) => {
@@ -40,7 +48,9 @@ yargs(hideBin(process.argv))
     'init',
     'Setup configuration files',
     (yargs) => {
-      return yargs.option('verbose', verboseConfig);
+      return yargs
+        .option('silent', silentConfig)
+        .option('verbose', verboseConfig);
     },
     (args) => {
       init(args);
@@ -56,6 +66,7 @@ yargs(hideBin(process.argv))
           describe: 'Automatically fix lint errors',
           alias: 'f',
         })
+        .option('silent', silentConfig)
         .option('verbose', verboseConfig)
         .option('formatter', {
           type: 'string',
@@ -65,6 +76,14 @@ yargs(hideBin(process.argv))
     },
     (args) => {
       lint(args);
+    }
+  )
+  .command(
+    'test',
+    'Test JS/TS files in your workspace',
+    (yargs) => yargs,
+    (args) => {
+      test(args);
     }
   )
   .demandCommand(
