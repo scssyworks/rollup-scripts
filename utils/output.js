@@ -1,13 +1,19 @@
-const { EXT_REGEX, OUT } = require('../constants');
+const { EXT_REGEX, OUT, ERR_OUTPUTFILE } = require('../constants');
 const { fromPackage } = require('./getPackage');
 const { resolvePath } = require('./resolvePath');
+const { yellow } = require('./colors');
 
 module.exports = {
   resolveOutputFields() {
-    const main = fromPackage('main') ?? OUT;
-    const module = resolvePath(
+    let main = fromPackage('main') ?? OUT;
+    let mod = resolvePath(
       fromPackage('module') ?? main.replace(EXT_REGEX, '.mjs')
     );
-    return { main: resolvePath(main), module };
+    if (main === mod) {
+      yellow(ERR_OUTPUTFILE);
+      main = main.replace(EXT_REGEX, '.js');
+      mod = mod.replace(EXT_REGEX, '.mjs');
+    }
+    return { main: resolvePath(main), module: mod };
   },
 };
