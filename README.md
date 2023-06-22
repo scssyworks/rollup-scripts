@@ -18,6 +18,9 @@ npx rollup-scripts init
 
 # Roadmap
 
+<<<<<<< HEAD
+
+======= >>>>>>> b01b096 (Update README.md)
 https://github.com/scssyworks/rollup-scripts/blob/main/ROADMAP.md
 
 # Getting started
@@ -84,4 +87,7 @@ npx rollup-scripts build --help
 
 ## This package is currently experimental and in active development. Version 0.0.x is unstable and should be used only for trial purposes.
 
-Raise a defect here: https://github.com/scssyworks/rollup-scripts/issues
+<<<<<<< HEAD
+
+======= >>>>>>> b01b096 (Update README.md) Raise a defect here:
+https://github.com/scssyworks/rollup-scripts/issues
