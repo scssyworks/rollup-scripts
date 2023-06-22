@@ -1,8 +1,12 @@
 const { deps } = require('./getPackage');
 
 module.exports = {
-  externalize() {
-    const allDeps = deps(['dependencies', 'peerDependencies']);
-    return allDeps.map((module) => new RegExp(`^${module}`));
+  /**
+   * Creates an external connfiguration
+   * @param {string[]} keys Package.json keys
+   * @returns {RegExp[]}
+   */
+  externalize(keys = ['dependencies', 'peerDependencies']) {
+    return deps(keys).map((module) => new RegExp(`^${module}`));
   },
 };

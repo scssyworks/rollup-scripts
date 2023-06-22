@@ -1,9 +1,10 @@
 const path = require('node:path');
 const { ROOT } = require('../constants');
-const { green, calculateSize, yellow } = require('../utils');
+const { calculateSize, getLogger } = require('../utils');
 
 module.exports = {
-  fileSize() {
+  fileSize(args, lgr) {
+    const logger = getLogger(args, lgr);
     return {
       name: 'fileSize',
       writeBundle: {
@@ -16,7 +17,7 @@ module.exports = {
               const relativePath = path.relative(ROOT, actualPath);
               const fileType = bundle[name].type;
               const fileSize = await calculateSize(actualPath);
-              green(`[${fileType}] → ${relativePath}`, fileSize);
+              logger.success(`[${fileType}] → ${relativePath}`, fileSize);
             }
           }
         },

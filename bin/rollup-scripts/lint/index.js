@@ -2,14 +2,9 @@ const { ESLint } = require('eslint');
 const {
   check,
   resolvePath,
-  blue,
-  timeStart,
-  timeEnd,
-  green,
-  red,
-  yellow,
   resolveInput,
   updateArgs,
+  getLogger,
 } = require('../../../utils');
 const eslintConfig = require('../../../templates/eslint.config');
 const {
@@ -20,12 +15,13 @@ const {
 } = require('../../../constants');
 
 module.exports = async function lint(args) {
+  const logger = getLogger(args);
   const { typescript, react, preact } = resolveInput(args);
   const finalArgs = updateArgs(args, { typescript, react, preact });
-  blue(MSG_LINT);
-  timeStart(MSG_LINTED);
+  logger.log(MSG_LINT);
+  logger.timeStart(MSG_LINTED);
   const eslintConfigFile = await check(configTypes.ESLINT);
-  const { verbose, fix, formatter: formatterType } = finalArgs;
+  const { fix, formatter: formatterType } = finalArgs;
   try {
     let errorCount = 0;
     let warningCount = 0;
@@ -45,19 +41,17 @@ module.exports = async function lint(args) {
     const formatter = await eslint.loadFormatter(formatterType);
     const resultText = formatter.format(results);
     if (errorCount > 0) {
-      red(MSG_LINTER(totalFiles, errorCount, warningCount));
+      logger.error(MSG_LINTER(totalFiles, errorCount, warningCount));
     } else if (warningCount > 0) {
-      yellow(MSG_LINTER(totalFiles, errorCount, warningCount));
+      logger.warn(MSG_LINTER(totalFiles, errorCount, warningCount));
     } else {
-      green(MSG_LINTER(totalFiles, errorCount, warningCount));
+      logger.success(MSG_LINTER(totalFiles, errorCount, warningCount));
     }
 
     console.log(resultText);
   } catch (e) {
-    if (verbose) {
-      console.error(e);
-    }
+    logger.verbose(e);
     process.exit(1);
   }
-  timeEnd(MSG_LINTED);
+  logger.timeEnd(MSG_LINTED);
 };

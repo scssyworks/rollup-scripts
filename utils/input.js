@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { getCommand, EXEC_COMMANDS } = require('./argv');
-const { yellow, gray } = require('./colors');
+const { getLogger } = require('./colors');
 const { resolvePath } = require('./resolvePath');
 const {
   INDEX_REGEX,
@@ -10,7 +10,7 @@ const {
   EXT_REGEX,
   CMD_INIT,
 } = require('../constants');
-const { deps, jsxImportSource } = require('./getPackage');
+const { jsxImportSource } = require('./getPackage');
 
 const mjsSrc = 'src/index.mjs';
 
@@ -18,9 +18,9 @@ function isValidCommand(cmd) {
   return EXEC_COMMANDS.includes(cmd);
 }
 
-function resolveInputPath(args) {
+function resolveInputPath(args, lgr) {
+  const logger = getLogger(args, lgr);
   const cmd = getCommand(args);
-  const { verbose } = args;
   try {
     const srcFiles = fs.readdirSync(resolvePath('src'));
     if (srcFiles.length) {
@@ -33,20 +33,17 @@ function resolveInputPath(args) {
     throw new Error(ERR_NOTFOUND);
   } catch (e) {
     if (isValidCommand(cmd)) {
-      yellow(ERR_ENTRYFILE);
-      gray(CMD_INIT);
+      logger.warn(ERR_ENTRYFILE);
+      logger.muted(CMD_INIT);
     }
-    if (verbose) {
-      console.error(e);
-    }
+    logger.verbose(e);
     return { src: mjsSrc, ext: '.mjs' };
   }
 }
 
 module.exports = {
-  resolveInputPath,
-  resolveInput(args) {
-    const { src, ext } = resolveInputPath(args);
+  resolveInput(args, lgr) {
+    const { src, ext } = resolveInputPath(args, lgr);
     const importSource = jsxImportSource();
     const react = importSource === 'react';
     const preact = importSource === 'preact';

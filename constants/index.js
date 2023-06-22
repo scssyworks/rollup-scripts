@@ -33,6 +33,8 @@ const INDEX_REGEX = /index\.(j|mj|cj|t|mt|ct)sx?$/;
 
 const VAR_FILE_PATH = '$$filePath$$';
 
+const DEV = /\.development/;
+
 const SUPPORTED_BABEL_FILES = [
   /^babel\.config\.(j|mj|cj|ct)s$/,
   /^babel\.config\.json$/,
@@ -62,8 +64,8 @@ const MSG_CONFIGESLINT = `${PREFIX}".eslintrc.json"`;
 const ERR_NOTFOUND = 'File not found!';
 const ERR_ENTRYFILE =
   'Warning: Entry file not detected automatically. Run the following command to configure entry file.';
-const ERR_OUTPUTFILE =
-  'Warning: Both "main" and "module" fields are same. Rollup scripts will attempt to make modifications to avoid overriding output files.';
+const ERR_SILENT_VERBOSE =
+  'Warning: Verbose option is currently enabled. Silent option will be ignored!';
 const CMD_INIT = `npx ${SCRIPT_NAME} init`;
 const ERR_JSX_MODULE = (modules) =>
   `More than one JSX runtime detected ==> ${modules.join(', ')}`;
@@ -88,6 +90,7 @@ const ESLINT_REACT_EXTENSIONS = [
 const ESLINT_PREACT_EXTENSIONS = ['preact'];
 
 module.exports = {
+  DEV,
   ROOT,
   JSX_MODULES,
   SCRIPT_ROOT,
@@ -98,7 +101,7 @@ module.exports = {
   ERR_JSX_MODULE,
   ERR_NOTFOUND,
   ERR_ENTRYFILE,
-  ERR_OUTPUTFILE,
+  ERR_SILENT_VERBOSE,
   SUPPORTED_BABEL_FILES,
   SUPPORTED_ESLINT_CONFIG_FILES,
   MSG_EMITTED,

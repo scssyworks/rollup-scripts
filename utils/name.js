@@ -2,18 +2,9 @@ const { EXT_REGEX } = require('../constants');
 const { fromPackage } = require('./getPackage');
 
 function toCamelCase(name) {
-  //@TODO: Re-visit to optimize this algorithm
-  const nameParts = name.toLowerCase().split('-');
-  if (nameParts.length === 1) {
-    return nameParts[0];
-  }
-  const modifiedParts = nameParts.map((part, index) => {
-    if (index > 0) {
-      return `${part.charAt(0).toUpperCase()}${part.substring(1)}`;
-    }
-    return part;
+  return name.toLowerCase().replace(/-(\w)/g, (_, letter) => {
+    return letter.toUpperCase();
   });
-  return modifiedParts.join('');
 }
 
 module.exports = {
