@@ -8,7 +8,7 @@ module.exports = ({ typescript, react, preact }) => ({
         '@babel/preset-react',
         {
           runtime: 'automatic',
-          production: true,
+          production: process.env.NODE_ENV === 'production',
           importSource: jsxImportSource(),
         },
       ],

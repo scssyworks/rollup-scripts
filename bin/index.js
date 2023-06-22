@@ -4,7 +4,6 @@ const yargs = require('yargs');
 const { hideBin } = require('yargs/helpers');
 const { CONFIG_FILE, SCRIPT_NAME } = require('../constants');
 const lint = require('./rollup-scripts/lint');
-const test = require('./rollup-scripts/test');
 
 const boolConfig = {
   default: false,
@@ -23,6 +22,9 @@ const silentConfig = {
   alias: 's',
 };
 
+const addCommonOptions = (yargs) =>
+  yargs.option('silent', silentConfig).option('verbose', verboseConfig);
+
 yargs(hideBin(process.argv))
   .scriptName(SCRIPT_NAME)
   .usage('$0 <cmd> [args]')
@@ -30,15 +32,12 @@ yargs(hideBin(process.argv))
     'build',
     'Build JavaScript/TypeScript library',
     (yargs) => {
-      return yargs
-        .option('configFile', {
-          default: CONFIG_FILE,
-          type: 'string',
-          describe: 'Provide custom rollup configuration',
-          alias: 'c',
-        })
-        .option('silent', silentConfig)
-        .option('verbose', verboseConfig);
+      return addCommonOptions(yargs).option('configFile', {
+        default: CONFIG_FILE,
+        type: 'string',
+        describe: 'Provide custom rollup configuration',
+        alias: 'c',
+      });
     },
     (args) => {
       build(args);
@@ -48,9 +47,7 @@ yargs(hideBin(process.argv))
     'init',
     'Setup configuration files',
     (yargs) => {
-      return yargs
-        .option('silent', silentConfig)
-        .option('verbose', verboseConfig);
+      return addCommonOptions(yargs);
     },
     (args) => {
       init(args);
@@ -60,14 +57,12 @@ yargs(hideBin(process.argv))
     'lint',
     'Lint JS/TS files in your workspace',
     (yargs) => {
-      return yargs
+      return addCommonOptions(yargs)
         .option('fix', {
           ...boolConfig,
           describe: 'Automatically fix lint errors',
           alias: 'f',
         })
-        .option('silent', silentConfig)
-        .option('verbose', verboseConfig)
         .option('formatter', {
           type: 'string',
           default: 'stylish',
@@ -76,14 +71,6 @@ yargs(hideBin(process.argv))
     },
     (args) => {
       lint(args);
-    }
-  )
-  .command(
-    'test',
-    'Test JS/TS files in your workspace',
-    (yargs) => yargs,
-    (args) => {
-      test(args);
     }
   )
   .demandCommand(

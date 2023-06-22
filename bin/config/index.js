@@ -16,11 +16,11 @@ const {
   externalize,
   opts,
   check,
-  blue,
   updateArgs,
+  getLogger,
 } = require('../../utils');
 const { fileSize } = require('../../plugins');
-const { MSG_BABELRC, configTypes } = require('../../constants');
+const { MSG_BABELRC, configTypes, DEV } = require('../../constants');
 
 const commonOutputConfig = {
   name: getName(),
@@ -65,13 +65,14 @@ const defaultConfig = defineConfig({
   external: externalize(),
 });
 
-module.exports = async (args) => {
+module.exports = async (args, lgr) => {
+  const logger = getLogger(args, lgr);
   const { input, typescript, react, preact } = resolveInput(args);
   const finalArgs = updateArgs(args, { typescript, react, preact });
   const babelFile = await check(configTypes.BABEL);
   const babelrc = !!babelFile;
   if (babelrc) {
-    blue(MSG_BABELRC(babelFile));
+    logger.log(MSG_BABELRC(babelFile));
   }
   const { configFile } = finalArgs;
   let configFn;
@@ -79,7 +80,7 @@ module.exports = async (args) => {
     input,
   });
   finalConfig.output = defaultConfig.output.map((outConf) => {
-    const isDev = /\.development/.test(outConf.file);
+    const isDev = DEV.test(outConf.file);
     Object.assign(outConf, commonOutputConfig, {
       sourcemap: isDev,
       plugins: opts(!isDev, [terser()]),
@@ -95,14 +96,15 @@ module.exports = async (args) => {
       skipPreflightCheck: true,
       ...(babelrc ? {} : babelConfig(finalArgs)),
     }),
-    fileSize()
+    fileSize(args, logger)
   );
   try {
     configFn = require(resolvePath(configFile));
-  } catch (e) {}
-
-  if (typeof configFn === 'function') {
-    finalConfig = await Promise.resolve(configFn(defaultConfig));
+    if (typeof configFn === 'function') {
+      finalConfig = await Promise.resolve(configFn(defaultConfig));
+    }
+  } catch (e) {
+    logger.verbose(e);
   }
   return finalConfig;
 };

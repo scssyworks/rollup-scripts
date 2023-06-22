@@ -17,11 +17,11 @@ const {
 } = require('../../../constants');
 const {
   resolvePath,
-  blue,
   check,
   prettyJSON,
   resolveInput,
   updateArgs,
+  getLogger,
 } = require('../../../utils');
 
 async function getConfig(configType, args) {
@@ -42,7 +42,8 @@ function getMessage(configType) {
   }
 }
 
-async function generateConfig(args, configType, configFile) {
+async function generateConfig(args, configType, configFile, lgr) {
+  const logger = getLogger(args, lgr);
   const hasBabel = await check(configType);
   if (!hasBabel) {
     const conf = await getConfig(configType, args);
@@ -51,14 +52,15 @@ async function generateConfig(args, configType, configFile) {
       prettyJSON(conf),
       DEFAULT_ENCODING
     );
-    blue(getMessage(configType));
+    logger.log(getMessage(configType));
   }
 }
 
 module.exports = async function init(args) {
+  const logger = getLogger(args);
   const { src, typescript, react, preact } = resolveInput(args);
   const finalArgs = updateArgs(args, { typescript, react, preact });
-  blue(MSG_INIT);
+  logger.log(MSG_INIT);
   const template = path.join(SCRIPT_ROOT, 'templates', CONFIG_FILE);
   const configFile = resolvePath(CONFIG_FILE);
   if (!existsSync(configFile)) {
@@ -68,8 +70,13 @@ module.exports = async function init(args) {
       configFileContent.replace(VAR_FILE_PATH, src),
       DEFAULT_ENCODING
     );
-    blue(MSG_CONFIG(CONFIG_FILE));
+    logger.log(MSG_CONFIG(CONFIG_FILE));
   }
-  await generateConfig(finalArgs, configTypes.BABEL, configFiles.BABEL);
-  await generateConfig(finalArgs, configTypes.ESLINT, configFiles.ESLINT);
+  await generateConfig(finalArgs, configTypes.BABEL, configFiles.BABEL, logger);
+  await generateConfig(
+    finalArgs,
+    configTypes.ESLINT,
+    configFiles.ESLINT,
+    logger
+  );
 };
