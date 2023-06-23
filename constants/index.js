@@ -25,7 +25,7 @@ const JSX_MODULES = ['react', 'preact'];
 
 const ROOT = fs.realpathSync(process.cwd());
 const SCRIPT_ROOT = path.resolve(__dirname, '../');
-const CONFIG_FILE = 'rs.config.js';
+const CONFIG_FILE = 'rsconfig.js';
 const OUT = 'dist/umd/output.js';
 
 const EXT_REGEX = /\.(j|mj|cj|t|mt|ct)sx?$/;

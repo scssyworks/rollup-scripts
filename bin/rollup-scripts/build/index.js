@@ -21,7 +21,7 @@ module.exports = async function build(args) {
   logger.log(MSG_COMPILE);
   logger.timeStart(MSG_COMPILED);
   try {
-    const rollupConfig = await getConfig(args);
+    const rollupConfig = await getConfig(args, logger);
     const configs = wrapArray(rollupConfig);
     for (const conf of configs) {
       const bundle = await rollup(conf);
