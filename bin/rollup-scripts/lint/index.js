@@ -16,7 +16,7 @@ const {
 
 module.exports = async function lint(args) {
   const logger = getLogger(args);
-  const { typescript, react, preact } = resolveInput(args);
+  const { typescript, react, preact } = resolveInput(args, logger);
   const finalArgs = updateArgs(args, { typescript, react, preact });
   logger.log(MSG_LINT);
   logger.timeStart(MSG_LINTED);
