@@ -2,7 +2,7 @@
 
 <img src="./logo/rollup-scripts.svg" width="100px" />
 
-# Rollup scripts
+# Rollup Scripts
 
 Rollup scripts is a next generation "zero configuration" compiler for JavaScript
 and TypeScript libraries.
