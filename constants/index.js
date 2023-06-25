@@ -3,7 +3,7 @@ const path = require('node:path');
 
 const SCRIPT_NAME = 'rollup-scripts';
 
-const PREFIX = '[CREATE] → ';
+const PREFIX = '✔️ ';
 
 const PKG = 'package.json';
 
@@ -58,9 +58,9 @@ const MSG_LINTER = (totalFiles, errorCount, warningCount) =>
   `Checked ${totalFiles} files! Found ${errorCount} errors and ${warningCount} warnings.`;
 const MSG_EMITTED = 'Emitted:';
 const MSG_BABELRC = (babelrcFile) => `Using "${babelrcFile}"`;
-const MSG_CONFIG = (filename) => `${PREFIX}"${filename}"`;
-const MSG_CONFIGBABEL = `${PREFIX}".babelrc"`;
-const MSG_CONFIGESLINT = `${PREFIX}".eslintrc.json"`;
+const MSG_CONFIG = (filename) => `${PREFIX}${filename}`;
+const MSG_CONFIGBABEL = `${PREFIX}.babelrc`;
+const MSG_CONFIGESLINT = `${PREFIX}.eslintrc.json`;
 const ERR_NOTFOUND = 'File not found!';
 const ERR_ENTRYFILE =
   'Warning: Entry file not detected automatically. Run the following command to configure entry file.';

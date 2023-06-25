@@ -52,7 +52,7 @@ async function generateConfig(args, configType, configFile, lgr) {
       prettyJSON(conf),
       DEFAULT_ENCODING
     );
-    logger.log(getMessage(configType));
+    logger.success(getMessage(configType));
   }
 }
 
@@ -70,7 +70,7 @@ module.exports = async function init(args) {
       configFileContent.replace(VAR_FILE_PATH, src),
       DEFAULT_ENCODING
     );
-    logger.log(MSG_CONFIG(CONFIG_FILE));
+    logger.success(MSG_CONFIG(CONFIG_FILE));
   }
   await generateConfig(finalArgs, configTypes.BABEL, configFiles.BABEL, logger);
   await generateConfig(
