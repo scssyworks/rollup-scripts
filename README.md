@@ -11,12 +11,8 @@ and TypeScript libraries.
 
 Rollup scripts is designed to work out of the box for majority of `JavaScript`
 and `TypeScript` projects. It smartly wraps the core functionality of `Rollup`
-thereby eliminating the need of setting up the manual configuration.
-
-```sh
-# Configure rollup
-npx rollup-scripts init
-```
+thereby eliminating the need for setting up projects and configurations
+manually.
 
 # Roadmap
 
@@ -58,7 +54,8 @@ touch src/index.mjs
   "module": "dist/esm/index.mjs",
   "scripts": {
     "build": "rollup-scripts build",
-    "lint": "rollup-scripts lint"
+    "lint": "rollup-scripts lint",
+    "init": "rollup-scripts init"
   }
 }
 ```
