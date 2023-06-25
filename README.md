@@ -1,15 +1,17 @@
 [![CodeQL](https://github.com/scssyworks/rollup-scripts/actions/workflows/codeql.yml/badge.svg)](https://github.com/scssyworks/rollup-scripts/actions/workflows/codeql.yml)
 
+<img src="./logo/rollup-scripts.svg" width="100px" />
+
 # Rollup scripts
 
-Rollup scripts is a highly configurable "zero configuration" bundler for
-libraries.
+Rollup scripts is a next generation "zero configuration" compiler for JavaScript
+and TypeScript libraries.
 
 ### What does that mean?
 
-Rollup scripts work out of the box for most cases, means you don't have to spend
-time setting up configuration files for your projects. However, in special use
-cases, rollup scripts makes it super easy for you to setup configuration.
+Rollup scripts is designed to work out of the box for majority of `JavaScript`
+and `TypeScript` projects. It smartly wraps the core functionality of `Rollup`
+thereby eliminating the need of setting up the manual configuration.
 
 ```sh
 # Configure rollup
@@ -34,13 +36,13 @@ npm init
 npm i -D --save-exact rollup-scripts
 ```
 
-3. If you are using a forked repository and want to test your changes:
+3. If you are testing a forked repository:
 
 ```sh
 npm i -D --save-exact github:{your username}/rollup-scripts
 ```
 
-4. Create `src` folder and an entry file `index.mjs` with a valid `JavaScript`
+4. Create an `src` folder and an entry file `index.js` with a valid `JavaScript`
    code.
 
 ```sh
@@ -74,12 +76,11 @@ npx rollup-scripts build
 
 # Available commands
 
-Rollup scripts at the moment supports `init`, `build` and `lint` commands. For
-more details run:
+Rollup-scripts supports `init`, `build` and `lint` scripts. For more details
+run:
 
 ```sh
 npx rollup-scripts --help
-npx rollup-scripts build --help
 ```
 
 ## This package is currently experimental and in active development. Version 0.0.x is unstable and should be used only for trial purposes.

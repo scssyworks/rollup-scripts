@@ -65,5 +65,14 @@
   },
   "devDependencies": {
     "rome": "12.1.3"
-  }
+  },
+  "files": [
+    "bin/",
+    "constants/",
+    "plugins/",
+    "src/",
+    "templates/",
+    "utils/",
+    "LICENSE"
+  ]
 }
