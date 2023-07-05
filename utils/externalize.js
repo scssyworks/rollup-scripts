@@ -1,4 +1,4 @@
-const { deps } = require('./getPackage');
+const { deps } = require('./getResource');
 
 module.exports = {
   /**

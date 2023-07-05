@@ -11,13 +11,14 @@ const {
   resolvePath,
   getOutputFileName,
   env,
-  resolveInput,
+  getInputProps,
   resolveOutputFields,
   externalize,
   opts,
   check,
   updateArgs,
   getLogger,
+  getResource,
 } = require('../../utils');
 const { fileSize } = require('../../plugins');
 const { MSG_BABELRC, configTypes, DEV } = require('../../constants');
@@ -67,7 +68,7 @@ const defaultConfig = defineConfig({
 
 module.exports = async (args, lgr) => {
   const logger = getLogger(args, lgr);
-  const { input, typescript, react, preact } = resolveInput(args, logger);
+  const { input, typescript, react, preact } = getInputProps(args, logger);
   const finalArgs = updateArgs(args, { typescript, react, preact });
   const babelFile = await check(configTypes.BABEL);
   const babelrc = !!babelFile;
@@ -75,7 +76,7 @@ module.exports = async (args, lgr) => {
     logger.log(MSG_BABELRC(babelFile));
   }
   const { configFile } = finalArgs;
-  let configFn;
+  const confFunc = getResource(configFile);
   let finalConfig = Object.assign(defaultConfig, {
     input,
   });
@@ -99,9 +100,8 @@ module.exports = async (args, lgr) => {
     fileSize(args, logger)
   );
   try {
-    configFn = require(resolvePath(configFile));
-    if (typeof configFn === 'function') {
-      finalConfig = await Promise.resolve(configFn(defaultConfig));
+    if (typeof confFunc === 'function') {
+      finalConfig = await Promise.resolve(confFunc(defaultConfig));
     }
   } catch (e) {
     logger.verbose(e);

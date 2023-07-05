@@ -10,7 +10,7 @@ const {
   EXT_REGEX,
   CMD_INIT,
 } = require('../constants');
-const { jsxImportSource } = require('./getPackage');
+const { jsxImportSource, getResource } = require('./getResource');
 
 const mjsSrc = 'src/index.mjs';
 
@@ -19,6 +19,7 @@ function isValidCommand(cmd) {
 }
 
 function resolveInputPath(args, lgr) {
+  const { configFile } = args;
   const logger = getLogger(args, lgr);
   const cmd = getCommand(args);
   try {
@@ -32,7 +33,7 @@ function resolveInputPath(args, lgr) {
     }
     throw new Error(ERR_NOTFOUND);
   } catch (e) {
-    if (isValidCommand(cmd)) {
+    if (isValidCommand(cmd) && !getResource(configFile)) {
       logger.warn(ERR_ENTRYFILE);
       logger.muted(CMD_INIT);
     }
@@ -42,7 +43,7 @@ function resolveInputPath(args, lgr) {
 }
 
 module.exports = {
-  resolveInput(args, lgr) {
+  getInputProps(args, lgr) {
     const { src, ext } = resolveInputPath(args, lgr);
     const importSource = jsxImportSource();
     const react = importSource === 'react';
