@@ -23,7 +23,15 @@ const silentConfig = {
 };
 
 const addCommonOptions = (yargs) =>
-  yargs.option('silent', silentConfig).option('verbose', verboseConfig);
+  yargs
+    .option('silent', silentConfig)
+    .option('verbose', verboseConfig)
+    .option('configFile', {
+      default: CONFIG_FILE,
+      type: 'string',
+      describe: 'Provide custom rollup configuration',
+      alias: 'c',
+    });
 
 yargs(hideBin(process.argv))
   .scriptName(SCRIPT_NAME)
@@ -32,12 +40,7 @@ yargs(hideBin(process.argv))
     'build',
     'Build JavaScript/TypeScript library',
     (yargs) => {
-      return addCommonOptions(yargs).option('configFile', {
-        default: CONFIG_FILE,
-        type: 'string',
-        describe: 'Provide custom rollup configuration',
-        alias: 'c',
-      });
+      return addCommonOptions(yargs);
     },
     (args) => {
       build(args);
