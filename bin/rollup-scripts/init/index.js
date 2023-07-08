@@ -19,7 +19,7 @@ const {
   resolvePath,
   check,
   prettyJSON,
-  resolveInput,
+  getInputProps,
   updateArgs,
   getLogger,
 } = require('../../../utils');
@@ -58,7 +58,7 @@ async function generateConfig(args, configType, configFile, lgr) {
 
 module.exports = async function init(args) {
   const logger = getLogger(args);
-  const { src, typescript, react, preact } = resolveInput(args, logger);
+  const { src, typescript, react, preact } = getInputProps(args, logger);
   const finalArgs = updateArgs(args, { typescript, react, preact });
   logger.log(MSG_INIT);
   const template = path.join(SCRIPT_ROOT, 'templates', CONFIG_FILE);

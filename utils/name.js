@@ -1,5 +1,5 @@
 const { EXT_REGEX } = require('../constants');
-const { fromPackage } = require('./getPackage');
+const { fromPackage } = require('./getResource');
 
 function toCamelCase(name) {
   return name.toLowerCase().replace(/-(\w)/g, (_, letter) => {

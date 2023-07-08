@@ -7,7 +7,7 @@ const {
   configTypes,
   PKG,
 } = require('../constants');
-const { fromPackage } = require('./getPackage');
+const { fromPackage } = require('./getResource');
 
 async function getRootFiles() {
   return await fs.readdir(ROOT);

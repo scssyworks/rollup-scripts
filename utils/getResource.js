@@ -1,14 +1,9 @@
-const path = require('node:path');
-const { ROOT, PKG, JSX_MODULES, ERR_JSX_MODULE } = require('../constants');
+const { PKG, JSX_MODULES, ERR_JSX_MODULE } = require('../constants');
+const { resolvePath } = require('./resolvePath');
 
-/**
- * Returns package.json configuration
- * @typedef {import('./getPackage.ts').PackageJson} PackageJson
- * @returns {PackageJson}
- */
-function getPackage() {
+function getResource(fileName) {
   try {
-    return require(path.join(ROOT, PKG));
+    return require(resolvePath(fileName));
   } catch (e) {
     return null;
   }
@@ -16,11 +11,11 @@ function getPackage() {
 
 /**
  * Returns package.json field value
- * @param {keyof PackageJson} field Field name
+ * @param {string} field Field name
  * @returns {any}
  */
 function fromPackage(field) {
-  const pkg = getPackage();
+  const pkg = getResource(PKG);
   return pkg?.[field] ?? null;
 }
 
@@ -55,7 +50,7 @@ function jsxImportSource() {
 }
 
 module.exports = {
-  getPackage,
+  getResource,
   fromPackage,
   jsxImportSource,
   deps,

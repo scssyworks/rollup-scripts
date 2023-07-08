@@ -1,6 +1,6 @@
 module.exports = {
   ...require('./argv'),
-  ...require('./getPackage'),
+  ...require('./getResource'),
   ...require('./name'),
   ...require('./resolvePath'),
   ...require('./opts'),
