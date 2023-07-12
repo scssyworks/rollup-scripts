@@ -5,17 +5,13 @@ const rsConfig = require('../../../templates/rs.json');
 const babelConfig = require('../../../templates/babel.config');
 const eslintConfig = require('../../../templates/eslint.config');
 const {
-  SCRIPT_ROOT,
-  CONFIG_FILE,
   MSG_CONFIG,
   MSG_CONFIGBABEL,
   DEFAULT_ENCODING,
-  VAR_FILE_PATH,
   configTypes,
   configFiles,
   MSG_CONFIGESLINT,
   MSG_INIT,
-  ROOT,
 } = require('../../../constants');
 const {
   resolvePath,
@@ -24,7 +20,6 @@ const {
   getInputProps,
   updateArgs,
   getLogger,
-  getRsConfig,
 } = require('../../../utils');
 
 async function getConfig(configType, args) {
@@ -72,7 +67,12 @@ module.exports = async function init(args) {
       template.$schema =
         './node_modules/rollup-scripts/templates/schemas/rs.schema.json';
       template.input = path.relative(rsConfig.srcRoot, src);
-      await fsPromises.writeFile(targetFile, template, DEFAULT_ENCODING);
+      await fsPromises.writeFile(
+        targetFile,
+        prettyJSON(template),
+        DEFAULT_ENCODING
+      );
+      logger.success(MSG_CONFIG);
     }
     await generateConfig(finalArgs, configTypes.BABEL, configFiles.BABEL);
     await generateConfig(finalArgs, configTypes.ESLINT, configFiles.ESLINT);
