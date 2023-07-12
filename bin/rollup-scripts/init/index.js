@@ -45,7 +45,7 @@ async function generateConfig(args, configType, configFile) {
   const hasConfig = await check(configType);
   if (!hasConfig) {
     const conf = await getConfig(configType, args);
-    await fs.writeFile(
+    await fsPromises.writeFile(
       resolvePath(configFile),
       prettyJSON(conf),
       DEFAULT_ENCODING
