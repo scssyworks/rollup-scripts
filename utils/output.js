@@ -18,15 +18,6 @@ module.exports = {
         (packageField && fromPackage(packageField)) ||
           path.join(outDir, format, defaultFileName)
       );
-      switch (format) {
-        case 'es':
-          obj['esm'] = obj[format];
-          break;
-        case 'esm':
-          obj['es'] = obj[format];
-        default:
-          break;
-      }
       return obj;
     }, {});
   },
