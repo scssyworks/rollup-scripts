@@ -72,7 +72,7 @@ module.exports = async function init(args) {
         prettyJSON(template),
         DEFAULT_ENCODING
       );
-      logger.success(MSG_CONFIG);
+      logger.success(MSG_CONFIG(configFile));
     }
     await generateConfig(finalArgs, configTypes.BABEL, configFiles.BABEL);
     await generateConfig(finalArgs, configTypes.ESLINT, configFiles.ESLINT);
