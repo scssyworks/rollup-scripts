@@ -16,8 +16,8 @@ const {
 
 module.exports = async function lint(args) {
   const logger = getLogger(args);
-  const { typescript, react, preact } = getInputProps(args, logger);
-  const finalArgs = updateArgs(args, { typescript, react, preact });
+  const { sourceTypes } = getInputProps(args, logger);
+  const finalArgs = updateArgs(args, sourceTypes);
   logger.log(MSG_LINT);
   logger.timeStart(MSG_LINTED);
   const eslintConfigFile = await check(configTypes.ESLINT);

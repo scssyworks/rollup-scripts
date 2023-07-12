@@ -8,7 +8,6 @@ const replace = require('@rollup/plugin-replace');
 const babelConfig = require('../../templates/babel.config');
 const {
   getName,
-  resolvePath,
   getOutputFileName,
   env,
   getInputProps,
@@ -68,8 +67,8 @@ const defaultConfig = defineConfig({
 
 module.exports = async (args, lgr) => {
   const logger = getLogger(args, lgr);
-  const { input, typescript, react, preact } = getInputProps(args, logger);
-  const finalArgs = updateArgs(args, { typescript, react, preact });
+  const { input, sourceTypes } = getInputProps(args, logger);
+  const finalArgs = updateArgs(args, sourceTypes);
   const babelFile = await check(configTypes.BABEL);
   const babelrc = !!babelFile;
   if (babelrc) {

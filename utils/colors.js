@@ -46,6 +46,21 @@ class Logger {
   }
 }
 
+const resolver = (function resolveLogger() {
+  let logger;
+  /**
+   * @param {any} args Logger arguments
+   * @returns {Logger}
+   */
+  return (args) => {
+    if (logger) {
+      return logger;
+    }
+    logger = new Logger(args);
+    return logger;
+  };
+})();
+
 module.exports = {
   Logger,
   /**
@@ -54,7 +69,7 @@ module.exports = {
    * @param {Logger} logger Logger instance
    * @returns {Logger}
    */
-  getLogger(args, logger) {
-    return logger ?? new Logger(args);
+  getLogger(args) {
+    return resolver(args);
   },
 };

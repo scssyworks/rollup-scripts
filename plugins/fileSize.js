@@ -3,8 +3,8 @@ const { ROOT } = require('../constants');
 const { calculateSize, getLogger } = require('../utils');
 
 module.exports = {
-  fileSize(args, lgr) {
-    const logger = getLogger(args, lgr);
+  fileSize(args) {
+    const logger = getLogger(args);
     return {
       name: 'fileSize',
       writeBundle: {

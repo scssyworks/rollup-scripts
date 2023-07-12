@@ -57,15 +57,15 @@ const MSG_LINTED = 'Completed in';
 const MSG_LINTER = (totalFiles, errorCount, warningCount) =>
   `Checked ${totalFiles} files! Found ${errorCount} errors and ${warningCount} warnings.`;
 const MSG_EMITTED = 'Emitted:';
-const MSG_BABELRC = (babelrcFile) => `Using ${babelrcFile}`;
+const MSG_BABELRC = 'Using babel config from workspace';
 const MSG_CONFIG = (filename) => `${PREFIX}${filename}`;
 const MSG_CONFIGBABEL = `${PREFIX}.babelrc`;
 const MSG_CONFIGESLINT = `${PREFIX}.eslintrc.json`;
 const ERR_NOTFOUND = 'File not found!';
 const ERR_ENTRYFILE =
-  'Warning: Entry file not detected automatically. Run the following command to configure entry file.';
+  'Warning: Input file could not be resolved. Using "index.mjs" as default. Run the following command to configure "input" if you feel this is not right:';
 const ERR_SILENT_VERBOSE =
-  'Warning: Verbose option is currently enabled. Silent option will be ignored!';
+  'Warning: "--verbose" is currently enabled. "--silent" will be ignored!';
 const CMD_INIT = `npx ${SCRIPT_NAME} init`;
 const ERR_JSX_MODULE = (modules) =>
   `More than one JSX runtime detected ==> ${modules.join(', ')}`;

@@ -58,8 +58,8 @@ async function generateConfig(args, configType, configFile, lgr) {
 
 module.exports = async function init(args) {
   const logger = getLogger(args);
-  const { src, typescript, react, preact } = getInputProps(args, logger);
-  const finalArgs = updateArgs(args, { typescript, react, preact });
+  const { src, sourceTypes } = getInputProps(args, logger);
+  const finalArgs = updateArgs(args, sourceTypes);
   logger.log(MSG_INIT);
   const template = path.join(SCRIPT_ROOT, 'templates', CONFIG_FILE);
   const configFile = resolvePath(CONFIG_FILE);

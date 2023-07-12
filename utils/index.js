@@ -13,4 +13,6 @@ module.exports = {
   ...require('./check'),
   ...require('./prettyJSON'),
   ...require('./array'),
+  ...require('./rs'),
+  ...require('./flatten'),
 };
