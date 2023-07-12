@@ -1,6 +1,7 @@
-const { existsSync } = require('node:fs');
-const fs = require('node:fs/promises');
+const fs = require('node:fs');
+const fsPromises = require('node:fs/promises');
 const path = require('node:path');
+const rsConfig = require('../../../templates/rs.json');
 const babelConfig = require('../../../templates/babel.config');
 const eslintConfig = require('../../../templates/eslint.config');
 const {
@@ -14,6 +15,7 @@ const {
   configFiles,
   MSG_CONFIGESLINT,
   MSG_INIT,
+  ROOT,
 } = require('../../../constants');
 const {
   resolvePath,
@@ -22,6 +24,7 @@ const {
   getInputProps,
   updateArgs,
   getLogger,
+  getRsConfig,
 } = require('../../../utils');
 
 async function getConfig(configType, args) {
@@ -42,10 +45,10 @@ function getMessage(configType) {
   }
 }
 
-async function generateConfig(args, configType, configFile, lgr) {
-  const logger = getLogger(args, lgr);
-  const hasBabel = await check(configType);
-  if (!hasBabel) {
+async function generateConfig(args, configType, configFile) {
+  const logger = getLogger(args);
+  const hasConfig = await check(configType);
+  if (!hasConfig) {
     const conf = await getConfig(configType, args);
     await fs.writeFile(
       resolvePath(configFile),
@@ -57,26 +60,23 @@ async function generateConfig(args, configType, configFile, lgr) {
 }
 
 module.exports = async function init(args) {
+  const { configFile } = args;
   const logger = getLogger(args);
   const { src, sourceTypes } = getInputProps(args, logger);
   const finalArgs = updateArgs(args, sourceTypes);
   logger.log(MSG_INIT);
-  const template = path.join(SCRIPT_ROOT, 'templates', CONFIG_FILE);
-  const configFile = resolvePath(CONFIG_FILE);
-  if (!existsSync(configFile)) {
-    const configFileContent = await fs.readFile(template, DEFAULT_ENCODING);
-    await fs.writeFile(
-      configFile,
-      configFileContent.replace(VAR_FILE_PATH, src),
-      DEFAULT_ENCODING
-    );
-    logger.success(MSG_CONFIG(CONFIG_FILE));
+  try {
+    const targetFile = resolvePath(configFile);
+    if (!fs.existsSync(targetFile)) {
+      const template = JSON.parse(JSON.stringify(rsConfig));
+      template.$schema =
+        './node_modules/rollup-scripts/templates/schemas/rs.schema.json';
+      template.input = path.relative(rsConfig.srcRoot, src);
+      await fsPromises.writeFile(targetFile, template, DEFAULT_ENCODING);
+    }
+    await generateConfig(finalArgs, configTypes.BABEL, configFiles.BABEL);
+    await generateConfig(finalArgs, configTypes.ESLINT, configFiles.ESLINT);
+  } catch (e) {
+    logger.verbose(e);
   }
-  await generateConfig(finalArgs, configTypes.BABEL, configFiles.BABEL, logger);
-  await generateConfig(
-    finalArgs,
-    configTypes.ESLINT,
-    configFiles.ESLINT,
-    logger
-  );
 };

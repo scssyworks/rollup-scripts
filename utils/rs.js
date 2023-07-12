@@ -4,6 +4,7 @@
 
 const fs = require('node:fs');
 const { resolvePath } = require('./resolvePath');
+const { getLogger } = require('./colors');
 
 module.exports = {
   /**
@@ -13,11 +14,16 @@ module.exports = {
    * @returns {RsSchema}
    */
   getRsConfig(args) {
-    const { configFile } = args;
-    const config = resolvePath(configFile);
-    if (fs.existsSync(config)) {
-      return require(config);
+    const logger = getLogger(args);
+    try {
+      const { configFile } = args;
+      const config = resolvePath(configFile);
+      if (fs.existsSync(config)) {
+        return require(config);
+      }
+      return require('../templates/rs.json');
+    } catch (e) {
+      logger.verbose(e);
     }
-    return require('../templates/rs.json');
   },
 };

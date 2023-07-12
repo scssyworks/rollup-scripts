@@ -26,7 +26,7 @@ function resolveInputPath(args) {
   const cmd = getCommand(args);
   try {
     if (fromConfig) {
-      return resolvePath(path.join(srcRoot, input));
+      return path.join(srcRoot, input);
     }
     const srcFiles = fs.readdirSync(resolvePath(srcRoot));
     if (srcFiles.length) {

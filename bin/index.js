@@ -1,9 +1,8 @@
 #!/usr/bin/env node
-const { build, init } = require('./rollup-scripts');
+const { build, init, lint } = require('./rollup-scripts');
 const yargs = require('yargs');
 const { hideBin } = require('yargs/helpers');
 const { CONFIG_FILE, SCRIPT_NAME } = require('../constants');
-const lint = require('./rollup-scripts/lint');
 
 const boolConfig = {
   default: false,

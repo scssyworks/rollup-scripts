@@ -18,6 +18,7 @@ const {
   updateArgs,
   flatten,
   resolvePath,
+  getName,
 } = require('../utils');
 const { configTypes, MSG_BABELRC } = require('../constants');
 const { fileSize } = require('../plugins');
@@ -40,12 +41,16 @@ module.exports = async (args) => {
         ...flatten(
           Object.keys(filePaths).map((format) => [
             {
+              name: getName(),
+              exports: 'named',
               file: getOutputFileName(filePaths[format], true),
               format,
               sourcemap: true,
               ...(['iife', 'umd'].includes(format) ? { globals } : {}),
             },
             {
+              name: getName(),
+              exports: 'named',
               file: getOutputFileName(filePaths[format]),
               format,
               ...(['iife', 'umd'].includes(format) ? { globals } : {}),
