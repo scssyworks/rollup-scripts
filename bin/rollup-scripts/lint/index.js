@@ -5,6 +5,7 @@ const {
   getInputProps,
   updateArgs,
   getLogger,
+  getRsConfig,
 } = require('../../../utils');
 const eslintConfig = require('../../../templates/eslint.config');
 const {
@@ -16,8 +17,9 @@ const {
 
 module.exports = async function lint(args) {
   const logger = getLogger(args);
-  const { typescript, react, preact } = getInputProps(args, logger);
-  const finalArgs = updateArgs(args, { typescript, react, preact });
+  const { srcRoot } = getRsConfig(args);
+  const { sourceTypes } = getInputProps(args);
+  const finalArgs = updateArgs(args, sourceTypes);
   logger.log(MSG_LINT);
   logger.timeStart(MSG_LINTED);
   const eslintConfigFile = await check(configTypes.ESLINT);
@@ -32,7 +34,7 @@ module.exports = async function lint(args) {
       overrideConfig,
       fix,
     });
-    const results = await eslint.lintFiles(resolvePath('src/**/*'));
+    const results = await eslint.lintFiles(resolvePath(`${srcRoot}/**/*`));
     totalFiles = results.length;
     results.forEach((result) => {
       errorCount += result.errorCount;
