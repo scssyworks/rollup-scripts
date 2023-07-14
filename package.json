@@ -11,7 +11,8 @@
     "lint": "rome check ./",
     "format": "rome format ./ --write",
     "unused-exports": "find-unused-exports",
-    "test": "jest --collect-coverage --detect-open-handles"
+    "test": "jest --collect-coverage --detect-open-handles",
+    "prepublishOnly": "npm run test && npm run lint && npm run format"
   },
   "repository": {
     "type": "git",
