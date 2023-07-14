@@ -5,15 +5,15 @@
   "type": "object",
   "properties": {
     "srcRoot": {
-      "description": "Root src folder that contains index.* entry file",
+      "description": "Provide path to root src folder that contains source files",
       "type": "string"
     },
     "input": {
-      "description": "Input file name",
+      "description": "Provide path to input file name relative to srcRoot",
       "type": "string"
     },
     "outputFormats": {
-      "description": "List of supported output format",
+      "description": "Provide a list of supported output formats",
       "type": "array",
       "items": {
         "type": "string",
@@ -23,7 +23,7 @@
       "uniqueItems": true
     },
     "globals": {
-      "description": "Global dependencies for 'iife' and 'umd' formats",
+      "description": "Specify names of global dependencies in 'iife' and 'umd' builds",
       "type": "object",
       "additionalProperties": true
     },
@@ -44,11 +44,11 @@
       ]
     },
     "outDir": {
-      "description": "Output build directory",
+      "description": "Provide a path to output build directory",
       "type": "string"
     },
     "rollupConfig": {
-      "description": "Path to rollup config file",
+      "description": "Provide a path to custom rollup config",
       "type": "string"
     }
   },

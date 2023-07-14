@@ -9,7 +9,9 @@
   "scripts": {
     "exec": "node ./bin/index.js",
     "lint": "rome check ./",
-    "format": "rome format ./ --write"
+    "format": "rome format ./ --write",
+    "unused-exports": "find-unused-exports",
+    "test": "jest --collect-coverage --detect-open-handles"
   },
   "repository": {
     "type": "git",
@@ -31,6 +33,8 @@
   },
   "homepage": "https://github.com/scssyworks/rollup-scripts#readme",
   "devDependencies": {
+    "@types/jest": "^29.5.3",
+    "find-unused-exports": "^5.0.0",
     "rome": "12.1.3"
   },
   "files": [
@@ -40,7 +44,8 @@
     "src/",
     "templates/",
     "utils/",
-    "LICENSE"
+    "LICENSE",
+    "!**/*.test.js"
   ],
   "dependencies": {
     "@babel/core": "7.22.8",
