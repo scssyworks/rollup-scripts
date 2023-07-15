@@ -14,7 +14,9 @@
             "runtimeExecutable": "npm",
             "runtimeArgs": [
                 "run-script",
-                "test"
+                "test",
+                "--",
+                "${relativeFile}"
             ]
         }
     ]
