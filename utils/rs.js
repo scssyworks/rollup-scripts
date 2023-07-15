@@ -4,7 +4,7 @@
 
 const fs = require('node:fs');
 const { resolvePath } = require('./resolvePath');
-const { getLogger } = require('./colors');
+const { getLogger } = require('./logger');
 
 module.exports = {
   /**

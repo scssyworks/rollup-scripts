@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { getCommand, EXEC_COMMANDS } = require('./argv');
-const { getLogger } = require('./colors');
+const { getLogger } = require('./logger');
 const { resolvePath } = require('./resolvePath');
 const {
   INDEX_REGEX,
