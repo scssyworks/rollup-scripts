@@ -35,14 +35,6 @@ const VAR_FILE_PATH = '$$filePath$$';
 
 const DEV = /\.development/;
 
-const SUPPORTED_BABEL_FILES = [
-  /^babel\.config\.(j|t|mj|cj|ct)s$/,
-  /^babel\.config\.json$/,
-  /^\.babelrc\.(j|t|mj|cj|ct)s$/,
-  /^\.babelrc\.json$/,
-  /^\.babelrc$/,
-];
-
 const VALID_BABEL_FILES = [
   'babel.config.js',
   'babel.config.ts',
@@ -57,12 +49,6 @@ const VALID_BABEL_FILES = [
   '.babelrc.cjs',
   '.babelrc.cts',
   '.babelrc.json',
-];
-
-const SUPPORTED_ESLINT_CONFIG_FILES = [
-  /^\.eslintrc\.(j|cj)s$/,
-  /^\.eslintrc\.(y|ya)ml$/,
-  /^\.eslintrc\.json$/,
 ];
 
 const VALID_ESLINTCONFIG_FILES = [
@@ -126,8 +112,6 @@ module.exports = {
   ERR_NOTFOUND,
   ERR_ENTRYFILE,
   ERR_SILENT_VERBOSE,
-  SUPPORTED_BABEL_FILES,
-  SUPPORTED_ESLINT_CONFIG_FILES,
   MSG_EMITTED,
   MSG_COMPILE,
   MSG_COMPILED,
