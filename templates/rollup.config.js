@@ -27,7 +27,7 @@ module.exports = async (args) => {
   const { external, globals, rollupConfig } = getRsConfig(args);
   const logger = getLogger(args);
   const filePaths = resolveOutputFields(args);
-  const babelrc = Boolean(await check(configTypes.BABEL));
+  const babelrc = Boolean(check(configTypes.BABEL));
   // Resolve input
   const { input, sourceTypes } = getInputProps(args);
   const finalArgs = updateArgs(args, sourceTypes);

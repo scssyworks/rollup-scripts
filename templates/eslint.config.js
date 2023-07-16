@@ -25,7 +25,7 @@ module.exports = async (args) => {
   };
 
   if (typescript || react || preact) {
-    const babelFile = await check(configTypes.BABEL);
+    const babelFile = check(configTypes.BABEL);
     const babelrc = !!babelFile;
     eslintBaseRc.parser = '@babel/eslint-parser';
     Object.assign(eslintBaseRc.parserOptions, {

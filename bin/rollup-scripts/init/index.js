@@ -42,7 +42,7 @@ function getMessage(configType) {
 
 async function generateConfig(args, configType, configFile) {
   const logger = getLogger(args);
-  const hasConfig = await check(configType);
+  const hasConfig = check(configType);
   if (!hasConfig) {
     const conf = await getConfig(configType, args);
     await fsPromises.writeFile(

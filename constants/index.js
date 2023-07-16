@@ -36,17 +36,41 @@ const VAR_FILE_PATH = '$$filePath$$';
 const DEV = /\.development/;
 
 const SUPPORTED_BABEL_FILES = [
-  /^babel\.config\.(j|mj|cj|ct)s$/,
+  /^babel\.config\.(j|t|mj|cj|ct)s$/,
   /^babel\.config\.json$/,
-  /^\.babelrc\.(j|mj|cj|ct)s$/,
+  /^\.babelrc\.(j|t|mj|cj|ct)s$/,
   /^\.babelrc\.json$/,
   /^\.babelrc$/,
+];
+
+const VALID_BABEL_FILES = [
+  'babel.config.js',
+  'babel.config.ts',
+  'babel.config.mjs',
+  'babel.config.cjs',
+  'babel.config.cts',
+  'babel.config.json',
+  '.babelrc',
+  '.babelrc.js',
+  '.babelrc.ts',
+  '.babelrc.mjs',
+  '.babelrc.cjs',
+  '.babelrc.cts',
+  '.babelrc.json',
 ];
 
 const SUPPORTED_ESLINT_CONFIG_FILES = [
   /^\.eslintrc\.(j|cj)s$/,
   /^\.eslintrc\.(y|ya)ml$/,
   /^\.eslintrc\.json$/,
+];
+
+const VALID_ESLINTCONFIG_FILES = [
+  '.eslintrc.js',
+  '.eslintrc.cjs',
+  '.eslintrc.yml',
+  '.eslintrc.yaml',
+  '.eslintrc.json',
 ];
 
 const MSG_INIT = 'Initializing...';
@@ -126,4 +150,6 @@ module.exports = {
   ESLINT_TYPSCRIPT_EXTENSIONS,
   ESLINT_REACT_EXTENSIONS,
   ESLINT_PREACT_EXTENSIONS,
+  VALID_BABEL_FILES,
+  VALID_ESLINTCONFIG_FILES,
 };

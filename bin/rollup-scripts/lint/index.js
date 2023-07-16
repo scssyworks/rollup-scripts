@@ -22,7 +22,6 @@ module.exports = async function lint(args) {
   const finalArgs = updateArgs(args, sourceTypes);
   logger.log(MSG_LINT);
   logger.timeStart(MSG_LINTED);
-  const eslintConfigFile = await check(configTypes.ESLINT);
   const { fix, formatter: formatterType } = finalArgs;
   try {
     let errorCount = 0;
@@ -30,7 +29,7 @@ module.exports = async function lint(args) {
     let totalFiles = 0;
     const overrideConfig = await eslintConfig(finalArgs);
     const eslint = new ESLint({
-      useEslintrc: !!eslintConfigFile,
+      useEslintrc: Boolean(check(configTypes.ESLINT)),
       overrideConfig,
       fix,
     });
