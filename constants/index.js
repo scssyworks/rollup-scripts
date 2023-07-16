@@ -81,7 +81,7 @@ const MSG_LINTED = 'Completed in';
 const MSG_LINTER = (totalFiles, errorCount, warningCount) =>
   `Checked ${totalFiles} files! Found ${errorCount} errors and ${warningCount} warnings.`;
 const MSG_EMITTED = 'Emitted:';
-const MSG_BABELRC = 'Using babel config from workspace';
+const MSG_BABELRC = 'Using babel from workspace';
 const MSG_CONFIG = (filename) => `${PREFIX}${filename}`;
 const MSG_CONFIGBABEL = `${PREFIX}.babelrc`;
 const MSG_CONFIGESLINT = `${PREFIX}.eslintrc.json`;
