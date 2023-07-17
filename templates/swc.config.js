@@ -19,7 +19,7 @@ module.exports = ({ typescript, react, preact }) => {
           : {}),
       },
       transform: {
-        decoratorVersion: '2023-05',
+        decoratorVersion: '2022-03', // Should be 2023-05 but swc is lagging behind
         ...(react || preact
           ? {
               react: {
