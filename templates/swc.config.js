@@ -18,16 +18,17 @@ module.exports = ({ typescript, react, preact }) => {
             }
           : {}),
       },
-      ...(react || preact
-        ? {
-            transform: {
+      transform: {
+        decoratorVersion: '2023-05',
+        ...(react || preact
+          ? {
               react: {
                 runtime: 'automatic',
                 importSource: jsxImportSource(),
               },
-            },
-          }
-        : {}),
+            }
+          : {}),
+      },
     },
   };
 };
