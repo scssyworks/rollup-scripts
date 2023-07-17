@@ -7,13 +7,15 @@
     "enabled": true,
     "rules": {
       "recommended": true
-    }
+    },
+    "ignore": ["coverage/**/*", ".vscode/**/*"]
   },
   "formatter": {
     "enabled": true,
     "indentSize": 2,
     "indentStyle": "space",
-    "lineWidth": 80
+    "lineWidth": 80,
+    "ignore": ["coverage/**/*", ".vscode/**/*"]
   },
   "javascript": {
     "formatter": {
