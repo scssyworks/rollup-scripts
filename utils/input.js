@@ -10,7 +10,7 @@ const {
   CMD_INIT,
   EXT_REGEX,
 } = require('../constants');
-const { jsxImportSource, getResource } = require('./getResource');
+const { jsxImportSource } = require('./getResource');
 const { getRsConfig } = require('./rs');
 
 const mjsSrc = 'src/index.mjs';

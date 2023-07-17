@@ -1,4 +1,4 @@
-const fs = require('node:fs');
+const { existsSync } = require('node:fs');
 const {
   ERR_NOTFOUND,
   configTypes,
@@ -33,7 +33,7 @@ module.exports = {
   check(configType) {
     const filesToCheck = resolveFiles(configType);
     const configFile = filesToCheck.find((file) =>
-      fs.existsSync(resolvePath(file))
+      existsSync(resolvePath(file))
     );
     if (!configFile) {
       return checkPackageJSON(configType);
