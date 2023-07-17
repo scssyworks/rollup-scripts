@@ -5,6 +5,8 @@ const commonjs = require('@rollup/plugin-commonjs');
 const replace = require('@rollup/plugin-replace');
 const terser = require('@rollup/plugin-terser');
 const { babel } = require('@rollup/plugin-babel');
+const yaml = require('@rollup/plugin-yaml');
+const graphql = require('@rollup/plugin-graphql');
 const babelConfig = require('./babel.config');
 const {
   getOutputFileName,
@@ -66,6 +68,8 @@ module.exports = async (args) => {
           objectGuards: true,
         }),
         json(),
+        yaml(),
+        graphql(),
         nodeResolve(),
         commonjs({
           include: 'node_modules/**',

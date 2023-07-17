@@ -97,8 +97,6 @@ const ESLINT_REACT_EXTENSIONS = [
   'plugin:react-hooks/recommended',
 ];
 
-const ESLINT_PREACT_EXTENSIONS = ['preact'];
-
 module.exports = {
   DEV,
   ROOT,
@@ -133,7 +131,6 @@ module.exports = {
   ESLINT_DEFAULT_EXTENSIONS,
   ESLINT_TYPSCRIPT_EXTENSIONS,
   ESLINT_REACT_EXTENSIONS,
-  ESLINT_PREACT_EXTENSIONS,
   VALID_BABEL_FILES,
   VALID_ESLINTCONFIG_FILES,
 };

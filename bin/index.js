@@ -39,7 +39,10 @@ yargs(hideBin(process.argv))
     'build',
     'Build JavaScript/TypeScript library',
     (yargs) => {
-      return addCommonOptions(yargs);
+      return addCommonOptions(yargs).option('swc', {
+        ...boolConfig,
+        describe: 'Switch to SWC compiler',
+      });
     },
     (args) => {
       build(args);
