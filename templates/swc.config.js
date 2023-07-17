@@ -7,6 +7,8 @@ module.exports = ({ typescript, react, preact }) => {
       parser: {
         jsx: react || preact,
         decorators: true,
+        privateMethod: true,
+        classPrivateProperty: true,
         topLevelAwait: true,
         dynamicImport: true,
         ...(typescript
