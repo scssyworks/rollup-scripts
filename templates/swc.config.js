@@ -24,6 +24,7 @@ module.exports = ({ typescript, react, preact }) => {
       transform: {
         legacyDecorator: false,
         decoratorMetadata: true,
+        decoratorVersion: '2022-03', // This field is unsupported in JSON schema but is supported by SWC. Latest spec is 2023-05 which is still not supported
         ...(isJSX
           ? {
               react: {
