@@ -5,6 +5,7 @@ const {
   PKG,
   VALID_BABEL_FILES,
   VALID_ESLINTCONFIG_FILES,
+  configFiles,
 } = require('../constants');
 const { fromPackage } = require('./getResource');
 const { resolvePath } = require('./resolvePath');
@@ -26,6 +27,8 @@ function resolveFiles(configType) {
       return VALID_BABEL_FILES;
     case configTypes.ESLINT:
       return VALID_ESLINTCONFIG_FILES;
+    case configTypes.SWC:
+      return [configFiles.SWC];
   }
 }
 

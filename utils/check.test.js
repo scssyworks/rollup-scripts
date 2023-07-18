@@ -1,4 +1,4 @@
-const { configTypes } = require('../constants');
+const { configTypes, configFiles } = require('../constants');
 const { check } = require('./check');
 
 const mockExistsSync = jest.fn();
@@ -30,6 +30,11 @@ describe('check', () => {
     const fileName = '.eslintrc.js';
     mockExistsSync.mockImplementation((path) => path.includes(fileName));
     expect(check(configTypes.ESLINT)).toBe(fileName);
+  });
+  it('should check for valid swc config file', () => {
+    const fileName = configFiles.SWC;
+    mockExistsSync.mockImplementation((path) => path.includes(fileName));
+    expect(check(configTypes.SWC)).toBe(fileName);
   });
   it('should check for config in package.json if config file is not found', () => {
     const fileName = 'package.json';

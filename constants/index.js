@@ -14,11 +14,13 @@ const DEFAULT_ENCODING = {
 const configTypes = {
   BABEL: 'babel',
   ESLINT: 'eslintConfig',
+  SWC: 'swc',
 };
 
 const configFiles = {
   BABEL: '.babelrc',
   ESLINT: '.eslintrc.json',
+  SWC: '.swcrc',
 };
 
 const JSX_MODULES = ['react', 'preact'];
@@ -71,11 +73,14 @@ const MSG_BABELRC = 'Using babel from workspace';
 const MSG_CONFIG = (filename) => `${PREFIX}${filename}`;
 const MSG_CONFIGBABEL = `${PREFIX}.babelrc`;
 const MSG_CONFIGESLINT = `${PREFIX}.eslintrc.json`;
+const MSG_CONFIGSWC = `${PREFIX}.swcrc`;
 const ERR_NOTFOUND = 'File not found!';
 const ERR_ENTRYFILE =
   'Warning: Input file could not be resolved. Using "index.mjs" as default. Run the following command to configure "input" if you feel this is not right:';
 const ERR_SILENT_VERBOSE =
   'Warning: "--verbose" is currently enabled. "--silent" will be ignored!';
+const ERR_SWC_ESLINT =
+  'Eslint currently does not support SWC. Switching to Babel instead.';
 const CMD_INIT = `npx ${SCRIPT_NAME} init`;
 const ERR_JSX_MODULE = (modules) =>
   `More than one JSX runtime detected ==> ${modules.join(', ')}`;
@@ -110,6 +115,7 @@ module.exports = {
   ERR_NOTFOUND,
   ERR_ENTRYFILE,
   ERR_SILENT_VERBOSE,
+  ERR_SWC_ESLINT,
   MSG_EMITTED,
   MSG_COMPILE,
   MSG_COMPILED,
@@ -117,6 +123,7 @@ module.exports = {
   MSG_CONFIG,
   MSG_CONFIGBABEL,
   MSG_CONFIGESLINT,
+  MSG_CONFIGSWC,
   MSG_LINT,
   MSG_LINTED,
   MSG_LINTER,
