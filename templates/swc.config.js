@@ -14,6 +14,7 @@ module.exports = ({ typescript, react, preact }) => {
               ...(isJSX ? { tsx: true } : {}),
             }
           : {
+              syntax: 'ecmascript',
               ...(isJSX ? { jsx: true } : {}),
               privateMethod: true,
               classPrivateProperty: true,
@@ -21,7 +22,8 @@ module.exports = ({ typescript, react, preact }) => {
             }),
       },
       transform: {
-        decoratorVersion: '2022-03', // Should be 2023-05 but swc is lagging behind
+        legacyDecorator: false,
+        decoratorMetadata: true,
         ...(isJSX
           ? {
               react: {
@@ -31,6 +33,7 @@ module.exports = ({ typescript, react, preact }) => {
             }
           : {}),
       },
+      loose: false,
     },
   };
 };
