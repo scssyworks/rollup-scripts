@@ -35,7 +35,7 @@ module.exports = ({ typescript, react, preact }) => {
           : {}),
       },
       loose: false,
-      target: 'es5',
+      target: 'es2020',
     },
   };
 };
