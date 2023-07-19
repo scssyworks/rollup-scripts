@@ -1,3 +1,4 @@
+const { ROOT } = require('../constants');
 const { jsxImportSource } = require('../utils');
 
 module.exports = ({ typescript, react, preact }) => {
@@ -39,7 +40,7 @@ module.exports = ({ typescript, react, preact }) => {
     },
     env: {
       targets: require('browserslist').loadConfig({
-        path: process.cwd(),
+        path: ROOT,
       }) ?? ['defaults'],
     },
   };
