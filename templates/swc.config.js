@@ -37,5 +37,10 @@ module.exports = ({ typescript, react, preact }) => {
       loose: false,
       target: 'es2020',
     },
+    env: {
+      targets: require('browserslist').loadConfig({
+        path: process.cwd(),
+      }) ?? ['defaults'],
+    },
   };
 };
