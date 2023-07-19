@@ -30,6 +30,10 @@ const addCommonOptions = (yargs) =>
       type: 'string',
       describe: 'Provide custom rollup configuration',
       alias: 'c',
+    })
+    .option('swc', {
+      ...boolConfig,
+      describe: 'Switch to SWC compiler',
     });
 
 yargs(hideBin(process.argv))

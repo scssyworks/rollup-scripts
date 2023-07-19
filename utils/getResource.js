@@ -23,7 +23,7 @@ function fromPackage(field) {
  * Returns list of dependencies
  * @returns {string[]} List of dependencies
  */
-function deps(keys = ['dependencies', 'devDependencies']) {
+function deps(keys) {
   const deps = [];
   for (const key of keys) {
     for (const dep of Object.keys(fromPackage(key) ?? {})) {
@@ -36,7 +36,9 @@ function deps(keys = ['dependencies', 'devDependencies']) {
 }
 
 function jsxImportSource() {
-  const modules = deps().filter((module) => JSX_MODULES.includes(module));
+  const modules = deps(['dependencies']).filter((module) =>
+    JSX_MODULES.includes(module)
+  );
   if (modules.length === 0) {
     // No JSX library found
     return '';

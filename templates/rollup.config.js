@@ -5,6 +5,9 @@ const commonjs = require('@rollup/plugin-commonjs');
 const replace = require('@rollup/plugin-replace');
 const terser = require('@rollup/plugin-terser');
 const { babel } = require('@rollup/plugin-babel');
+const swc = require('@rollup/plugin-swc');
+const yaml = require('@rollup/plugin-yaml');
+const graphql = require('@rollup/plugin-graphql');
 const babelConfig = require('./babel.config');
 const {
   getOutputFileName,
@@ -22,12 +25,13 @@ const {
 } = require('../utils');
 const { configTypes, MSG_BABELRC } = require('../constants');
 const { fileSize } = require('../plugins');
+const swcConfig = require('./swc.config');
 
 module.exports = async (args) => {
   const { external, globals, rollupConfig } = getRsConfig(args);
   const logger = getLogger(args);
   const filePaths = resolveOutputFields(args);
-  const babelrc = Boolean(await check(configTypes.BABEL));
+  const babelrc = Boolean(check(configTypes.BABEL));
   // Resolve input
   const { input, sourceTypes } = getInputProps(args);
   const finalArgs = updateArgs(args, sourceTypes);
@@ -66,19 +70,35 @@ module.exports = async (args) => {
           objectGuards: true,
         }),
         json(),
+        yaml(),
+        graphql(),
         nodeResolve(),
         commonjs({
           include: 'node_modules/**',
           extensions: ['.js', '.ts'],
         }),
-        babel({
-          babelrc,
-          exclude: 'node_modules/**',
-          extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.es6', '.es'],
-          babelHelpers: 'runtime',
-          skipPreflightCheck: true,
-          ...(babelrc ? {} : babelConfig(finalArgs)),
-        }),
+        ...[
+          finalArgs.swc
+            ? swc({
+                swc: swcConfig(finalArgs),
+              })
+            : babel({
+                babelrc,
+                exclude: 'node_modules/**',
+                extensions: [
+                  '.js',
+                  '.jsx',
+                  '.ts',
+                  '.tsx',
+                  '.mjs',
+                  '.es6',
+                  '.es',
+                ],
+                babelHelpers: 'runtime',
+                skipPreflightCheck: true,
+                ...(babelrc ? {} : babelConfig(finalArgs)),
+              }),
+        ],
         fileSize(args),
       ],
       external: externalize(external),

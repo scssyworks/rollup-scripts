@@ -4,7 +4,7 @@ module.exports = {
   ...require('./name'),
   ...require('./resolvePath'),
   ...require('./opts'),
-  ...require('./colors'),
+  ...require('./logger'),
   ...require('./env'),
   ...require('./input'),
   ...require('./output'),

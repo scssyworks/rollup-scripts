@@ -4,6 +4,7 @@ const path = require('node:path');
 const rsConfig = require('../../../templates/rs.json');
 const babelConfig = require('../../../templates/babel.config');
 const eslintConfig = require('../../../templates/eslint.config');
+const swcConfig = require('../../../templates/swc.config');
 const {
   MSG_CONFIG,
   MSG_CONFIGBABEL,
@@ -12,6 +13,7 @@ const {
   configFiles,
   MSG_CONFIGESLINT,
   MSG_INIT,
+  MSG_CONFIGSWC,
 } = require('../../../constants');
 const {
   resolvePath,
@@ -28,6 +30,8 @@ async function getConfig(configType, args) {
       return babelConfig(args);
     case configTypes.ESLINT:
       return await eslintConfig(args);
+    case configTypes.SWC:
+      return swcConfig(args);
   }
 }
 
@@ -37,12 +41,14 @@ function getMessage(configType) {
       return MSG_CONFIGBABEL;
     case configTypes.ESLINT:
       return MSG_CONFIGESLINT;
+    case configTypes.SWC:
+      return MSG_CONFIGSWC;
   }
 }
 
 async function generateConfig(args, configType, configFile) {
   const logger = getLogger(args);
-  const hasConfig = await check(configType);
+  const hasConfig = check(configType);
   if (!hasConfig) {
     const conf = await getConfig(configType, args);
     await fsPromises.writeFile(
@@ -55,7 +61,7 @@ async function generateConfig(args, configType, configFile) {
 }
 
 module.exports = async function init(args) {
-  const { configFile } = args;
+  const { configFile, swc } = args;
   const logger = getLogger(args);
   const { src, sourceTypes } = getInputProps(args, logger);
   const finalArgs = updateArgs(args, sourceTypes);
@@ -76,6 +82,9 @@ module.exports = async function init(args) {
     }
     await generateConfig(finalArgs, configTypes.BABEL, configFiles.BABEL);
     await generateConfig(finalArgs, configTypes.ESLINT, configFiles.ESLINT);
+    if (swc) {
+      await generateConfig(finalArgs, configTypes.SWC, configFiles.SWC);
+    }
   } catch (e) {
     logger.verbose(e);
   }
