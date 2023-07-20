@@ -2,14 +2,10 @@ const { ESLint } = require('eslint');
 const {
   check,
   resolvePath,
-  blue,
-  timeStart,
-  timeEnd,
-  green,
-  red,
-  yellow,
-  resolveInput,
+  getInputProps,
   updateArgs,
+  getLogger,
+  getRsConfig,
 } = require('../../../utils');
 const eslintConfig = require('../../../templates/eslint.config');
 const {
@@ -17,26 +13,31 @@ const {
   MSG_LINT,
   MSG_LINTED,
   MSG_LINTER,
+  ERR_SWC_ESLINT,
 } = require('../../../constants');
 
 module.exports = async function lint(args) {
-  const { typescript, react, preact } = resolveInput(args);
-  const finalArgs = updateArgs(args, { typescript, react, preact });
-  blue(MSG_LINT);
-  timeStart(MSG_LINTED);
-  const eslintConfigFile = await check(configTypes.ESLINT);
-  const { verbose, fix, formatter: formatterType } = finalArgs;
+  const logger = getLogger(args);
+  const { srcRoot } = getRsConfig(args);
+  const { sourceTypes } = getInputProps(args);
+  const finalArgs = updateArgs(args, sourceTypes);
+  logger.log(MSG_LINT);
+  logger.timeStart(MSG_LINTED);
+  const { fix, formatter: formatterType, swc } = finalArgs;
   try {
+    if (swc) {
+      logger.warn(ERR_SWC_ESLINT);
+    }
     let errorCount = 0;
     let warningCount = 0;
     let totalFiles = 0;
     const overrideConfig = await eslintConfig(finalArgs);
     const eslint = new ESLint({
-      useEslintrc: !!eslintConfigFile,
+      useEslintrc: Boolean(check(configTypes.ESLINT)),
       overrideConfig,
       fix,
     });
-    const results = await eslint.lintFiles(resolvePath('src/**/*'));
+    const results = await eslint.lintFiles(resolvePath(`${srcRoot}/**/*`));
     totalFiles = results.length;
     results.forEach((result) => {
       errorCount += result.errorCount;
@@ -44,20 +45,22 @@ module.exports = async function lint(args) {
     });
     const formatter = await eslint.loadFormatter(formatterType);
     const resultText = formatter.format(results);
+    let hasErrors = false;
     if (errorCount > 0) {
-      red(MSG_LINTER(totalFiles, errorCount, warningCount));
+      logger.error(MSG_LINTER(totalFiles, errorCount, warningCount));
+      hasErrors = true;
     } else if (warningCount > 0) {
-      yellow(MSG_LINTER(totalFiles, errorCount, warningCount));
+      logger.warn(MSG_LINTER(totalFiles, errorCount, warningCount));
     } else {
-      green(MSG_LINTER(totalFiles, errorCount, warningCount));
+      logger.success(MSG_LINTER(totalFiles, errorCount, warningCount));
     }
-
     console.log(resultText);
-  } catch (e) {
-    if (verbose) {
-      console.error(e);
+    if (hasErrors) {
+      throw new Error(''); // Throwing error to exit process with error code
     }
+  } catch (e) {
+    logger.verbose(e);
     process.exit(1);
   }
-  timeEnd(MSG_LINTED);
+  logger.timeEnd(MSG_LINTED);
 };

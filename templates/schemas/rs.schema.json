@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "RollupScripts",
+  "description": "Schema definition for rollup script configuration",
+  "type": "object",
+  "properties": {
+    "srcRoot": {
+      "description": "Provide path to root src folder that contains source files",
+      "type": "string"
+    },
+    "input": {
+      "description": "Provide path to input file name relative to srcRoot",
+      "type": "string"
+    },
+    "outputFormats": {
+      "description": "Provide a list of supported output formats",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["es", "esm", "cjs", "iife", "umd"]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "globals": {
+      "description": "Specify names of global dependencies in 'iife' and 'umd' builds",
+      "type": "object",
+      "additionalProperties": true
+    },
+    "external": {
+      "description": "List of packages to be treated as peer dependencies",
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        {
+          "type": "string",
+          "enum": ["all", "peer", "none"]
+        }
+      ]
+    },
+    "outDir": {
+      "description": "Provide a path to output build directory",
+      "type": "string"
+    },
+    "rollupConfig": {
+      "description": "Provide a path to custom rollup config",
+      "type": "string"
+    }
+  },
+  "required": ["srcRoot", "outputFormats"]
+}

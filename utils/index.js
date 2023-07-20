@@ -1,10 +1,10 @@
 module.exports = {
   ...require('./argv'),
-  ...require('./getPackage'),
+  ...require('./getResource'),
   ...require('./name'),
   ...require('./resolvePath'),
   ...require('./opts'),
-  ...require('./colors'),
+  ...require('./logger'),
   ...require('./env'),
   ...require('./input'),
   ...require('./output'),
@@ -13,4 +13,6 @@ module.exports = {
   ...require('./check'),
   ...require('./prettyJSON'),
   ...require('./array'),
+  ...require('./rs'),
+  ...require('./flatten'),
 };

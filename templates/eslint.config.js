@@ -3,7 +3,6 @@ const {
   ESLINT_TYPSCRIPT_EXTENSIONS,
   ESLINT_REACT_EXTENSIONS,
   ESLINT_DEFAULT_EXTENSIONS,
-  ESLINT_PREACT_EXTENSIONS,
 } = require('../constants');
 const { check, resolvePath } = require('../utils');
 const babelConfig = require('./babel.config');
@@ -25,7 +24,7 @@ module.exports = async (args) => {
   };
 
   if (typescript || react || preact) {
-    const babelFile = await check(configTypes.BABEL);
+    const babelFile = check(configTypes.BABEL);
     const babelrc = !!babelFile;
     eslintBaseRc.parser = '@babel/eslint-parser';
     Object.assign(eslintBaseRc.parserOptions, {
@@ -53,9 +52,6 @@ module.exports = async (args) => {
           version: 'detect',
         },
       });
-    }
-    if (preact) {
-      eslintBaseRc.extends.push(...ESLINT_PREACT_EXTENSIONS);
     }
   }
 

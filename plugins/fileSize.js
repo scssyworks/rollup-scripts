@@ -1,9 +1,10 @@
 const path = require('node:path');
 const { ROOT } = require('../constants');
-const { green, calculateSize, yellow } = require('../utils');
+const { calculateSize, getLogger } = require('../utils');
 
 module.exports = {
-  fileSize() {
+  fileSize(args) {
+    const logger = getLogger(args);
     return {
       name: 'fileSize',
       writeBundle: {
@@ -12,11 +13,17 @@ module.exports = {
             const filePath = opts.file.substring(0, opts.file.lastIndexOf('/'));
             const bundleNames = Object.keys(bundle);
             for (const name of bundleNames) {
-              const actualPath = path.join(filePath, name);
-              const relativePath = path.relative(ROOT, actualPath);
               const fileType = bundle[name].type;
-              const fileSize = await calculateSize(actualPath);
-              green(`[${fileType}] → ${relativePath}`, fileSize);
+              const fileMap = bundle[name].map;
+              if (fileType === 'chunk') {
+                const actualPath = path.join(filePath, name);
+                const relativePath = path.relative(ROOT, actualPath);
+                const fileSize = await calculateSize(actualPath);
+                logger.success(
+                  `✔️ ${relativePath}${fileMap ? ' ⛯' : ''}`,
+                  fileSize
+                );
+              }
             }
           }
         },

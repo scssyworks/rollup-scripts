@@ -1,8 +1,21 @@
-const { deps } = require('./getPackage');
+const { deps } = require('./getResource');
 
 module.exports = {
-  externalize() {
-    const allDeps = deps(['dependencies', 'peerDependencies']);
-    return allDeps.map((module) => new RegExp(`^${module}(\\/\.+)*$`));
+  /**
+   * Creates an external connfiguration
+   * @param {string[] | 'all' | 'peer' | 'none'} external Package.json keys
+   * @returns {(RegExp|string)[]}
+   */
+  externalize(external) {
+    if (Array.isArray(external)) {
+      return external;
+    }
+    const keys =
+      external === 'all'
+        ? ['dependencies', 'devDependencies', 'peerDependencies']
+        : external === 'peer'
+        ? ['peerDependencies']
+        : [];
+    return deps(keys).map((module) => new RegExp(`^${module}`));
   },
 };

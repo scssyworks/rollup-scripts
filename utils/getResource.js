@@ -1,14 +1,9 @@
-const path = require('node:path');
-const { ROOT, PKG, JSX_MODULES, ERR_JSX_MODULE } = require('../constants');
+const { PKG, JSX_MODULES, ERR_JSX_MODULE } = require('../constants');
+const { resolvePath } = require('./resolvePath');
 
-/**
- * Returns package.json configuration
- * @typedef {import('./getPackage.ts').PackageJson} PackageJson
- * @returns {PackageJson}
- */
-function getPackage() {
+function getResource(fileName) {
   try {
-    return require(path.join(ROOT, PKG));
+    return require(resolvePath(fileName));
   } catch (e) {
     return null;
   }
@@ -16,11 +11,11 @@ function getPackage() {
 
 /**
  * Returns package.json field value
- * @param {keyof PackageJson} field Field name
+ * @param {string} field Field name
  * @returns {any}
  */
 function fromPackage(field) {
-  const pkg = getPackage();
+  const pkg = getResource(PKG);
   return pkg?.[field] ?? null;
 }
 
@@ -28,7 +23,7 @@ function fromPackage(field) {
  * Returns list of dependencies
  * @returns {string[]} List of dependencies
  */
-function deps(keys = ['dependencies', 'devDependencies']) {
+function deps(keys) {
   const deps = [];
   for (const key of keys) {
     for (const dep of Object.keys(fromPackage(key) ?? {})) {
@@ -41,7 +36,9 @@ function deps(keys = ['dependencies', 'devDependencies']) {
 }
 
 function jsxImportSource() {
-  const modules = deps().filter((module) => JSX_MODULES.includes(module));
+  const modules = deps(['dependencies']).filter((module) =>
+    JSX_MODULES.includes(module)
+  );
   if (modules.length === 0) {
     // No JSX library found
     return '';
@@ -55,7 +52,7 @@ function jsxImportSource() {
 }
 
 module.exports = {
-  getPackage,
+  getResource,
   fromPackage,
   jsxImportSource,
   deps,

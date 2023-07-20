@@ -1,22 +1,21 @@
 [![CodeQL](https://github.com/scssyworks/rollup-scripts/actions/workflows/codeql.yml/badge.svg)](https://github.com/scssyworks/rollup-scripts/actions/workflows/codeql.yml)
 
-# Rollup scripts
+<img src="./logo/rollup-scripts.svg" width="100px" />
 
-Rollup scripts is a highly configurable "zero configuration" bundler for
-libraries.
+# Rollup Scripts
+
+Rollup scripts is a next generation "zero configuration" compiler for JavaScript
+and TypeScript libraries.
 
 ### What does that mean?
 
-Rollup scripts work out of the box for most cases, means you don't have to spend
-time setting up configuration files for your projects. However, in special use
-cases, rollup scripts makes it super easy for you to setup configuration.
-
-```sh
-# Configure rollup
-npx rollup-scripts init
-```
+Rollup scripts is designed to work out of the box for majority of `JavaScript`
+and `TypeScript` projects. It smartly wraps the core functionality of `Rollup`
+thereby eliminating the need for setting up projects and configurations
+manually.
 
 # Roadmap
+
 https://github.com/scssyworks/rollup-scripts/blob/main/ROADMAP.md
 
 # Getting started
@@ -33,7 +32,13 @@ npm init
 npm i -D --save-exact rollup-scripts
 ```
 
-3. Create `src` folder and an entry file `index.mjs` with a valid `JavaScript`
+3. If you are testing a forked repository:
+
+```sh
+npm i -D --save-exact github:{your username}/rollup-scripts
+```
+
+4. Create an `src` folder and an entry file `index.js` with a valid `JavaScript`
    code.
 
 ```sh
@@ -41,7 +46,7 @@ mkdir src
 touch src/index.mjs
 ```
 
-4. Update `package.json` file as follows
+5. Update `package.json` file as follows
 
 ```json
 {
@@ -49,16 +54,18 @@ touch src/index.mjs
   "module": "dist/esm/index.mjs",
   "scripts": {
     "build": "rollup-scripts build",
-    "lint": "rollup-scripts lint"
+    "lint": "rollup-scripts lint",
+    "init": "rollup-scripts init"
   }
 }
 ```
 
-5. Run command `npm run build` to compile the code.
+6. Run command `npm run build` to compile the code.
 
 ## NOTE:
 
-Rollup scripts supports compilation for `JavaScript`, `TypeScript`, `React` and `Preact` projects.
+Rollup scripts supports compilation for `JavaScript`, `TypeScript`, `React` and
+`Preact` projects.
 
 ```sh
 npx rollup-scripts build
@@ -66,13 +73,13 @@ npx rollup-scripts build
 
 # Available commands
 
-Rollup scripts at the moment supports `init`, `build` and `lint` commands. For
-more details run:
+Rollup-scripts supports `init`, `build` and `lint` scripts. For more details
+run:
 
 ```sh
 npx rollup-scripts --help
-npx rollup-scripts build --help
 ```
 
 ## This package is currently experimental and in active development. Version 0.0.x is unstable and should be used only for trial purposes.
-Raise a defect here: https://github.com/scssyworks/rollup-scripts/issues
+
+https://github.com/scssyworks/rollup-scripts/issues
