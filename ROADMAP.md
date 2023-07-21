@@ -10,7 +10,7 @@
 - [x] Add support for `JSON` files
 - [x] Add support for `yaml` and `graphql` files
 - [ ] Add support for `tailwindcss`
-- [ ] Add support for `CSS-in-JS` libraries
+- [ ] Add support for `CSS-in-JS` libraries starting with `Emotion`
 - [ ] Add support for `--watch`
 - [ ] Add support for `serve` command to render projects in local environment. The goal is to create a `playground` which would allow to test libraries locally without publishing.
 - [ ] Add support for `Angular` projects
