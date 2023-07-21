@@ -8,6 +8,7 @@ const { babel } = require('@rollup/plugin-babel');
 const swc = require('@rollup/plugin-swc');
 const yaml = require('@rollup/plugin-yaml');
 const graphql = require('@rollup/plugin-graphql');
+const svelte = require('rollup-plugin-svelte');
 const babelConfig = require('./babel.config');
 const {
   getOutputFileName,
@@ -72,6 +73,7 @@ module.exports = async (args) => {
         json(),
         yaml(),
         graphql(),
+        svelte(),
         nodeResolve(),
         commonjs({
           include: 'node_modules/**',
