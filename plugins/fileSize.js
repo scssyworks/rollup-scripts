@@ -1,5 +1,5 @@
 const path = require('node:path');
-const { ROOT } = require('../constants');
+const { ROOT, PREFIX } = require('../constants');
 const { calculateSize, getLogger } = require('../utils');
 
 module.exports = {
@@ -20,7 +20,7 @@ module.exports = {
                 const relativePath = path.relative(ROOT, actualPath);
                 const fileSize = await calculateSize(actualPath);
                 logger.success(
-                  `✔️ ${relativePath}${fileMap ? ' ⛯' : ''}`,
+                  `${PREFIX}${relativePath}${fileMap ? ' ⚡︎' : ''}`,
                   fileSize
                 );
               }

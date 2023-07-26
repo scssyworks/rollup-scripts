@@ -33,8 +33,6 @@ const OUT = 'dist/umd/output.js';
 const EXT_REGEX = /\.(j|mj|cj|t|mt|ct)sx?$/;
 const INDEX_REGEX = /index\.(j|mj|cj|t|mt|ct)sx?$/;
 
-const VAR_FILE_PATH = '$$filePath$$';
-
 const DEV = /\.development/;
 
 const VALID_BABEL_FILES = [
@@ -105,6 +103,7 @@ const ESLINT_REACT_EXTENSIONS = [
 module.exports = {
   DEV,
   ROOT,
+  PREFIX,
   JSX_MODULES,
   SCRIPT_ROOT,
   CONFIG_FILE,
@@ -131,7 +130,6 @@ module.exports = {
   CMD_INIT,
   SCRIPT_NAME,
   DEFAULT_ENCODING,
-  VAR_FILE_PATH,
   configTypes,
   configFiles,
   PKG,
