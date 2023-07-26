@@ -4,15 +4,14 @@
 
 # Rollup Scripts
 
-Rollup scripts is a next generation "zero configuration" compiler for JavaScript
-and TypeScript libraries.
+Rollup scripts zero configuration bundler for JavaScript and TypeScript
+libraries.
 
 ### What does that mean?
 
-Rollup scripts is designed to work out of the box for majority of `JavaScript`
-and `TypeScript` projects. It smartly wraps the core functionality of `Rollup`
-thereby eliminating the need for setting up projects and configurations
-manually.
+Rollup scripts is designed to work out of the box for majority of `JS` and `TS`
+projects. It wraps the core functionality of `Rollup` in a smart way, therefore
+eliminating the need for setting up projects and configurations from scratch.
 
 # Roadmap
 
@@ -23,7 +22,7 @@ https://github.com/scssyworks/rollup-scripts/blob/main/ROADMAP.md
 1. Create an npm project
 
 ```sh
-npm init
+npm init -y
 ```
 
 2. Install `rollup-scripts`. **NOTE:** Do not install this package globally!
@@ -64,8 +63,9 @@ touch src/index.mjs
 
 ## NOTE:
 
-Rollup scripts supports compilation for `JavaScript`, `TypeScript`, `React` and
-`Preact` projects.
+Rollup scripts currently supports compilation for `JavaScript`, `TypeScript`,
+`React` and `Preact` projects. We are working to add support for `Angular`,
+`Vue` and `Svelte` projects as well.
 
 ```sh
 npx rollup-scripts build
