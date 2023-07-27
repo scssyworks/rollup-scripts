@@ -15,4 +15,5 @@ module.exports = {
   ...require('./array'),
   ...require('./rs'),
   ...require('./flatten'),
+  ...require('./crossPath'),
 };
