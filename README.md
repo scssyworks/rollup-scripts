@@ -4,7 +4,7 @@
 
 # Rollup Scripts
 
-Rollup scripts zero configuration bundler for JavaScript and TypeScript
+Rollup scripts is a "zero config" bundler for `JavaScript` and `TypeScript`
 libraries.
 
 ### What does that mean?
