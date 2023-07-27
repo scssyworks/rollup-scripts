@@ -1,6 +1,6 @@
 const path = require('node:path');
 const { ROOT, PREFIX } = require('../constants');
-const { calculateSize, getLogger } = require('../utils');
+const { calculateSize, getLogger, crossPath } = require('../utils');
 
 module.exports = {
   fileSize(args) {
@@ -10,7 +10,10 @@ module.exports = {
       writeBundle: {
         async handler(opts, bundle) {
           if (opts && typeof opts.file === 'string' && bundle) {
-            const filePath = opts.file.substring(0, opts.file.lastIndexOf('/'));
+            const filePath = opts.file.substring(
+              0,
+              crossPath(opts.file).lastIndexOf('/')
+            );
             const bundleNames = Object.keys(bundle);
             for (const name of bundleNames) {
               const fileType = bundle[name].type;
