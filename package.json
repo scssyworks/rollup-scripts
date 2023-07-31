@@ -65,7 +65,7 @@
     "@rollup/plugin-yaml": "4.1.1",
     "@typescript-eslint/eslint-plugin": "6.2.0",
     "@typescript-eslint/parser": "6.2.0",
-    "browserslist": "4.21.9",
+    "browserslist": "4.21.10",
     "chalk": "4.1.2",
     "eslint": "8.45.0",
     "eslint-import-resolver-typescript": "3.5.5",
