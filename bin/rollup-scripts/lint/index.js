@@ -28,14 +28,15 @@ module.exports = async function lint(args) {
     if (swc) {
       logger.warn(ERR_SWC_ESLINT);
     }
+    const useEslintrc = Boolean(check(configTypes.ESLINT));
     let errorCount = 0;
     let warningCount = 0;
     let totalFiles = 0;
     const overrideConfig = await eslintConfig(finalArgs);
     const eslint = new ESLint({
-      useEslintrc: Boolean(check(configTypes.ESLINT)),
-      overrideConfig,
+      useEslintrc,
       fix,
+      ...(!useEslintrc ? { overrideConfig } : {}),
     });
     const results = await eslint.lintFiles(resolvePath(`${srcRoot}/**/*`));
     totalFiles = results.length;
