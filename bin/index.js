@@ -51,7 +51,7 @@ yargs(hideBin(process.argv))
   )
   .command(
     'dev',
-    'Start bundler in watch module for continuous development',
+    'Start bundler in watch mode for continuous development',
     (yargs) => {
       return addCommonOptions(yargs);
     },
