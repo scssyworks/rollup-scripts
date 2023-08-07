@@ -16,7 +16,7 @@ async function generateOutput(bundle, outputConfig) {
 
 async function singleBuild(conf) {
   const bundle = await rollup(conf);
-  await generateOutput(bundle);
+  await generateOutput(bundle, conf.output);
   bundle.close();
 }
 
