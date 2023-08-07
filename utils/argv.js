@@ -1,4 +1,4 @@
-const ALL_COMMANDS = ['init', 'build', 'test', 'lint'];
+const ALL_COMMANDS = ['init', 'build', 'test', 'lint', 'dev'];
 const EXEC_COMMANDS = ALL_COMMANDS.filter((cmd) => cmd !== 'init');
 
 module.exports = {
