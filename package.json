@@ -73,13 +73,13 @@
     "eslint-plugin-jsx-a11y": "6.7.1",
     "eslint-plugin-react": "7.33.0",
     "eslint-plugin-react-hooks": "4.6.0",
-    "jest": "29.6.1",
+    "jest": "29.6.4",
     "rollup": "3.26.3",
     "typescript": "5.1.6",
     "yargs": "17.7.2"
   },
   "devDependencies": {
-    "@types/jest": "29.5.3",
+    "@types/jest": "29.5.4",
     "rome": "12.1.3"
   }
 }
