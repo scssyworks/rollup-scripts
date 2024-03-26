@@ -30,10 +30,6 @@ const addCommonOptions = (yargs) =>
       type: 'string',
       describe: 'Provide custom rollup configuration',
       alias: 'c',
-    })
-    .option('swc', {
-      ...boolConfig,
-      describe: 'Switch to SWC compiler',
     });
 
 yargs(hideBin(process.argv))
@@ -42,38 +38,21 @@ yargs(hideBin(process.argv))
   .command(
     'build',
     'Build JavaScript/TypeScript library',
-    (yargs) => {
-      return addCommonOptions(yargs);
-    },
-    (args) => {
-      build(args);
-    }
+    addCommonOptions,
+    build
   )
   .command(
     'dev',
     'Start bundler in watch mode for continuous development',
-    (yargs) => {
-      return addCommonOptions(yargs);
-    },
-    (args) => {
-      dev(args);
-    }
+    addCommonOptions,
+    dev
   )
-  .command(
-    'init',
-    'Setup configuration files',
-    (yargs) => {
-      return addCommonOptions(yargs);
-    },
-    (args) => {
-      init(args);
-    }
-  )
+  .command('init', 'Setup configuration files', addCommonOptions, init)
   .command(
     'lint',
     'Lint JS/TS files in your workspace',
-    (yargs) => {
-      return addCommonOptions(yargs)
+    (yargs) =>
+      addCommonOptions(yargs)
         .option('fix', {
           ...boolConfig,
           describe: 'Automatically fix lint errors',
@@ -83,11 +62,8 @@ yargs(hideBin(process.argv))
           type: 'string',
           default: 'stylish',
           describe: 'Provide a custom formatter',
-        });
-    },
-    (args) => {
-      lint(args);
-    }
+        }),
+    lint
   )
   .demandCommand(
     1,
