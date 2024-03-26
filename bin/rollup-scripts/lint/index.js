@@ -40,10 +40,10 @@ module.exports = async function lint(args) {
     });
     const results = await eslint.lintFiles(resolvePath(`${srcRoot}/**/*`));
     totalFiles = results.length;
-    results.forEach((result) => {
+    for (const result of results) {
       errorCount += result.errorCount;
       warningCount += result.warningCount;
-    });
+    }
     const formatter = await eslint.loadFormatter(formatterType);
     const resultText = formatter.format(results);
     let hasErrors = false;

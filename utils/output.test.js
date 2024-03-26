@@ -8,8 +8,8 @@ jest.mock('./getResource', () => ({
     key === 'main'
       ? 'dist/cjs/index.js'
       : key === 'module'
-      ? 'dist/es/index.js'
-      : '',
+        ? 'dist/es/index.js'
+        : '',
 }));
 
 const mockRsConfig = jest.fn();

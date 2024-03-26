@@ -14,8 +14,8 @@ module.exports = {
       external === 'all'
         ? ['dependencies', 'devDependencies', 'peerDependencies']
         : external === 'peer'
-        ? ['peerDependencies']
-        : [];
+          ? ['peerDependencies']
+          : [];
     return deps(keys).map((module) => new RegExp(`^${module}`));
   },
 };
