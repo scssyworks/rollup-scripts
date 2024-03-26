@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const { build, init, lint } = require('./rollup-scripts');
+const { build, init, lint, dev } = require('./rollup-scripts');
 const yargs = require('yargs');
 const { hideBin } = require('yargs/helpers');
 const { CONFIG_FILE, SCRIPT_NAME } = require('../constants');
@@ -47,6 +47,16 @@ yargs(hideBin(process.argv))
     },
     (args) => {
       build(args);
+    }
+  )
+  .command(
+    'dev',
+    'Start bundler in watch mode for continuous development',
+    (yargs) => {
+      return addCommonOptions(yargs);
+    },
+    (args) => {
+      dev(args);
     }
   )
   .command(

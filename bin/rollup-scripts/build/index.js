@@ -14,31 +14,39 @@ async function generateOutput(bundle, outputConfig) {
   }
 }
 
-module.exports = async function build(args) {
-  const bundles = [];
-  let buildFailed = false;
+async function singleBuild(conf) {
+  const bundle = await rollup(conf);
+  await generateOutput(bundle, conf.output);
+  bundle.close();
+}
+
+async function rollupBuild(configArray, args) {
   const logger = getLogger(args);
+  try {
+    await Promise.all(configArray.map((conf) => singleBuild(conf)));
+    return true;
+  } catch (e) {
+    logger.verbose(e);
+    return false;
+  }
+}
+
+module.exports = async function build(args) {
+  const logger = getLogger(args);
+  const { isDevelopment } = args;
   logger.log(MSG_COMPILE);
   logger.timeStart(MSG_COMPILED);
-  try {
-    const rollupConfig = await getConfig(args, logger);
-    const configs = wrapArray(rollupConfig);
-    for (const conf of configs) {
-      const bundle = await rollup(conf);
-      bundles.push(bundle);
-      logger.log(MSG_EMITTED);
-      await generateOutput(bundle, conf.output);
-    }
-  } catch (error) {
-    buildFailed = true;
-    logger.error(error);
-    logger.verbose(error);
+  const rollupConfig = await getConfig(args, logger);
+  const configs = wrapArray(rollupConfig);
+  if (isDevelopment) {
+    logger.muted(
+      'Dev script is in active development and will be available in next version.'
+    );
+  } else {
+    logger.log(MSG_EMITTED);
+    const success = await rollupBuild(configs);
+    const exitCode = success ? 0 : 1;
+    logger.timeEnd(MSG_COMPILED);
+    process.exit(exitCode);
   }
-  if (bundles.length) {
-    for (const bundle of bundles) {
-      bundle.close();
-    }
-  }
-  logger.timeEnd(MSG_COMPILED);
-  process.exit(buildFailed ? 1 : 0);
 };
