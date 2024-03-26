@@ -45,8 +45,7 @@ module.exports = async function build(args) {
   } else {
     logger.log(MSG_EMITTED);
     const success = await rollupBuild(configs);
-    const exitCode = success ? 0 : 1;
     logger.timeEnd(MSG_COMPILED);
-    process.exit(exitCode);
+    process.exit(success ? 0 : 1);
   }
 };
