@@ -1,12 +1,12 @@
 function flatten(arr) {
   const flatArray = [];
-  arr.forEach((item) => {
+  for (const item of arr) {
     if (Array.isArray(item)) {
       flatArray.push(...flatten(item));
     } else {
       flatArray.push(item);
     }
-  });
+  }
   return flatArray;
 }
 

@@ -12,8 +12,8 @@ module.exports = {
       const packageField = ['es', 'esm'].includes(format)
         ? 'module'
         : format === 'cjs'
-        ? 'main'
-        : '';
+          ? 'main'
+          : '';
       obj[format] = resolvePath(
         (packageField && fromPackage(packageField)) ||
           path.join(outDir, format, defaultFileName)

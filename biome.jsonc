@@ -1,5 +1,5 @@
 {
-  "$schema": "https://docs.rome.tools/schemas/12.1.3/schema.json",
+  "$schema": "https://biomejs.dev/schemas/1.6.3/schema.json",
   "organizeImports": {
     "enabled": true
   },
@@ -12,10 +12,10 @@
   },
   "formatter": {
     "enabled": true,
-    "indentSize": 2,
     "indentStyle": "space",
     "lineWidth": 80,
-    "ignore": ["coverage/**/*", ".vscode/**/*"]
+    "ignore": ["coverage/**/*", ".vscode/**/*"],
+    "indentWidth": 2
   },
   "javascript": {
     "formatter": {
