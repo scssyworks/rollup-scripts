@@ -1,5 +1,7 @@
+const { isString } = require('./typeOf');
+
 module.exports = {
   crossPath(path) {
-    return typeof path === 'string' ? path.replace(/\\/g, '/') : '';
+    return isString(path) ? path.replace(/\\/g, '/') : '';
   },
 };

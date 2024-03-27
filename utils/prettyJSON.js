@@ -1,8 +1,7 @@
+const { isObject } = require('./typeOf');
+
 module.exports = {
   prettyJSON(obj) {
-    if (obj && typeof obj === 'object') {
-      return JSON.stringify(obj, null, 2);
-    }
-    return '';
+    return isObject(obj) ? JSON.stringify(obj, null, 2) : '';
   },
 };

@@ -14,6 +14,6 @@ module.exports = {
   ...require('./prettyJSON'),
   ...require('./array'),
   ...require('./rs'),
-  ...require('./flatten'),
   ...require('./crossPath'),
+  ...require('./typeOf'),
 };
