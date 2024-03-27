@@ -12,12 +12,13 @@ const {
 } = require('../constants');
 const { jsxImportSource } = require('./getResource');
 const { getRsConfig } = require('./rs');
+const { isString } = require('./typeOf');
 
 const mjsSrc = 'src/index.mjs';
 
 function resolveInputPath(args) {
   const { srcRoot, input } = getRsConfig(args);
-  const fromConfig = typeof input === 'string' && typeof srcRoot === 'string';
+  const fromConfig = isString(input) && isString(srcRoot);
   const logger = getLogger(args);
   const cmd = getCommand(args);
   try {

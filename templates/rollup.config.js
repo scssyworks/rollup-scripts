@@ -18,8 +18,9 @@ const {
   getLogger,
   getInputProps,
   updateArgs,
-  resolvePath,
+  getResource,
   getName,
+  isFunction,
 } = require('../utils');
 const { configTypes, MSG_BABELRC } = require('../constants');
 const { fileSize } = require('../plugins');
@@ -88,9 +89,8 @@ module.exports = async (args) => {
     });
 
     // Check if rollup config path is provided
-    const rollupConfigFunc =
-      typeof rollupConfig === 'string' && require(resolvePath(rollupConfig));
-    if (typeof rollupConfigFunc === 'function') {
+    const rollupConfigFunc = getResource(rollupConfig);
+    if (isFunction(rollupConfigFunc)) {
       return await Promise.resolve(rollupConfigFunc(defaultConfig));
     }
     return defaultConfig;
