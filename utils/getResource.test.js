@@ -1,6 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { SCRIPT_NAME, DEFAULT_ENCODING, PKG, ROOT } = require('../constants');
+const { SCRIPT_NAME, DEFAULT_ENCODING, PKG } = require('../constants');
 const {
   fromPackage,
   deps,
@@ -8,8 +8,9 @@ const {
   getResource,
 } = require('./getResource');
 const { prettyJSON } = require('./prettyJSON');
+const { cwd } = require('./env');
 
-const tempFolder = path.join(ROOT, 'temp');
+const tempFolder = path.join(cwd(), 'temp');
 const mockResolvePath = jest.fn((file) => path.join(tempFolder, file));
 jest.mock('./resolvePath', () => ({
   ...jest.requireActual('./resolvePath'),
