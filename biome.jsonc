@@ -8,13 +8,13 @@
     "rules": {
       "recommended": true
     },
-    "ignore": ["coverage/**/*", ".vscode/**/*"]
+    "ignore": ["coverage/**/*", ".vscode/**/*", "proj/**/*"]
   },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
     "lineWidth": 80,
-    "ignore": ["coverage/**/*", ".vscode/**/*"],
+    "ignore": ["coverage/**/*", ".vscode/**/*", "proj/**/*"],
     "indentWidth": 2
   },
   "javascript": {
