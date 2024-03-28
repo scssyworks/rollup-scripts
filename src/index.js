@@ -1,9 +1,13 @@
-const { ROOT } = require('../constants');
-const { resolvePath, fromPackage, getOutputFileName } = require('../utils');
-
-module.exports = {
-  cwd: ROOT,
+const {
   resolvePath,
   fromPackage,
   getOutputFileName,
+  cwd,
+} = require('../utils');
+
+module.exports = {
+  resolvePath,
+  fromPackage,
+  getOutputFileName,
+  cwd,
 };

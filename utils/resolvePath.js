@@ -1,5 +1,5 @@
 const path = require('node:path');
-const { ROOT } = require('../constants');
+const { cwd } = require('./env');
 
 module.exports = {
   /**
@@ -8,6 +8,6 @@ module.exports = {
    * @returns {string} Path relative to your workspace
    */
   resolvePath(p) {
-    return path.join(ROOT, p);
+    return path.join(cwd(), p);
   },
 };
