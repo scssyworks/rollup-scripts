@@ -4,7 +4,6 @@ const path = require('node:path');
 const rsConfig = require('../../../templates/rs.json');
 const babelConfig = require('../../../templates/babel.config');
 const eslintConfig = require('../../../templates/eslint.config');
-const swcConfig = require('../../../templates/swc.config');
 const {
   MSG_CONFIG,
   MSG_CONFIGBABEL,
@@ -30,8 +29,6 @@ async function getConfig(configType, args) {
       return babelConfig(args);
     case configTypes.ESLINT:
       return await eslintConfig(args);
-    case configTypes.SWC:
-      return swcConfig(args);
   }
 }
 
@@ -61,7 +58,7 @@ async function generateConfig(args, configType, configFile) {
 }
 
 module.exports = async function init(args) {
-  const { configFile, swc } = args;
+  const { configFile } = args;
   const logger = getLogger(args);
   const { src, sourceTypes } = getInputProps(args, logger);
   const finalArgs = updateArgs(args, sourceTypes);
@@ -82,9 +79,6 @@ module.exports = async function init(args) {
     }
     await generateConfig(finalArgs, configTypes.BABEL, configFiles.BABEL);
     await generateConfig(finalArgs, configTypes.ESLINT, configFiles.ESLINT);
-    if (swc) {
-      await generateConfig(finalArgs, configTypes.SWC, configFiles.SWC);
-    }
   } catch (e) {
     logger.verbose(e);
   }
