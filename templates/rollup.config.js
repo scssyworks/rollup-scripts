@@ -21,6 +21,7 @@ const {
   getResource,
   getName,
   isFunction,
+  injectBabel,
 } = require('../utils');
 const { configTypes, MSG_BABELRC } = require('../constants');
 const { fileSize } = require('../plugins');
@@ -75,17 +76,20 @@ module.exports = async (args) => {
           include: 'node_modules/**',
           extensions: ['.js', '.ts'],
         }),
-        babel({
-          babelrc,
-          exclude: 'node_modules/**',
-          extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.es6', '.es'],
-          babelHelpers: 'runtime',
-          skipPreflightCheck: true,
-          ...(babelrc ? {} : babelConfig(finalArgs)),
-        }),
-        fileSize(args),
+        ...injectBabel(
+          finalArgs,
+          babel({
+            babelrc,
+            exclude: 'node_modules/**',
+            extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.es6', '.es'],
+            babelHelpers: 'runtime',
+            skipPreflightCheck: true,
+            ...(babelrc ? {} : babelConfig(finalArgs)),
+          })
+        ),
+        ...fileSize(finalArgs),
       ],
-      external: externalize(external),
+      external: externalize(finalArgs.watch ? 'none' : external),
     });
 
     // Check if rollup config path is provided

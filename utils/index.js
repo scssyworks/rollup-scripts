@@ -16,4 +16,5 @@ module.exports = {
   ...require('./rs'),
   ...require('./crossPath'),
   ...require('./typeOf'),
+  ...require('./injectBabel'),
 };
