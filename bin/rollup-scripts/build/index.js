@@ -33,12 +33,12 @@ async function rollupBuild(configArray, args) {
 
 module.exports = async function build(args) {
   const logger = getLogger(args);
-  const { isDevelopment } = args;
+  const { watch } = args;
   logger.log(MSG_COMPILE);
   logger.timeStart(MSG_COMPILED);
   const rollupConfig = await getConfig(args, logger);
   const configs = wrapArray(rollupConfig);
-  if (isDevelopment) {
+  if (watch) {
     logger.muted(
       'Dev script is in active development and will be available in next version.'
     );

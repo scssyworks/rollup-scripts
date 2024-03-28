@@ -12,6 +12,7 @@
     "format": "biome format ./ --write",
     "test": "jest --collect-coverage --detect-open-handles",
     "test:proj": "CWD=$PWD/proj npm run exec -- build",
+    "watch:proj": "CWD=$PWD/proj npm run exec -- dev",
     "prepublishOnly": "npm run test && npm run lint && npm run format"
   },
   "repository": {
