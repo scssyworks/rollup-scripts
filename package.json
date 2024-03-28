@@ -11,7 +11,7 @@
     "lint": "biome check ./",
     "format": "biome format ./ --write",
     "test": "jest --collect-coverage --detect-open-handles",
-    "test:proj": "CWD $PWD/proj npm run exec -- build",
+    "test:proj": "CWD=$PWD/proj npm run exec -- build",
     "prepublishOnly": "npm run test && npm run lint && npm run format"
   },
   "repository": {
@@ -61,7 +61,6 @@
     "@rollup/plugin-json": "6.1.0",
     "@rollup/plugin-node-resolve": "15.2.3",
     "@rollup/plugin-replace": "5.0.5",
-    "@rollup/plugin-swc": "0.3.0",
     "@rollup/plugin-terser": "0.4.4",
     "@rollup/plugin-yaml": "4.1.2",
     "@typescript-eslint/eslint-plugin": "7.4.0",
