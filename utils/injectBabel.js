@@ -1,9 +1,11 @@
+function inject(condition, plugin) {
+  return condition ? [plugin] : [];
+}
+
 module.exports = {
+  inject,
   injectBabel(args, plugin) {
     const { typescript, react, preact, watch } = args;
-    if (!watch || react || preact || typescript) {
-      return [plugin];
-    }
-    return [];
+    return inject(!watch || react || preact || typescript, plugin);
   },
 };

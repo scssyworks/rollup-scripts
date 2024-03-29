@@ -7,6 +7,7 @@ const terser = require('@rollup/plugin-terser');
 const { babel } = require('@rollup/plugin-babel');
 const yaml = require('@rollup/plugin-yaml');
 const graphql = require('@rollup/plugin-graphql');
+const html = require('@rollup/plugin-html');
 const babelConfig = require('./babel.config');
 const {
   getOutputFileName,
@@ -22,6 +23,7 @@ const {
   getName,
   isFunction,
   injectBabel,
+  inject,
 } = require('../utils');
 const { configTypes, MSG_BABELRC } = require('../constants');
 const { fileSize } = require('../plugins');
@@ -90,7 +92,8 @@ module.exports = async (args) => {
             ...(babelrc ? {} : babelConfig(finalArgs)),
           })
         ),
-        ...fileSize(finalArgs),
+        ...inject(finalArgs.watch, html()),
+        ...inject(!finalArgs.watch, fileSize(finalArgs)),
       ],
       external: externalize(finalArgs.watch ? 'none' : external),
     });
