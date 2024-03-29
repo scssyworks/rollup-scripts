@@ -17,4 +17,5 @@ module.exports = {
   ...require('./crossPath'),
   ...require('./typeOf'),
   ...require('./injectBabel'),
+  ...require('./template'),
 };
