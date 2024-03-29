@@ -24,6 +24,7 @@ const {
   isFunction,
   injectBabel,
   inject,
+  getTemplate,
 } = require('../utils');
 const { configTypes, MSG_BABELRC } = require('../constants');
 const { fileSize } = require('../plugins');
@@ -36,6 +37,7 @@ module.exports = async (args) => {
   // Resolve input
   const { input, sourceTypes } = getInputProps(args);
   const finalArgs = updateArgs(args, sourceTypes);
+  const { watch } = finalArgs;
   if (babelrc) {
     logger.log(MSG_BABELRC);
   }
@@ -57,7 +59,7 @@ module.exports = async (args) => {
               ...commonConf,
             },
           ];
-          if (!finalArgs.watch) {
+          if (!watch) {
             outConfigs.push({
               file: getOutputFileName(filePaths[format]),
               plugins: [terser()],
@@ -92,10 +94,17 @@ module.exports = async (args) => {
             ...(babelrc ? {} : babelConfig(finalArgs)),
           })
         ),
-        ...inject(finalArgs.watch, html()),
-        ...inject(!finalArgs.watch, fileSize(finalArgs)),
+        ...inject(
+          watch,
+          html({
+            template: ({ files }) => {
+              return getTemplate(files);
+            },
+          })
+        ),
+        ...inject(!watch, fileSize(finalArgs)),
       ],
-      external: externalize(finalArgs.watch ? 'none' : external),
+      external: externalize(watch ? 'none' : external),
     });
 
     // Check if rollup config path is provided
