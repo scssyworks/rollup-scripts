@@ -17,13 +17,13 @@ module.exports = {
   /**
    * Generates appropriate output file name for development and production
    * @param {string} name File name or path
-   * @param {boolean} isDevelopment Development mode is on
+   * @param {boolean} watch Development mode is on
    * @returns {string}
    */
-  getOutputFileName(name, isDevelopment) {
+  getOutputFileName(name, watch) {
     return name.replace(
       EXT_REGEX,
-      (match) => `${isDevelopment ? '.development' : ''}${match}`
+      (match) => `${watch ? '.development' : ''}${match}`
     );
   },
 };

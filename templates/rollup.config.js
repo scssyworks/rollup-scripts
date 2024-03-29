@@ -5,9 +5,9 @@ const commonjs = require('@rollup/plugin-commonjs');
 const replace = require('@rollup/plugin-replace');
 const terser = require('@rollup/plugin-terser');
 const { babel } = require('@rollup/plugin-babel');
-const swc = require('@rollup/plugin-swc');
 const yaml = require('@rollup/plugin-yaml');
 const graphql = require('@rollup/plugin-graphql');
+const html = require('@rollup/plugin-html');
 const babelConfig = require('./babel.config');
 const {
   getOutputFileName,
@@ -19,13 +19,15 @@ const {
   getLogger,
   getInputProps,
   updateArgs,
-  flatten,
-  resolvePath,
+  getResource,
   getName,
+  isFunction,
+  injectBabel,
+  inject,
+  getTemplate,
 } = require('../utils');
 const { configTypes, MSG_BABELRC } = require('../constants');
 const { fileSize } = require('../plugins');
-const swcConfig = require('./swc.config');
 
 module.exports = async (args) => {
   const { external, globals, rollupConfig } = getRsConfig(args);
@@ -35,6 +37,7 @@ module.exports = async (args) => {
   // Resolve input
   const { input, sourceTypes } = getInputProps(args);
   const finalArgs = updateArgs(args, sourceTypes);
+  const { watch } = finalArgs;
   if (babelrc) {
     logger.log(MSG_BABELRC);
   }
@@ -42,26 +45,29 @@ module.exports = async (args) => {
     const defaultConfig = defineConfig({
       input,
       output: [
-        ...flatten(
-          Object.keys(filePaths).map((format) => [
+        ...Object.keys(filePaths).flatMap((format) => {
+          const commonConf = {
+            name: getName(),
+            exports: 'named',
+            format,
+            ...(['iife', 'umd'].includes(format) ? { globals } : {}),
+          };
+          const outConfigs = [
             {
-              name: getName(),
-              exports: 'named',
               file: getOutputFileName(filePaths[format], true),
-              format,
               sourcemap: true,
-              ...(['iife', 'umd'].includes(format) ? { globals } : {}),
+              ...commonConf,
             },
-            {
-              name: getName(),
-              exports: 'named',
+          ];
+          if (!watch) {
+            outConfigs.push({
               file: getOutputFileName(filePaths[format]),
-              format,
-              ...(['iife', 'umd'].includes(format) ? { globals } : {}),
               plugins: [terser()],
-            },
-          ])
-        ),
+              ...commonConf,
+            });
+          }
+          return outConfigs;
+        }),
       ],
       plugins: [
         replace({
@@ -77,37 +83,33 @@ module.exports = async (args) => {
           include: 'node_modules/**',
           extensions: ['.js', '.ts'],
         }),
-        ...[
-          finalArgs.swc
-            ? swc({
-                swc: swcConfig(finalArgs),
-              })
-            : babel({
-                babelrc,
-                exclude: 'node_modules/**',
-                extensions: [
-                  '.js',
-                  '.jsx',
-                  '.ts',
-                  '.tsx',
-                  '.mjs',
-                  '.es6',
-                  '.es',
-                ],
-                babelHelpers: 'runtime',
-                skipPreflightCheck: true,
-                ...(babelrc ? {} : babelConfig(finalArgs)),
-              }),
-        ],
-        fileSize(args),
+        ...injectBabel(
+          finalArgs,
+          babel({
+            babelrc,
+            exclude: 'node_modules/**',
+            extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.es6', '.es'],
+            babelHelpers: 'runtime',
+            skipPreflightCheck: true,
+            ...(babelrc ? {} : babelConfig(finalArgs)),
+          })
+        ),
+        ...inject(
+          watch,
+          html({
+            template: ({ files }) => {
+              return getTemplate(files);
+            },
+          })
+        ),
+        ...inject(!watch, fileSize(finalArgs)),
       ],
-      external: externalize(external),
+      external: externalize(watch ? 'none' : external),
     });
 
     // Check if rollup config path is provided
-    const rollupConfigFunc =
-      typeof rollupConfig === 'string' && require(resolvePath(rollupConfig));
-    if (typeof rollupConfigFunc === 'function') {
+    const rollupConfigFunc = getResource(rollupConfig);
+    if (isFunction(rollupConfigFunc)) {
       return await Promise.resolve(rollupConfigFunc(defaultConfig));
     }
     return defaultConfig;

@@ -1,6 +1,12 @@
 const path = require('node:path');
-const { ROOT, PREFIX } = require('../constants');
-const { calculateSize, getLogger, crossPath } = require('../utils');
+const { PREFIX } = require('../constants');
+const {
+  calculateSize,
+  getLogger,
+  crossPath,
+  isString,
+  cwd,
+} = require('../utils');
 
 module.exports = {
   fileSize(args) {
@@ -9,18 +15,17 @@ module.exports = {
       name: 'fileSize',
       writeBundle: {
         async handler(opts, bundle) {
-          if (opts && typeof opts.file === 'string' && bundle) {
+          if (isString(opts?.file) && bundle) {
             const filePath = opts.file.substring(
               0,
               crossPath(opts.file).lastIndexOf('/')
             );
             const bundleNames = Object.keys(bundle);
             for (const name of bundleNames) {
-              const fileType = bundle[name].type;
-              const fileMap = bundle[name].map;
+              const { type: fileType, map: fileMap } = bundle[name];
               if (fileType === 'chunk') {
                 const actualPath = path.join(filePath, name);
-                const relativePath = path.relative(ROOT, actualPath);
+                const relativePath = path.relative(cwd(), actualPath);
                 const fileSize = await calculateSize(actualPath);
                 logger.success(
                   `${PREFIX}${relativePath}${fileMap ? ' ⚡︎' : ''}`,

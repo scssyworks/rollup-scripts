@@ -24,9 +24,7 @@ module.exports = ({ typescript, react, preact }) => ({
     ]),
   ],
   plugins: [
-    '@babel/plugin-syntax-optional-chaining',
-    ['@babel/plugin-proposal-decorators', { version: '2023-05' }],
-    '@babel/plugin-proposal-private-methods',
+    ['@babel/plugin-proposal-decorators', { version: '2023-11' }],
     ['@babel/plugin-transform-runtime', { regenerator: true }],
   ],
 });

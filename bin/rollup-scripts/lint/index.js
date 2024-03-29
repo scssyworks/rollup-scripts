@@ -23,11 +23,8 @@ module.exports = async function lint(args) {
   const finalArgs = updateArgs(args, sourceTypes);
   logger.log(MSG_LINT);
   logger.timeStart(MSG_LINTED);
-  const { fix, formatter: formatterType, swc } = finalArgs;
+  const { fix, formatter: formatterType } = finalArgs;
   try {
-    if (swc) {
-      logger.warn(ERR_SWC_ESLINT);
-    }
     const useEslintrc = Boolean(check(configTypes.ESLINT));
     let errorCount = 0;
     let warningCount = 0;

@@ -14,7 +14,6 @@ const DEFAULT_ENCODING = {
 const configTypes = {
   BABEL: 'babel',
   ESLINT: 'eslintConfig',
-  SWC: 'swc',
 };
 
 const configFiles = {
@@ -62,6 +61,7 @@ const VALID_ESLINTCONFIG_FILES = [
 const MSG_INIT = 'Initializing...';
 const MSG_LINT = 'Linting...';
 const MSG_COMPILE = 'Compiling...';
+const MSG_WATCH_START = 'Starting watch...';
 const MSG_COMPILED = 'Compiled in';
 const MSG_LINTED = 'Completed in';
 const MSG_LINTER = (totalFiles, errorCount, warningCount) =>
@@ -77,8 +77,6 @@ const ERR_ENTRYFILE =
   'Warning: Input file could not be resolved. Using "index.mjs" as default. Run the following command to configure "input" if you feel this is not right:';
 const ERR_SILENT_VERBOSE =
   'Warning: "--verbose" is currently enabled. "--silent" will be ignored!';
-const ERR_SWC_ESLINT =
-  'Eslint currently does not support SWC. Switching to Babel instead.';
 const CMD_INIT = `npx ${SCRIPT_NAME} init`;
 const ERR_JSX_MODULE = (modules) =>
   `More than one JSX runtime detected ==> ${modules.join(', ')}`;
@@ -114,9 +112,9 @@ module.exports = {
   ERR_NOTFOUND,
   ERR_ENTRYFILE,
   ERR_SILENT_VERBOSE,
-  ERR_SWC_ESLINT,
   MSG_EMITTED,
   MSG_COMPILE,
+  MSG_WATCH_START,
   MSG_COMPILED,
   MSG_BABELRC,
   MSG_CONFIG,
