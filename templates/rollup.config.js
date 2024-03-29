@@ -48,18 +48,21 @@ module.exports = async (args) => {
             format,
             ...(['iife', 'umd'].includes(format) ? { globals } : {}),
           };
-          return [
+          const outConfigs = [
             {
               file: getOutputFileName(filePaths[format], true),
               sourcemap: true,
               ...commonConf,
             },
-            {
+          ];
+          if (!finalArgs.watch) {
+            outConfigs.push({
               file: getOutputFileName(filePaths[format]),
               plugins: [terser()],
               ...commonConf,
-            },
-          ];
+            });
+          }
+          return outConfigs;
         }),
       ],
       plugins: [
