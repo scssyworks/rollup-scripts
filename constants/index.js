@@ -61,6 +61,7 @@ const VALID_ESLINTCONFIG_FILES = [
 const MSG_INIT = 'Initializing...';
 const MSG_LINT = 'Linting...';
 const MSG_COMPILE = 'Compiling...';
+const MSG_WATCH_START = 'Starting watch...';
 const MSG_COMPILED = 'Compiled in';
 const MSG_LINTED = 'Completed in';
 const MSG_LINTER = (totalFiles, errorCount, warningCount) =>
@@ -113,6 +114,7 @@ module.exports = {
   ERR_SILENT_VERBOSE,
   MSG_EMITTED,
   MSG_COMPILE,
+  MSG_WATCH_START,
   MSG_COMPILED,
   MSG_BABELRC,
   MSG_CONFIG,

@@ -1,10 +1,11 @@
-const { rollup } = require('rollup');
+const { rollup, watch: rollupWatch } = require('rollup');
 const getConfig = require('../../config');
 const { wrapArray, getLogger } = require('../../../utils');
 const {
   MSG_COMPILE,
   MSG_COMPILED,
   MSG_EMITTED,
+  MSG_WATCH_START,
 } = require('../../../constants');
 
 async function generateOutput(bundle, outputConfig) {
@@ -31,17 +32,37 @@ async function rollupBuild(configArray, args) {
   }
 }
 
+function initWatch(watchConfig, args, index) {
+  const logger = getLogger(args);
+  const watcher = rollupWatch(watchConfig);
+  watcher.on('event', (event) => {
+    if (event.code === 'START') {
+      logger.log(MSG_COMPILE);
+      logger.timeStart(MSG_COMPILED);
+    }
+    if (event.code === 'END') {
+      logger.timeEnd(MSG_COMPILED);
+    }
+    if (event.result) {
+      event.result.close();
+    }
+  });
+  return watcher;
+}
+
 module.exports = async function build(args) {
   const logger = getLogger(args);
   const { watch } = args;
-  logger.log(MSG_COMPILE);
-  logger.timeStart(MSG_COMPILED);
+  logger.log(watch ? MSG_WATCH_START : MSG_COMPILE);
+  !watch && logger.timeStart(MSG_COMPILED);
   const rollupConfig = await getConfig(args, logger);
   const configs = wrapArray(rollupConfig);
   if (watch) {
-    logger.muted(
-      'Dev script is in active development and will be available in next version.'
-    );
+    // Testing with single build
+    let index = 0;
+    for (const watchOptions of configs) {
+      initWatch(watchOptions, args, index++);
+    }
   } else {
     logger.log(MSG_EMITTED);
     const success = await rollupBuild(configs);
