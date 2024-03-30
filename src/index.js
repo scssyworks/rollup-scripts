@@ -3,6 +3,7 @@ const {
   fromPackage,
   getOutputFileName,
   cwd,
+  getLogger,
 } = require('../utils');
 
 module.exports = {
@@ -10,4 +11,5 @@ module.exports = {
   fromPackage,
   getOutputFileName,
   cwd,
+  getLogger,
 };
