@@ -4,6 +4,7 @@ const {
   getOutputFileName,
   cwd,
   getLogger,
+  crossPath,
 } = require('../utils');
 
 module.exports = {
@@ -12,4 +13,5 @@ module.exports = {
   getOutputFileName,
   cwd,
   getLogger,
+  crossPath,
 };
