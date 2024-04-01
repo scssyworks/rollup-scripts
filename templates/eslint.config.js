@@ -1,10 +1,11 @@
+const { resolvePath } = require('rollup-scripts-utils');
 const {
   configTypes,
   ESLINT_TYPSCRIPT_EXTENSIONS,
   ESLINT_REACT_EXTENSIONS,
   ESLINT_DEFAULT_EXTENSIONS,
 } = require('../constants');
-const { check, resolvePath } = require('../utils');
+const { check } = require('../utils');
 const babelConfig = require('./babel.config');
 
 module.exports = async (args) => {

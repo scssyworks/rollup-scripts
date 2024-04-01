@@ -1,6 +1,5 @@
 const path = require('node:path');
-const { fromPackage } = require('./getResource');
-const { resolvePath } = require('./resolvePath');
+const { resolvePath, fromPackage } = require('rollup-scripts-utils');
 const { getRsConfig } = require('./rs');
 
 module.exports = {

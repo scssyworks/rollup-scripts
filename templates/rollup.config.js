@@ -1,4 +1,5 @@
 const { defineConfig } = require('rollup');
+const { env, getLogger, getResource } = require('rollup-scripts-utils');
 const json = require('@rollup/plugin-json');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
@@ -12,14 +13,11 @@ const babelConfig = require('./babel.config');
 const {
   getOutputFileName,
   resolveOutputFields,
-  env,
   externalize,
   check,
   getRsConfig,
-  getLogger,
   getInputProps,
   updateArgs,
-  getResource,
   getName,
   isFunction,
   injectBabel,
