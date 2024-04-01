@@ -1,5 +1,5 @@
+const { resolvePath } = require('rollup-scripts-utils');
 const { getInputProps } = require('./input');
-const { resolvePath } = require('./resolvePath');
 
 const mockRsConfig = jest.fn();
 jest.mock('./rs', () => ({
@@ -7,8 +7,8 @@ jest.mock('./rs', () => ({
   getRsConfig: () => mockRsConfig(),
 }));
 
-jest.mock('./logger', () => ({
-  ...jest.requireActual('./logger'),
+jest.mock('rollup-scripts-utils', () => ({
+  ...jest.requireActual('rollup-scripts-utils'),
   getLogger: () => ({
     warn: () => {},
     muted: () => {},

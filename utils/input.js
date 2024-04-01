@@ -1,8 +1,7 @@
 const { readdirSync } = require('node:fs');
+const { resolvePath, getLogger } = require('rollup-scripts-utils');
 const path = require('node:path');
 const { getCommand, EXEC_COMMANDS } = require('./argv');
-const { getLogger } = require('./logger');
-const { resolvePath } = require('./resolvePath');
 const {
   INDEX_REGEX,
   ERR_NOTFOUND,

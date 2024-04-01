@@ -1,20 +1,15 @@
 const fs = require('node:fs');
 const path = require('node:path');
+const { cwd } = require('rollup-scripts-utils');
 const { SCRIPT_NAME, DEFAULT_ENCODING, PKG } = require('../constants');
-const {
-  fromPackage,
-  deps,
-  jsxImportSource,
-  getResource,
-} = require('./getResource');
+const { jsxImportSource } = require('./getResource');
 const { prettyJSON } = require('./prettyJSON');
-const { cwd } = require('./env');
 
 const tempFolder = path.join(cwd(), 'temp');
-const mockResolvePath = jest.fn((file) => path.join(tempFolder, file));
-jest.mock('./resolvePath', () => ({
-  ...jest.requireActual('./resolvePath'),
-  resolvePath: (file) => mockResolvePath(file),
+const mockDeps = jest.fn();
+jest.mock('rollup-scripts-utils', () => ({
+  ...jest.requireActual('rollup-scripts-utils'),
+  deps: (...args) => mockDeps(...args),
 }));
 
 const pkgJSON = {
@@ -44,10 +39,12 @@ function setup(packages = {}) {
     packageJsonContent,
     DEFAULT_ENCODING
   );
+  mockDeps.mockReturnValue(Object.keys(packages));
 }
 
 describe('getResource', () => {
   afterEach(() => {
+    mockDeps.mockClear();
     fs.unlinkSync(path.join(tempFolder, PKG));
     fs.rmdirSync(tempFolder);
     jest.resetModules();
@@ -55,26 +52,6 @@ describe('getResource', () => {
   afterAll(() => {
     jest.restoreAllMocks();
   });
-  describe('fromPackage', () => {
-    it('should return package field', () => {
-      setup();
-      expect(fromPackage('name')).toBe(SCRIPT_NAME);
-    });
-    it('should return NULL if package field is not defined', () => {
-      setup();
-      expect(fromPackage('unknownField')).toBeNull();
-    });
-  });
-
-  describe('deps', () => {
-    it('should return dependencies as list', () => {
-      setup({ react: '1.0.0' });
-      expect(
-        deps(['dependencies', 'devDependencies', 'peerDependencies'])
-      ).toEqual(['deps', 'react', 'devDeps']);
-    });
-  });
-
   describe('jsxImportSource', () => {
     it('should get JSX import source', () => {
       setup({ react: '1.0.0' });
@@ -87,17 +64,6 @@ describe('getResource', () => {
     it('should throw a conflict error if there are more than one JSX modules', () => {
       setup({ react: '1.0.0', preact: '1.0.0' });
       expect(() => jsxImportSource()).toThrow(Error);
-    });
-  });
-
-  describe('getResource', () => {
-    it('should get requested resource', () => {
-      setup();
-      expect(getResource(PKG)).toEqual(pkgJSON);
-    });
-    it('should return NULL if requested resource is not found', () => {
-      setup();
-      expect(getResource('tempResource')).toBeNull();
     });
   });
 });
