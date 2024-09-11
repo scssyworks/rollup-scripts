@@ -24,7 +24,6 @@ const configFiles = {
 
 const JSX_MODULES = ['react', 'preact'];
 
-const ROOT = fs.realpathSync(process.cwd());
 const SCRIPT_ROOT = path.resolve(__dirname, '../');
 const CONFIG_FILE = 'rs.json';
 const OUT = 'dist/umd/output.js';
@@ -100,7 +99,6 @@ const ESLINT_REACT_EXTENSIONS = [
 
 module.exports = {
   DEV,
-  ROOT,
   PREFIX,
   JSX_MODULES,
   SCRIPT_ROOT,

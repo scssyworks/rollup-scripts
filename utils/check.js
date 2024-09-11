@@ -1,4 +1,5 @@
 const { existsSync } = require('node:fs');
+const { resolvePath, fromPackage } = require('rollup-scripts-utils');
 const {
   ERR_NOTFOUND,
   configTypes,
@@ -7,8 +8,6 @@ const {
   VALID_ESLINTCONFIG_FILES,
   configFiles,
 } = require('../constants');
-const { fromPackage } = require('./getResource');
-const { resolvePath } = require('./resolvePath');
 
 function checkPackageJSON(confType) {
   try {

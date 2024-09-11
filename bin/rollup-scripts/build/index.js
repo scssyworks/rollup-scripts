@@ -1,6 +1,7 @@
 const { rollup, watch: rollupWatch } = require('rollup');
+const { getLogger } = require('rollup-scripts-utils');
 const getConfig = require('../../config');
-const { wrapArray, getLogger } = require('../../../utils');
+const { wrapArray } = require('../../../utils');
 const {
   MSG_COMPILE,
   MSG_COMPILED,

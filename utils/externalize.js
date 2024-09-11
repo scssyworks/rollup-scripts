@@ -1,4 +1,4 @@
-const { deps } = require('./getResource');
+const { deps } = require('rollup-scripts-utils');
 
 module.exports = {
   /**

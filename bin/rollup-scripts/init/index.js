@@ -15,13 +15,12 @@ const {
   MSG_CONFIGSWC,
 } = require('../../../constants');
 const {
-  resolvePath,
   check,
   prettyJSON,
   getInputProps,
   updateArgs,
-  getLogger,
 } = require('../../../utils');
+const { resolvePath, getLogger } = require('rollup-scripts-utils');
 
 async function getConfig(configType, args) {
   switch (configType) {

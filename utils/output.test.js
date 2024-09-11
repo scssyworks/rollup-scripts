@@ -1,9 +1,9 @@
+const { resolvePath } = require('rollup-scripts-utils');
 const { CONFIG_FILE } = require('../constants');
 const { resolveOutputFields } = require('./output');
-const { resolvePath } = require('./resolvePath');
 
-jest.mock('./getResource', () => ({
-  ...jest.requireActual('./getResource'),
+jest.mock('rollup-scripts-utils', () => ({
+  ...jest.requireActual('rollup-scripts-utils'),
   fromPackage: (key) =>
     key === 'main'
       ? 'dist/cjs/index.js'

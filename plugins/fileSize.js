@@ -1,12 +1,7 @@
 const path = require('node:path');
+const { getLogger, crossPath, cwd } = require('rollup-scripts-utils');
 const { PREFIX } = require('../constants');
-const {
-  calculateSize,
-  getLogger,
-  crossPath,
-  isString,
-  cwd,
-} = require('../utils');
+const { calculateSize, isString } = require('../utils');
 
 module.exports = {
   fileSize(args) {

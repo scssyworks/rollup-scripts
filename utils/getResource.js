@@ -1,39 +1,5 @@
-const { PKG, JSX_MODULES, ERR_JSX_MODULE } = require('../constants');
-const { resolvePath } = require('./resolvePath');
-
-function getResource(fileName) {
-  try {
-    return require(resolvePath(fileName));
-  } catch (e) {
-    return null;
-  }
-}
-
-/**
- * Returns package.json field value
- * @param {string} field Field name
- * @returns {any}
- */
-function fromPackage(field) {
-  const pkg = getResource(PKG);
-  return pkg?.[field] ?? null;
-}
-
-/**
- * Returns list of dependencies
- * @returns {string[]} List of dependencies
- */
-function deps(keys) {
-  const deps = [];
-  for (const key of keys) {
-    for (const dep of Object.keys(fromPackage(key) ?? {})) {
-      if (!deps.includes(dep)) {
-        deps.push(dep);
-      }
-    }
-  }
-  return deps;
-}
+const { deps } = require('rollup-scripts-utils');
+const { JSX_MODULES, ERR_JSX_MODULE } = require('../constants');
 
 function jsxImportSource() {
   const modules = deps(['dependencies']).filter((module) =>
@@ -52,8 +18,5 @@ function jsxImportSource() {
 }
 
 module.exports = {
-  getResource,
-  fromPackage,
   jsxImportSource,
-  deps,
 };
