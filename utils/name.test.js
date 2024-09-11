@@ -1,8 +1,8 @@
 const { getName, getOutputFileName } = require('./name');
 
 const mockFromPackage = jest.fn();
-jest.mock('./getResource', () => ({
-  ...jest.requireActual('./getResource'),
+jest.mock('rollup-scripts-utils', () => ({
+  ...jest.requireActual('rollup-scripts-utils'),
   fromPackage: () => mockFromPackage(),
 }));
 

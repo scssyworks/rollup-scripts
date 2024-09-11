@@ -1,10 +1,9 @@
 const { ESLint } = require('eslint');
+const { resolvePath, getLogger } = require('rollup-scripts-utils');
 const {
   check,
-  resolvePath,
   getInputProps,
   updateArgs,
-  getLogger,
   getRsConfig,
 } = require('../../../utils');
 const eslintConfig = require('../../../templates/eslint.config');

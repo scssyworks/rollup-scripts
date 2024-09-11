@@ -3,8 +3,7 @@
  */
 
 const fs = require('node:fs');
-const { resolvePath } = require('./resolvePath');
-const { getLogger } = require('./logger');
+const { resolvePath, getLogger } = require('rollup-scripts-utils');
 
 module.exports = {
   /**

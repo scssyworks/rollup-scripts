@@ -1,8 +1,8 @@
 const { externalize } = require('./externalize');
 
 const mockDeps = jest.fn((keys) => (keys.length ? ['deps1', 'deps2'] : []));
-jest.mock('./getResource', () => ({
-  ...jest.requireActual('./getResource'),
+jest.mock('rollup-scripts-utils', () => ({
+  ...jest.requireActual('rollup-scripts-utils'),
   deps: (...args) => mockDeps(...args),
 }));
 
