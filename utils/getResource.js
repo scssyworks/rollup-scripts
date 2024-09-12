@@ -3,7 +3,7 @@ const { JSX_MODULES, ERR_JSX_MODULE } = require('../constants');
 
 function jsxImportSource() {
   const modules = deps(['dependencies']).filter((module) =>
-    JSX_MODULES.includes(module)
+    JSX_MODULES.includes(module),
   );
   if (modules.length === 0) {
     // No JSX library found

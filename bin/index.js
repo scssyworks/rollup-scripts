@@ -39,13 +39,13 @@ yargs(hideBin(process.argv))
     'build',
     'Build JavaScript/TypeScript library',
     addCommonOptions,
-    build
+    build,
   )
   .command(
     'dev',
     'Start bundler in watch mode for continuous development',
     addCommonOptions,
-    dev
+    dev,
   )
   .command('init', 'Setup configuration files', addCommonOptions, init)
   .command(
@@ -63,10 +63,10 @@ yargs(hideBin(process.argv))
           default: 'stylish',
           describe: 'Provide a custom formatter',
         }),
-    lint
+    lint,
   )
   .demandCommand(
     1,
-    'Rollup scripts require at least one command. Check --help for more details!'
+    'Rollup scripts require at least one command. Check --help for more details!',
   )
   .help().argv;

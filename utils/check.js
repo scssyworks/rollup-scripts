@@ -35,7 +35,7 @@ module.exports = {
   check(configType) {
     const filesToCheck = resolveFiles(configType);
     const configFile = filesToCheck.find((file) =>
-      existsSync(resolvePath(file))
+      existsSync(resolvePath(file)),
     );
     if (!configFile) {
       return checkPackageJSON(configType);

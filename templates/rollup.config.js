@@ -1,15 +1,15 @@
-const { defineConfig } = require('rollup');
-const { env, getLogger, getResource } = require('rollup-scripts-utils');
-const json = require('@rollup/plugin-json');
-const { nodeResolve } = require('@rollup/plugin-node-resolve');
-const commonjs = require('@rollup/plugin-commonjs');
-const replace = require('@rollup/plugin-replace');
-const terser = require('@rollup/plugin-terser');
-const { babel } = require('@rollup/plugin-babel');
-const yaml = require('@rollup/plugin-yaml');
-const graphql = require('@rollup/plugin-graphql');
-const html = require('@rollup/plugin-html');
-const babelConfig = require('./babel.config');
+const { defineConfig } = require("rollup");
+const { env, getLogger, getResource } = require("rollup-scripts-utils");
+const json = require("@rollup/plugin-json");
+const { nodeResolve } = require("@rollup/plugin-node-resolve");
+const commonjs = require("@rollup/plugin-commonjs");
+const replace = require("@rollup/plugin-replace");
+const terser = require("@rollup/plugin-terser");
+const { babel } = require("@rollup/plugin-babel");
+const yaml = require("@rollup/plugin-yaml");
+const graphql = require("@rollup/plugin-graphql");
+const html = require("@rollup/plugin-html");
+const babelConfig = require("./babel.config");
 const {
   getOutputFileName,
   resolveOutputFields,
@@ -23,12 +23,12 @@ const {
   injectBabel,
   inject,
   getTemplate,
-} = require('../utils');
-const { configTypes, MSG_BABELRC } = require('../constants');
-const { fileSize } = require('../plugins');
+} = require("../utils");
+const { configTypes, MSG_BABELRC } = require("../constants");
+const { fileSize } = require("../plugins");
 
 module.exports = async (args) => {
-  const { external, globals, rollupConfig } = getRsConfig(args);
+  const { external, globals, rollupConfig, dev } = getRsConfig(args);
   const logger = getLogger(args);
   const filePaths = resolveOutputFields(args);
   const babelrc = Boolean(check(configTypes.BABEL));
@@ -46,9 +46,9 @@ module.exports = async (args) => {
         ...Object.keys(filePaths).flatMap((format) => {
           const commonConf = {
             name: getName(),
-            exports: 'named',
+            exports: "named",
             format,
-            ...(['iife', 'umd'].includes(format) ? { globals } : {}),
+            ...(["iife", "umd"].includes(format) ? { globals } : {}),
           };
           const outConfigs = [
             {
@@ -78,16 +78,16 @@ module.exports = async (args) => {
         graphql(),
         nodeResolve(),
         commonjs({
-          include: 'node_modules/**',
-          extensions: ['.js', '.ts'],
+          include: "node_modules/**",
+          extensions: [".js", ".ts"],
         }),
         ...injectBabel(
           finalArgs,
           babel({
             babelrc,
-            exclude: 'node_modules/**',
-            extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.es6', '.es'],
-            babelHelpers: 'runtime',
+            exclude: "node_modules/**",
+            extensions: [".js", ".jsx", ".ts", ".tsx", ".mjs", ".es6", ".es"],
+            babelHelpers: "runtime",
             skipPreflightCheck: true,
             ...(babelrc ? {} : babelConfig(finalArgs)),
           })
@@ -95,14 +95,14 @@ module.exports = async (args) => {
         ...inject(
           watch,
           html({
-            template: ({ files }) => {
-              return getTemplate(files);
+            template: (props) => {
+              return getTemplate(props, dev?.htmlTemplatePath);
             },
           })
         ),
         ...inject(!watch, fileSize(finalArgs)),
       ],
-      external: externalize(watch ? 'none' : external),
+      external: externalize(watch ? "none" : external),
     });
 
     // Check if rollup config path is provided

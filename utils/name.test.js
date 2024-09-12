@@ -26,7 +26,7 @@ describe('name', () => {
     });
     it('should return development file name if production mode is disabled', () => {
       expect(getOutputFileName('fileName.ts', true)).toBe(
-        'fileName.development.ts'
+        'fileName.development.ts',
       );
     });
   });

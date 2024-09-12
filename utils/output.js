@@ -17,7 +17,7 @@ module.exports = {
           : '';
       obj[format] = resolvePath(
         (packageField && fromPackage(packageField)) ||
-          path.join(outDir, format, defaultFileName)
+          path.join(outDir, format, defaultFileName),
       );
       return obj;
     }, {});
