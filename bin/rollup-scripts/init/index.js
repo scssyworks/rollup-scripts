@@ -50,7 +50,7 @@ async function generateConfig(args, configType, configFile) {
     await fsPromises.writeFile(
       resolvePath(configFile),
       prettyJSON(conf),
-      DEFAULT_ENCODING
+      DEFAULT_ENCODING,
     );
     logger.success(getMessage(configType));
   }
@@ -72,7 +72,7 @@ module.exports = async function init(args) {
       await fsPromises.writeFile(
         targetFile,
         prettyJSON(template),
-        DEFAULT_ENCODING
+        DEFAULT_ENCODING,
       );
       logger.success(MSG_CONFIG(configFile));
     }

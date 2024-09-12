@@ -8,4 +8,7 @@ export type RsSchema = {
   external?: string[] | 'all' | 'peer' | 'none';
   outDir?: string;
   rollupConfig?: string;
+  dev?: {
+    htmlTemplatePath?: string;
+  };
 };

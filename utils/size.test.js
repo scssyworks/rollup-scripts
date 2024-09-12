@@ -26,7 +26,7 @@ describe('size', () => {
     mockStat.mockReturnValue({ size: 1200 * 1200 * 1200 });
     const v4 = await calculateSize('path');
     expect(v4).toBe(
-      `${((1200 * 1200 * 1200) / (1024 * 1024 * 1024)).toFixed(1)} gb`
+      `${((1200 * 1200 * 1200) / (1024 * 1024 * 1024)).toFixed(1)} gb`,
     );
   });
 });
