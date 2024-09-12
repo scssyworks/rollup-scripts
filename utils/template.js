@@ -1,6 +1,6 @@
-const { resolvePath } = require("rollup-scripts-utils");
-const { readFileSync } = require("node:fs");
-const Handlebars = require("handlebars");
+const { resolvePath } = require('rollup-scripts-utils');
+const { readFileSync } = require('node:fs');
+const Handlebars = require('handlebars');
 
 const defaultTemplate = `<!DOCTYPE html>
 <html lang="en">
@@ -29,9 +29,9 @@ const defaultTemplate = `<!DOCTYPE html>
 module.exports = {
   getTemplate(props, htmlTemplatePath) {
     const { js } = props.files;
-    if (typeof htmlTemplatePath === "string") {
+    if (typeof htmlTemplatePath === 'string') {
       const userTemplatePath = resolvePath(htmlTemplatePath);
-      const hbs = readFileSync(userTemplatePath, { encoding: "utf-8" });
+      const hbs = readFileSync(userTemplatePath, { encoding: 'utf-8' });
       const compiledHbs = Handlebars.compile(hbs);
       return compiledHbs(props);
     }
