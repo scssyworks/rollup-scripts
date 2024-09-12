@@ -23,7 +23,7 @@ module.exports = {
   getOutputFileName(name, watch) {
     return name.replace(
       EXT_REGEX,
-      (match) => `${watch ? '.development' : ''}${match}`
+      (match) => `${watch ? '.development' : ''}${match}`,
     );
   },
 };

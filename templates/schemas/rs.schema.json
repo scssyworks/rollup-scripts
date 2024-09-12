@@ -50,6 +50,16 @@
     "rollupConfig": {
       "description": "Provide a path to custom rollup config",
       "type": "string"
+    },
+    "dev": {
+      "description": "Development environment options",
+      "type": "object",
+      "properties": {
+        "htmlTemplatePath": {
+          "description": "Handlebar template to create index.html file for local development",
+          "type": "string"
+        }
+      }
     }
   },
   "required": ["srcRoot", "outputFormats"]

@@ -13,7 +13,7 @@ module.exports = {
           if (isString(opts?.file) && bundle) {
             const filePath = opts.file.substring(
               0,
-              crossPath(opts.file).lastIndexOf('/')
+              crossPath(opts.file).lastIndexOf('/'),
             );
             const bundleNames = Object.keys(bundle);
             for (const name of bundleNames) {
@@ -24,7 +24,7 @@ module.exports = {
                 const fileSize = await calculateSize(actualPath);
                 logger.success(
                   `${PREFIX}${relativePath}${fileMap ? ' ⚡︎' : ''}`,
-                  fileSize
+                  fileSize,
                 );
               }
             }

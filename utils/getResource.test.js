@@ -37,7 +37,7 @@ function setup(packages = {}) {
   fs.writeFileSync(
     path.join(tempFolder, PKG),
     packageJsonContent,
-    DEFAULT_ENCODING
+    DEFAULT_ENCODING,
   );
   mockDeps.mockReturnValue(Object.keys(packages));
 }

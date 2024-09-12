@@ -49,7 +49,7 @@ function resolveInputPath(args) {
 function getSourceType(src) {
   const importSource = jsxImportSource();
   const [react, preact] = ['react', 'preact'].map(
-    (importType) => importSource === importType
+    (importType) => importSource === importType,
   );
   const [ext] = src.match(EXT_REGEX) ?? ['.mjs'];
   const typescript = ['.ts', '.mts', '.cts', '.tsx'].includes(ext);
