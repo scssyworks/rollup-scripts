@@ -77,11 +77,11 @@
     "jest": "^29.7.0",
     "rollup": "^4.21.2",
     "rollup-scripts-utils": "^0.0.13",
+    "typescript": "^5.7.2",
     "yargs": "^17.7.2"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
-    "@types/jest": "^29.5.12",
-    "typescript": "^5.7.2"
+    "@types/jest": "^29.5.12"
   }
 }
