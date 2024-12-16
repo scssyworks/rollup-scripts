@@ -1,6 +1,0 @@
-{
-  "$schema": "./schemas/rs.schema.json",
-  "srcRoot": "src",
-  "outputFormats": ["es", "cjs"],
-  "external": "all"
-}
