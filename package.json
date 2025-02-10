@@ -2,14 +2,16 @@
   "name": "rollup-scripts",
   "version": "0.0.131",
   "description": "Rollup scripts is a zero configuration compiler and bundler",
-  "main": "src/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "type": "module",
   "bin": {
-    "rollup-scripts": "./bin/index.js"
+    "rollup-scripts": "./dist/bin/index.js"
   },
   "scripts": {
-    "exec": "node ./bin/index.js",
+    "exec": "node ./dist/bin/index.js",
     "sanity": "biome check ./ && biome format ./ --write",
+    "build": "tsc",
     "prepublishOnly": "npm run sanity"
   },
   "repository": {
@@ -31,16 +33,7 @@
     "url": "https://github.com/scssyworks/rollup-scripts/issues"
   },
   "homepage": "https://github.com/scssyworks/rollup-scripts#readme",
-  "files": [
-    "bin/",
-    "constants/",
-    "plugins/",
-    "src/",
-    "templates/",
-    "utils/",
-    "LICENSE",
-    "!**/*.test.js"
-  ],
+  "files": ["dist/", "LICENSE", "!**/*.test.js"],
   "dependencies": {
     "@babel/core": "^7.26.0",
     "@babel/eslint-parser": "^7.25.9",
